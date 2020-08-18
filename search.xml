@@ -147,18 +147,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[element的switch样式不生效问题]]></title>
-      <url>https://wanghansong.top/2019/element%E7%9A%84switch%E6%A0%B7%E5%BC%8F%E4%B8%8D%E7%94%9F%E6%95%88%E9%97%AE%E9%A2%98.html</url>
-      <content type="html"><![CDATA[<a id="more"></a>
-<p>在使用element的时候checkbox的样式没有滑块问题</p>
-<p>原因：</p>
-<p>element-ui 版本和 element-ui 的 theme 对不上</p>
-<p>解决：</p>
-<p>theme所依赖的element版本应该大于等于ui的版本</p>
-]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[vue监听不到数组更新]]></title>
       <url>https://wanghansong.top/2019/vue%E7%9B%91%E5%90%AC%E4%B8%8D%E5%88%B0%E6%95%B0%E7%BB%84%E6%9B%B4%E6%96%B0.html</url>
       <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">toogleArrowHandler(index) &#123;</div><div class="line">	this.isArrowOpen[index] = !this.isArrowOpen[index];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -170,6 +158,18 @@
 <li>数据挂载的时候就存在该项</li>
 <li>使用splice(旧元素index，1，新元素)，先删后加，vue会监听splice</li>
 </ul>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[element的switch样式不生效问题]]></title>
+      <url>https://wanghansong.top/2019/element%E7%9A%84switch%E6%A0%B7%E5%BC%8F%E4%B8%8D%E7%94%9F%E6%95%88%E9%97%AE%E9%A2%98.html</url>
+      <content type="html"><![CDATA[<a id="more"></a>
+<p>在使用element的时候checkbox的样式没有滑块问题</p>
+<p>原因：</p>
+<p>element-ui 版本和 element-ui 的 theme 对不上</p>
+<p>解决：</p>
+<p>theme所依赖的element版本应该大于等于ui的版本</p>
 ]]></content>
     </entry>
     
@@ -476,7 +476,7 @@
   <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">extend: '@vue/cli-service/generator/template/src/App.vue' // 目标文件</div><div class="line">replace: !!js/regexp /&lt;script&gt;[^]*?&lt;\/script&gt;/  // 正则匹配内容</div><div class="line">---</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line">export default &#123;</div><div class="line">  // Replace default script</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
 </li>
 <li><p>方式二：多处替换</p>
-  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">extend: <span class="string">'@vue/cli-service/generator/template/src/App.vue'</span></div><div class="line">replace:</div><div class="line">  - !!js/regexp /Welcome to Your Vue\.js App/</div><div class="line">  - !!js/regexp /&lt;script&gt;[^]*?&lt;\/script&gt;</div><div class="line">---</div><div class="line"></div><div class="line">&lt;%# REPLACE %&gt;</div><div class="line">替换欢迎信息</div><div class="line">&lt;%# END_REPLACE %&gt;</div><div class="line"></div><div class="line">&lt;%# REPLACE %&gt;</div><div class="line">&lt;script&gt;</div><div class="line">export default &#123;</div><div class="line">  // 替换默认脚本</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;%# END_REPLACE %&gt;</div></pre></td></tr></table></figure>
+  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">extend: <span class="string">'@vue/cli-service/generator/template/src/App.vue'</span></div><div class="line">replace:</div><div class="line">  - !!js/regexp /Welcome to Your Vue\.js App/</div><div class="line">  - !!js/regexp /<span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">[^]*?<span class="xml"><span class="tag">&lt;<span class="name">\</span>/<span class="attr">script</span>&gt;</span></span></span></span></div><div class="line">---</div><div class="line"></div><div class="line"><span class="xml"><span class="xml"><span class="tag">&lt;<span class="name">%#</span> <span class="attr">REPLACE</span> %&gt;</span></span></span></div><div class="line">替换欢迎信息</div><div class="line"><span class="tag">&lt;<span class="name">%#</span> <span class="attr">END_REPLACE</span> %&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">%#</span> <span class="attr">REPLACE</span> %&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</div><div class="line">  <span class="comment">// 替换默认脚本</span></div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">%#</span> <span class="attr">END_REPLACE</span> %&gt;</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -3395,13 +3395,6 @@
     </entry>
     
     <entry>
-      <title><![CDATA[C++的函数模板]]></title>
-      <url>https://wanghansong.top/2017/C++%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF.html</url>
-      <content type="html"><![CDATA[<p>C++的函数模板<br><a id="more"></a></p>
-<embed id="pdfPlayer" src="/wendang/module.pdf" type="application/pdf" width="100%" height="960px" scroll="no">]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[C++的运算重载符]]></title>
       <url>https://wanghansong.top/2017/C++%E7%9A%84%E8%BF%90%E7%AE%97%E9%87%8D%E8%BD%BD%E7%AC%A6.html</url>
       <content type="html"><![CDATA[<p>C++的多态笔记<br><a id="more"></a></p>
@@ -3413,6 +3406,13 @@
       <url>https://wanghansong.top/2017/C++%E7%9A%84%E7%BB%A7%E6%89%BF.html</url>
       <content type="html"><![CDATA[<p>C++的继承笔记<br><a id="more"></a></p>
 <embed id="pdfPlayer" src="/wendang/inheritance.pdf" type="application/pdf" width="100%" height="960px" scroll="no">]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[C++的函数模板]]></title>
+      <url>https://wanghansong.top/2017/C++%E7%9A%84%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF.html</url>
+      <content type="html"><![CDATA[<p>C++的函数模板<br><a id="more"></a></p>
+<embed id="pdfPlayer" src="/wendang/module.pdf" type="application/pdf" width="100%" height="960px" scroll="no">]]></content>
     </entry>
     
     <entry>
@@ -3646,7 +3646,7 @@ friend girl；
 <h2 id="关于收费"><a href="#关于收费" class="headerlink" title="关于收费"></a>关于收费</h2><p><strong>马克飞象</strong>为新用户提供 10 天的试用期，试用期过后需要<a href="maxiang.info/vip.html">续费</a>才能继续使用。未购买或者未及时续费，将不能同步新的笔记。之前保存过的笔记依然可以编辑。</p>
 <h2 id="反馈与建议"><a href="#反馈与建议" class="headerlink" title="反馈与建议"></a>反馈与建议</h2><ul>
 <li>微博：<a href="http://weibo.com/u/2788354117" target="_blank" rel="external">@马克飞象</a>，<a href="http://weibo.com/ggock" title="开发者个人账号" target="_blank" rel="external">@GGock</a></li>
-<li>邮箱：<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#x68;&#117;&#115;&#x74;&#x67;&#x6f;&#x63;&#x6b;&#64;&#x67;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#x68;&#117;&#115;&#x74;&#x67;&#x6f;&#x63;&#x6b;&#64;&#x67;&#x6d;&#97;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></li>
+<li>邮箱：<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#104;&#117;&#115;&#x74;&#x67;&#x6f;&#99;&#107;&#64;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#109;">&#104;&#117;&#115;&#x74;&#x67;&#x6f;&#99;&#107;&#64;&#x67;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#109;</a></li>
 </ul>
 <hr>
 <p>感谢阅读这份帮助文档。请点击右上角，绑定印象笔记账号，开启全新的记录与分享体验吧。</p>
