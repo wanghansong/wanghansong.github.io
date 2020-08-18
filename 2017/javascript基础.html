@@ -1,0 +1,981 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="baidu-site-verification" content="jjKrmjBQYL" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.gmirror.org/css?family=Georgia:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="[TOC]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript基础">
+<meta property="og:url" content="https://wanghansong.top/2017/javascript基础.html">
+<meta property="og:site_name" content="wanghansong's blog">
+<meta property="og:description" content="[TOC]">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/javascript.png">
+<meta property="og:updated_time" content="2020-07-25T05:06:38.147Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript基础">
+<meta name="twitter:description" content="[TOC]">
+<meta name="twitter:image" content="http://7xwzko.com1.z0.glb.clouddn.com/javascript.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> javascript基础 | wanghansong's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2a557223974248bf97d5421e8932cbcc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wanghansong's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">前端，后端，SDN，openflow</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于本人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            所有文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-album">
+          <a href="/album" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/wanghansong" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                javascript基础
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-27T16:58:20+08:00" content="2017-01-27">
+              2017-01-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JS/" itemprop="url" rel="index">
+                    <span itemprop="name">JS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/javascript基础.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/javascript基础.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<p><img src="http://7xwzko.com1.z0.glb.clouddn.com/javascript.png" alt="enter description here"><br><a id="more"></a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>NaN表示不是一个数字<code>enter code here</code><br>*</li>
+</ul>
+<hr>
+<h2 id="小记"><a href="#小记" class="headerlink" title="小记"></a>小记</h2><p>1.consol.log();在控制台打印输出括号里的内容</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>所有数据类型声明都是用<code>var</code>，不需要像C语言那样加数据类型，自动识别数据类型。</p>
+<h4 id="字符串-string"><a href="#字符串-string" class="headerlink" title="字符串 string"></a>字符串 string</h4><p><code>var a = &quot;This is a strings&quot;;</code></p>
+<h4 id="布尔值-bool"><a href="#布尔值-bool" class="headerlink" title="布尔值 bool"></a>布尔值 bool</h4><p><code>var myBool = true;</code></p>
+<h4 id="数字-number"><a href="#数字-number" class="headerlink" title="数字 number"></a>数字 number</h4><p><code>var pi = 3.14;</code></p>
+<h4 id="undefined"><a href="#undefined" class="headerlink" title="undefined"></a>undefined</h4><p>变量存在但是未被赋值或者 读取一个不存在的对象属性时<br>变量的类型不确定，逻辑判断是相当于false</p>
+<h4 id="null"><a href="#null" class="headerlink" title="null"></a>null</h4><p>表示值已被定义了，但是它不属于任何一种合法的类型，逻辑判断是相当于false</p>
+<blockquote>
+<p>(1.typeof()：查看变量的类型<br>   (2.字符串拼接：string1+strign2<br>   (3.类型转换：parseInt()将字符串转化为整形值，  parseFloat()将字符串转化为浮点型</p>
+</blockquote>
+<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><p>   (1.数字转字符串<br>     num.toString();     括号内可以填数字表示转化成几进制，不填默认是十进制<br>   (2.字符串转数字</p>
+<table>
+<thead>
+<tr>
+<th>Number(str)</th>
+<th>解析str得到整数或者实数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parseInt(str)</td>
+<td>解析str得到整数</td>
+</tr>
+<tr>
+<td>parseFloat(str)</td>
+<td>解析str得到整数或者实</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h2><h4 id="length"><a href="#length" class="headerlink" title=".length"></a>.length</h4><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">word = "hello world";</div><div class="line">word.length  // 结果是11</div></pre></td></tr></table></figure>
+<h4 id="charAt"><a href="#charAt" class="headerlink" title="charAt"></a>charAt</h4><p>得到字符串中某个字符<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">word = "hello world";</div><div class="line">word.charAt(0)  // 结果是h</div></pre></td></tr></table></figure></p>
+<h4 id="indexOf"><a href="#indexOf" class="headerlink" title="indexOf"></a>indexOf</h4><p>字符在字符串中的位置<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">word = "hello world";</div><div class="line">word.indexOf('e')  // 结果是1</div></pre></td></tr></table></figure></p>
+<h4 id="substring截取字符串"><a href="#substring截取字符串" class="headerlink" title="substring截取字符串"></a>substring截取字符串</h4><p>截取字符串<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">word = "hello world";</div><div class="line">word.substring(0,3)  // 结果是hello</div></pre></td></tr></table></figure></p>
+<h4 id="replace替换字符"><a href="#replace替换字符" class="headerlink" title="replace替换字符"></a>replace替换字符</h4><p>string.replace(‘被替换字符’,’替换后的字符’)</p>
+<h4 id="split-分割字符串"><a href="#split-分割字符串" class="headerlink" title="split 分割字符串"></a>split 分割字符串</h4><p>string.split(‘分割的标志’)  得到的结果是个数组，可以放到变量里然后去出</p>
+<hr>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>var arry1=[];<br>var myarry=[‘hello’, 100, 1, 5, 25, 10];</p>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><h4 id="push添加数组"><a href="#push添加数组" class="headerlink" title="push添加数组"></a><strong>push添加数组</strong></h4><p>string.push(要添加的内容1,要添加的内容2)<br>把药添加的内容加到数组最后</p>
+<h4 id="unshift往数组头加元素"><a href="#unshift往数组头加元素" class="headerlink" title="unshift往数组头加元素"></a><strong>unshift往数组头加元素</strong></h4><p>string.unshift()  把元素加到数组头</p>
+<h4 id="删除数组元素pop-shift-splice-delete"><a href="#删除数组元素pop-shift-splice-delete" class="headerlink" title="删除数组元素pop shift splice delete"></a><strong>删除数组元素pop shift splice delete</strong></h4><ul>
+<li>删除数组最后一个元素：string.pop();本身返回的是删除掉的元素的值</li>
+<li>删除数组开头第一个元素：string.shift();本身返回的是删除掉的元素的值</li>
+<li>删除数组内具体某元素：delete string[2]; 但是它不会影响元素数量，只是把那个元素变成undefined</li>
+<li>彻底删除某个元素：string.splice(元素索引) 本身返回的是被删除的元素<h4 id="两个数组合并concat"><a href="#两个数组合并concat" class="headerlink" title="两个数组合并concat"></a><strong>两个数组合并concat</strong></h4>string1.concat(string2)返回的是合并后的结果</li>
+</ul>
+<hr>
+<h2 id="if判断语句"><a href="#if判断语句" class="headerlink" title="if判断语句"></a>if判断语句</h2><p>if(a==b){}   仅测试操作数的数值是否相等，而不关心操作数的类型<br>if(a===b){}   操作数的值和类型都相等才为真</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">if</span><span class="params">()</span></span> &#123;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span> <span class="keyword">if</span>() &#123;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span>&#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="switch语句"><a href="#switch语句" class="headerlink" title="switch语句"></a>switch语句</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">switch</span><span class="params">(条件)</span></span>&#123;</div><div class="line"> case 条件<span class="number">1</span>： 语句<span class="number">1</span>；break；</div><div class="line"> case 条件<span class="number">2</span>： 语句<span class="number">2</span>；break；</div><div class="line"> case 条件<span class="number">1</span>： 语句<span class="number">3</span>；break；</div><div class="line"> default:     语句；break；</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h2><h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="title">while</span><span class="params">(条件)</span></span>&#123;</div><div class="line">语句；</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="for循环语句"><a href="#for循环语句" class="headerlink" title="for循环语句"></a>for循环语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">for (var i=0;i&lt;10;i++)</div><div class="line">&#123;</div><div class="line">   语句;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
+<li>定义函数<br>function functionName(参数1，参数2…)<br>{<br>}</li>
+<li><strong>函数表达式、匿名函数</strong><br>var functionName = function (参数1，参数2)<br>{<br>}</li>
+</ul>
+<hr>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>property（属性） method（方法）</p>
+<h3 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h3><ul>
+<li>对象里面的属性可以是任何类型的数据：数字、字符串、数组等</li>
+<li>对象中属性的类型可以用typeof取出来，方法类型是’function’</li>
+</ul>
+<h3 id="访问对象属性方法："><a href="#访问对象属性方法：" class="headerlink" title="访问对象属性方法："></a>访问对象属性方法：</h3><ul>
+<li>对象名.属性名</li>
+<li>对象名[‘属性名’]<h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3></li>
+<li><p><strong>单独设置属性</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var objName_my = &#123;&#125;;</div><div class="line">objName_my.namemy=&apos;wang&apos;;或者 objName_my[&apos;namemy&apos;]=&apos;wang&apos;;</div><div class="line">objName_my.agemy=23;</div></pre></td></tr></table></figure>
+</li>
+<li><p>方式二：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var objName = &#123;</div><div class="line">namemy:&apos;wang&apos;,</div><div class="line">agemy:23,</div><div class="line">family:[&apos;父亲&apos;,&apos;母亲&apos;]</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="删除对象属性"><a href="#删除对象属性" class="headerlink" title="删除对象属性"></a>删除对象属性</h3><p>delete 对象名.属性名；</p>
+<h3 id="给对象添加方法"><a href="#给对象添加方法" class="headerlink" title="给对象添加方法"></a>给对象添加方法</h3><p>对象名.functionNamemy = function (参数1，参数2)<br>{<br>//方法体中的this表示对象functionNamemy本身<br>函数内容;<br>}; //注意结尾加上分号</p>
+<h3 id="用for输出对象内属性"><a href="#用for输出对象内属性" class="headerlink" title="用for输出对象内属性"></a>用for输出对象内属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var i;</div><div class="line">for(i in objName)</div><div class="line">&#123;</div><div class="line">console.log(i);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="DOM-文档对象"><a href="#DOM-文档对象" class="headerlink" title="DOM 文档对象"></a>DOM 文档对象</h2><h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><ul>
+<li>元素 = 标签（H1 P…） + 文本内容</li>
+</ul>
+<h3 id="DOM树"><a href="#DOM树" class="headerlink" title="DOM树"></a>DOM树</h3><p>document作为文档的root根，元素（标签）作为结点，构成一颗树，有父节点、兄弟节点。</p>
+<h3 id="获取DOM元素"><a href="#获取DOM元素" class="headerlink" title="获取DOM元素"></a>获取DOM元素</h3><p>  (1). document.getElementById(‘元素的id’)<br>这样获得整个元素标签</p>
+<p>  (2). document.getElementsByTagName(‘标签名’)<br>返回的结果是所有相关的标签元素，<strong>是个数组对象</strong>，如getElementsByTagName(‘li’)返回所有li标签的内容</p>
+<p>  (3). document.querySelector(‘CSS选择器’) CSS选择器可以是“类名+标签”<br>返回的是查找到的第一个元素<br>例：document.querySelector(‘.content li’)</p>
+<p>  (4).document.querySelectorAll(‘CSS选择器’)<br>返回的是查找到的所有的元素</p>
+<h3 id="获取DOM节点"><a href="#获取DOM节点" class="headerlink" title="获取DOM节点"></a>获取DOM节点</h3><p>注：假设将获取到的元素赋值给变量pagemy<br>(1. <code>pagemy.nodeName</code>用于获取该元素标签属性 如果是段落返回的是p<br>(2. <code>pagemy.innerText</code> 返回的是元素的文字内容<br>(3. <code>pagemy.parentNode</code> 返回的是父节点的元素<br>(4. <code>pagemy.previousElementSibling</code>返回的是前面一个兄弟节点的元素<br>    <code>pagemy.nextElementSibling</code>返回的是前面一个兄弟节点的元素<br>(5.<code>pagemy.childNodes</code>返回的是所有的子节点元素，包含元素类型的节点和文本类型的节点<br>(6. <code>pagemy.firstElementChild</code> 返回的是第一个子节点元素<br><code>pagemy.lastElementChild</code> 返回的是最后一个子节点元素</p>
+<h3 id="创建DOM新节点"><a href="#创建DOM新节点" class="headerlink" title="创建DOM新节点"></a>创建DOM新节点</h3><p>(1.创建节点：</p>
+<ul>
+<li><code>.creatElement</code>创建元素类型新节点：<br>var newMenber_my=document.creatElement(‘li’);</li>
+<li><code>.creatTextNode</code>创建文本类型节点:<br>var newTextnode_my=document.creatElement(‘这是文本内容！’);<br>(2.</li>
+<li><code>.appendChild</code>：被添加的元素a.appendChild(要添加的元素b)</li>
+</ul>
+<figure class="highlight vbscript-html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">DOM结构</div><div class="line">&lt;a&gt;</div><div class="line">  &lt;b&gt;&lt;/b&gt;</div><div class="line">&lt;/a&gt;</div></pre></td></tr></table></figure>
+<p>例：newMenber_my.appendChild(newTextnode_my);</p>
+<ul>
+<li><code>.insertBefore(插入的元素,被插入的地方)</code> 作用是将插入的元素放到被插入地方的上面</li>
+</ul>
+<hr>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><p>onmouseover<br>onclick<br>onmouseout<br>window.onload=function(){}//在页面图片等都加载完了触发</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS/" rel="tag">#JS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/Semantic UI.html" rel="next" title="Semantic UI">
+                <i class="fa fa-chevron-left"></i> Semantic UI
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/Mobile Cloud Sensing, Big Data, and 5G Networks Make an Intelligent and Smart World.html" rel="prev" title="Mobile Cloud Sensing, Big Data, and 5G Networks Make an Intelligent and Smart World">
+                Mobile Cloud Sensing, Big Data, and 5G Networks Make an Intelligent and Smart World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjExNC8xMjY0OQ=="></div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="王寒松" />
+          <p class="site-author-name" itemprop="name">王寒松</p>
+          <p class="site-description motion-element" itemprop="description">前端小白，JS,PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=614158750&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanghansong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情连接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wanghansong.top" title="暂无" target="_blank">暂无</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小记"><span class="nav-number">2.</span> <span class="nav-text">小记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据类型"><span class="nav-number">3.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串-string"><span class="nav-number">3.0.1.</span> <span class="nav-text">字符串 string</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#布尔值-bool"><span class="nav-number">3.0.2.</span> <span class="nav-text">布尔值 bool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数字-number"><span class="nav-number">3.0.3.</span> <span class="nav-text">数字 number</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined"><span class="nav-number">3.0.4.</span> <span class="nav-text">undefined</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-number">3.0.5.</span> <span class="nav-text">null</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型转换"><span class="nav-number">3.1.</span> <span class="nav-text">类型转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串操作"><span class="nav-number">4.</span> <span class="nav-text">字符串操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#length"><span class="nav-number">4.0.1.</span> <span class="nav-text">.length</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#charAt"><span class="nav-number">4.0.2.</span> <span class="nav-text">charAt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#indexOf"><span class="nav-number">4.0.3.</span> <span class="nav-text">indexOf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#substring截取字符串"><span class="nav-number">4.0.4.</span> <span class="nav-text">substring截取字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#replace替换字符"><span class="nav-number">4.0.5.</span> <span class="nav-text">replace替换字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#split-分割字符串"><span class="nav-number">4.0.6.</span> <span class="nav-text">split 分割字符串</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number">5.</span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义"><span class="nav-number">5.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">5.2.</span> <span class="nav-text">属性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#push添加数组"><span class="nav-number">5.2.1.</span> <span class="nav-text">push添加数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unshift往数组头加元素"><span class="nav-number">5.2.2.</span> <span class="nav-text">unshift往数组头加元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除数组元素pop-shift-splice-delete"><span class="nav-number">5.2.3.</span> <span class="nav-text">删除数组元素pop shift splice delete</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两个数组合并concat"><span class="nav-number">5.2.4.</span> <span class="nav-text">两个数组合并concat</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#if判断语句"><span class="nav-number">6.</span> <span class="nav-text">if判断语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#switch语句"><span class="nav-number">7.</span> <span class="nav-text">switch语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环语句"><span class="nav-number">8.</span> <span class="nav-text">循环语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-number">8.1.</span> <span class="nav-text">while</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for循环语句"><span class="nav-number">8.2.</span> <span class="nav-text">for循环语句</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">9.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象"><span class="nav-number">10.</span> <span class="nav-text">对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注："><span class="nav-number">10.1.</span> <span class="nav-text">注：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问对象属性方法："><span class="nav-number">10.2.</span> <span class="nav-text">访问对象属性方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建对象"><span class="nav-number">10.3.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除对象属性"><span class="nav-number">10.4.</span> <span class="nav-text">删除对象属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给对象添加方法"><span class="nav-number">10.5.</span> <span class="nav-text">给对象添加方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用for输出对象内属性"><span class="nav-number">10.6.</span> <span class="nav-text">用for输出对象内属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DOM-文档对象"><span class="nav-number">11.</span> <span class="nav-text">DOM 文档对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意："><span class="nav-number">11.1.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM树"><span class="nav-number">11.2.</span> <span class="nav-text">DOM树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取DOM元素"><span class="nav-number">11.3.</span> <span class="nav-text">获取DOM元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取DOM节点"><span class="nav-number">11.4.</span> <span class="nav-text">获取DOM节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建DOM新节点"><span class="nav-number">11.5.</span> <span class="nav-text">创建DOM新节点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件"><span class="nav-number">12.</span> <span class="nav-text">事件</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王寒松</span>&nbsp; | &nbsp; &nbsp;
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="http://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user">本站访客数</i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  
+</body>
+</html>

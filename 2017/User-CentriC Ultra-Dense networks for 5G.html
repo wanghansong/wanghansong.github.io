@@ -1,0 +1,997 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="baidu-site-verification" content="jjKrmjBQYL" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.gmirror.org/css?family=Georgia:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="UUDN," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="来源：User-CentriC Ultra-Dense networks for 5G: ChallenGes, MethoDoloGies, anD DireCtions   Shanzhi Chen, Fei Qin, Bo hu, Xi Li, and zhongLin Chen
+[TOC]
+摘要
+UUDN是以用户为中心的UDN，从网络控制用户的理念转变为网络服务用户。
+UUDN结合了网络服">
+<meta property="og:type" content="article">
+<meta property="og:title" content="User-CentriC Ultra-Dense networks for 5G">
+<meta property="og:url" content="https://wanghansong.top/2017/User-CentriC Ultra-Dense networks for 5G.html">
+<meta property="og:site_name" content="wanghansong's blog">
+<meta property="og:description" content="来源：User-CentriC Ultra-Dense networks for 5G: ChallenGes, MethoDoloGies, anD DireCtions   Shanzhi Chen, Fei Qin, Bo hu, Xi Li, and zhongLin Chen
+[TOC]
+摘要
+UUDN是以用户为中心的UDN，从网络控制用户的理念转变为网络服务用户。
+UUDN结合了网络服">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/UUDN1.PNG">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/UUDN2.PNG">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/UUDN3.PNG">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/UUDN4.PNG">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/UUDN5.PNG">
+<meta property="og:updated_time" content="2020-07-25T05:06:38.144Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="User-CentriC Ultra-Dense networks for 5G">
+<meta name="twitter:description" content="来源：User-CentriC Ultra-Dense networks for 5G: ChallenGes, MethoDoloGies, anD DireCtions   Shanzhi Chen, Fei Qin, Bo hu, Xi Li, and zhongLin Chen
+[TOC]
+摘要
+UUDN是以用户为中心的UDN，从网络控制用户的理念转变为网络服务用户。
+UUDN结合了网络服">
+<meta name="twitter:image" content="http://7xwzko.com1.z0.glb.clouddn.com/UUDN1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> User-CentriC Ultra-Dense networks for 5G | wanghansong's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2a557223974248bf97d5421e8932cbcc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wanghansong's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">前端，后端，SDN，openflow</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于本人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            所有文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-album">
+          <a href="/album" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/wanghansong" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                User-CentriC Ultra-Dense networks for 5G
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-12T22:32:34+08:00" content="2017-02-12">
+              2017-02-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/User-CentriC Ultra-Dense networks for 5G.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/User-CentriC Ultra-Dense networks for 5G.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>来源：User-CentriC Ultra-Dense networks for 5G: ChallenGes, MethoDoloGies, anD DireCtions   Shanzhi Chen, Fei Qin, Bo hu, Xi Li, and zhongLin Chen</p>
+<p>[TOC]</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><ul>
+<li>UUDN是以用户为中心的UDN，<strong>从网络控制用户的理念转变为网络服务用户</strong>。</li>
+<li>UUDN结合了网络服务用户的理念和蜂窝网的技术</li>
+<li>动态AP组是UUDN核心技术</li>
+<li>UUDN意在提供移动管理、资源管理、接入管理和安全问题相融合的综合应用</li>
+<li>UUDN的目的是更有效的资源优化、更好的用户体验、提高能力利用率</li>
+</ul>
+<a id="more"></a>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>随着在线多媒体、移动社交网络、交互游戏、3D动画、虚拟现实等这些互联网服务的发展，将会导致网络流量的拥堵，特别是城市和一些人群密集的地区。区域频谱效率成为了衡量未来移动网络的一项重要的指标，同时它也影响着网络系统的负载。</p>
+<blockquote>
+<p>优化系统负载的三种方法：</p>
+<ul>
+<li>寻找更好的调制和信道编码来增加空口的频谱利用率</li>
+<li>增加频谱带宽</li>
+<li>通过减少蜂窝大小来实现频谱再利用</li>
+</ul>
+</blockquote>
+<p>通过减小蜂窝单元的覆盖范围、增加接入点的密度是一种最有效的方法来提高网络系统的负载。</p>
+<blockquote>
+<p>本文结合5G定义UDN的特征：</p>
+<ul>
+<li>高密度的接入点，提供足够多的手机接入</li>
+<li>不同种类的接入点，满足不同网络的选择</li>
+<li>不同覆盖范围的异构网和多种无线接口技术</li>
+</ul>
+<p>本文结构：<br>1.UUDN面临的挑战<br>2.UUDN的一种新的结构及格部分功能<br>3.未来展望</p>
+</blockquote>
+<hr>
+<h2 id="UUDN的概念和面临的挑战"><a href="#UUDN的概念和面临的挑战" class="headerlink" title="UUDN的概念和面临的挑战"></a>UUDN的概念和面临的挑战</h2><h3 id="UUDN的概念"><a href="#UUDN的概念" class="headerlink" title="UUDN的概念"></a>UUDN的概念</h3><p>UDN和传统蜂窝网区别：</p>
+<p><img src="http://7xwzko.com1.z0.glb.clouddn.com/UUDN1.PNG" alt="enter description here"></p>
+<ul>
+<li>二者最主要的区别是接入口或者基站的密度，UDN中一平方千米之内可以有上千个接入口，而传统蜂窝网一平方千米之内只有三到五个基站。</li>
+<li>接入口的类型不同，UDN中小的基站单元、中继基站、用户端都可以作为接入点。</li>
+</ul>
+<blockquote>
+<p>UUDN定义<br>UUDN结合了网络服务用户的理念和蜂窝网的技术，它是一个接入点与用户密度成比例的无线网络，该网络会智能识别无线用户的通信环境，然后不间断地动态分配接入点组和资源服务每个用户。</p>
+<p>UUDN四个特征<br>1.了解用户的智能网络：网络能智能识别用户终端的负载、用户的需求，并且为每个用户构建知识信息。<br>2.跟随用户的移动网络:根据终端的移动动态地调整APG<br>3.服务用户的动态网络：动态调整APG成员来匹配用户的需求，它们协作传输信息流来提高频谱利用率和用户体验<br>4.网络安全认证：接入点认证和用户终端认证</p>
+</blockquote>
+<h3 id="UUDN面临的挑战"><a href="#UUDN面临的挑战" class="headerlink" title="UUDN面临的挑战"></a>UUDN面临的挑战</h3><p>1.网络结构面临的挑战：</p>
+<ul>
+<li>4G的服务控制和移动控制等都集中在核心网，对高吞吐量的UDN来说效率很低</li>
+<li>在接入点密度大的空口上用户平面和控制平面的紧耦合在异构网中会带来困难</li>
+<li>传统的蜂窝结构很难支持UUDN的APG、前向干扰管理和资源管理，更高层的资源管理和移动管理也很难独立地部署</li>
+<li>本地网关的数据传输服务业不支持一些以用户为中心的服务</li>
+</ul>
+<p>2.移动管理面临的挑战</p>
+<ul>
+<li>传统网络的本地配置是固定死的，本地管理模式将要从固定的AP管理转为动态AP合作</li>
+<li>由于不规则的覆盖和相邻用户之间的关系，转发控制也变得很困难了，而且不同类型的接入点也会使得转发控制相当的复杂</li>
+<li>移动管理、资源管理、干扰协调者三者之间应该联合考虑，寻求最优化</li>
+</ul>
+<p>3.资源管理面临的挑战<br>UUDN的资源分配时基于用户和APG的，而不是像传统的蜂窝网那样基于蜂窝单元和AP，另外，越来越多的应用和需求需要更多的带宽和不同的QoS要求</p>
+<p>4.干扰管理面临的挑战</p>
+<ul>
+<li>超密集环境造成了更多的干扰源，使得干扰模型变得很复杂</li>
+<li>减小干扰和增加资源利用率是相互矛盾的，需要权衡</li>
+<li>传统的衡量网络干扰的参数可能不能用了全面的衡量UUDN的网络</li>
+<li>需要建立新的干扰模型来分析无线传输情境</li>
+</ul>
+<hr>
+<h2 id="UUDN的结构和技术"><a href="#UUDN的结构和技术" class="headerlink" title="UUDN的结构和技术"></a>UUDN的结构和技术</h2><h3 id="UUDN的蜂窝结构和功能"><a href="#UUDN的蜂窝结构和功能" class="headerlink" title="UUDN的蜂窝结构和功能"></a>UUDN的蜂窝结构和功能</h3><blockquote>
+<p>三种解耦方式：<br>1.无线接入层的用户平面和控制平面的解耦<br>2.网络层的控制和传输解耦<br>3.本地服务和网络服务的解耦</p>
+</blockquote>
+<h4 id="UUDN结构"><a href="#UUDN结构" class="headerlink" title="UUDN结构"></a>UUDN结构</h4><p><img src="http://7xwzko.com1.z0.glb.clouddn.com/UUDN2.PNG" alt="enter description here"></p>
+<p>从上图结构中可以看出，从用户角度看，没有物理或者逻辑上的蜂窝单元。某个区域的接入点会智能地自组织满足用户的移动需求和传输数据需求。</p>
+<blockquote>
+<p>功能实体<br><img src="http://7xwzko.com1.z0.glb.clouddn.com/UUDN3.PNG" alt="enter description here"></p>
+</blockquote>
+<p>LSC: the local service center 本地服务中心<br>LDC： local data center 本地数据中心<br>NSC：the network service center网络服务中心<br>NDC： network data center 网络数据中心</p>
+<ul>
+<li>LSC和LDC是提供逻辑上的控制层和用户层的解耦</li>
+<li>NDC和NSC是提供控制和传输功能</li>
+</ul>
+<blockquote>
+<p>每个实体的功能和接口<br>1.AP：是用户终端的数据平面和控制平面的无线接入信道，包含RF、PHY、MAC、和IP层的功能，或者基于回程容量把它们组合起来<br>2.LSC：控制服务中心，组织APG服务某一个用户，添加了一些新的功能，如：用户中心无线资源管理、有效的QoS控制、用户中心移动管理、本地无线连接控制<br>3.LDC：提供UUDN的用户层面。提供高层的处理和动态AP信道处理，也提供用户的多AP协作和多无线电承载的收敛的功能<br>4.NSC：提供用户控制功能、认证、授权、计费、漫游NSC之间切换功能<br>5.NDC：传输数据的网关</p>
+<p>UUDN和传统蜂窝网之间的协作方式<br>1.宏蜂窝基站发挥控制层面的功能，UUDN发挥数据层面的功能<br>2.LSC和LDC部署为宏蜂窝的基站，这样使得宏蜂窝和UUDN之间的关系更紧密</p>
+</blockquote>
+<h3 id="UUDDN的核心功能：动态APG方法"><a href="#UUDDN的核心功能：动态APG方法" class="headerlink" title="UUDDN的核心功能：动态APG方法"></a>UUDDN的核心功能：动态APG方法</h3><p>用户的移动性是未来网络考虑的一种重要因素，所以UUDN每个用户都有一个独一无二的动态APG（DAPGing），APG环境被存储在LSC中。</p>
+<p><strong>动态APG主要工作过程：</strong></p>
+<p><img src="http://7xwzko.com1.z0.glb.clouddn.com/UUDN4.PNG" alt="enter description here"></p>
+<ul>
+<li>APG Initiating：当一个用户连接到网络，NSC根据的无线网络环境生成一个独有的APG，并且由LSC维持。</li>
+<li>APG Member Refreshing：当一个APG建立以后，APG成员会根据用户的移动自动更新。</li>
+<li>APG Handover：当一个用户超出当前LSC的范围，APG会切换到到属于不同NSC的LSC。</li>
+<li>APG Deletion：当用户从UUDN断开连接时，APG将会被删除</li>
+</ul>
+<h3 id="UUDN的移动性管理"><a href="#UUDN的移动性管理" class="headerlink" title="UUDN的移动性管理"></a>UUDN的移动性管理</h3><p>传统蜂窝网是用户在移动中切换蜂窝小区，但是在UUDN结构中，网络是跟随用户移动的，DAPGing使得用户的移动管理成为可能。</p>
+<p><img src="http://7xwzko.com1.z0.glb.clouddn.com/UUDN5.PNG" alt="enter description here"></p>
+<ul>
+<li>对于LSC内部或者LSC之间的移动性：通过改变APG成员，终端和AP之间的无线连接可以从一个AP移动到另一个,APG的ID不变。</li>
+<li>对于NSC之间的移动性：NSC之内APG-ID是独一无二的，当终端移动到一个新的NSC中，终端会获得一个新的APG-ID，AP成员也会重新认证。</li>
+</ul>
+<p>在UUDN中，如果没有数据传输时，终端将会进入空闲模式来节省电，当有用户请求服务时，有两种方法唤醒：<br>1.终端定期检测它是否超出AP成员的覆范围，如果超出，终端向网络更新它的位置<br>2.终端定期发送导频信号给网络，让网络更新它的位置</p>
+<hr>
+<h2 id="资源管理与干扰控制联合优化"><a href="#资源管理与干扰控制联合优化" class="headerlink" title="资源管理与干扰控制联合优化"></a>资源管理与干扰控制联合优化</h2><blockquote>
+<p>资源管理的两种方式：<br>1.当有足够的资源和终端的支持时，资源分配可能是完全分布式的，否则，引入协商模式。<br>干扰评估模型应添加到协商计划以及环境感知。<br>2.网络端提供一个中央控制，本地控制单元生成一个可用资源池，AP通过周期性广播或专用请求来更新信息，一旦有传输需求，APG将会从资源池中选择一个合适的资源。<br>这需要实时有效地采集本地资源情况。</p>
+</blockquote>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><ul>
+<li>UUDN将会为所有的用户终端和APG成员提供一种新的安全认证的方法</li>
+<li>在APG更新的时候，UUDN应该应用一种灵活的认证机制</li>
+<li>UUDN的密钥认证机制将会被加强</li>
+<li>UUDN安全模型的选择应该在通信质量和认证效率之间权衡</li>
+</ul>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文是在UDN的基础上提出的UUDN，实现网络服务用户的思想，文中详尽讨论了UUDN的一些问题，对UUDN的结构、管理方式和安全认证方面有了认识。这是5G的一项技术，值得关注。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/UUDN/" rel="tag">#UUDN</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/西游.html" rel="next" title="西游">
+                <i class="fa fa-chevron-left"></i> 西游
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/jQuery.html" rel="prev" title="jQuery">
+                jQuery <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjExNC8xMjY0OQ=="></div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="王寒松" />
+          <p class="site-author-name" itemprop="name">王寒松</p>
+          <p class="site-description motion-element" itemprop="description">前端小白，JS,PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=614158750&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanghansong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情连接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wanghansong.top" title="暂无" target="_blank">暂无</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UUDN的概念和面临的挑战"><span class="nav-number">3.</span> <span class="nav-text">UUDN的概念和面临的挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UUDN的概念"><span class="nav-number">3.1.</span> <span class="nav-text">UUDN的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UUDN面临的挑战"><span class="nav-number">3.2.</span> <span class="nav-text">UUDN面临的挑战</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UUDN的结构和技术"><span class="nav-number">4.</span> <span class="nav-text">UUDN的结构和技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UUDN的蜂窝结构和功能"><span class="nav-number">4.1.</span> <span class="nav-text">UUDN的蜂窝结构和功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UUDN结构"><span class="nav-number">4.1.1.</span> <span class="nav-text">UUDN结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UUDDN的核心功能：动态APG方法"><span class="nav-number">4.2.</span> <span class="nav-text">UUDDN的核心功能：动态APG方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UUDN的移动性管理"><span class="nav-number">4.3.</span> <span class="nav-text">UUDN的移动性管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源管理与干扰控制联合优化"><span class="nav-number">5.</span> <span class="nav-text">资源管理与干扰控制联合优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安全性"><span class="nav-number">5.1.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王寒松</span>&nbsp; | &nbsp; &nbsp;
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="http://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user">本站访客数</i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  
+</body>
+</html>

@@ -1,0 +1,920 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="baidu-site-verification" content="jjKrmjBQYL" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.gmirror.org/css?family=Georgia:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ES6," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="解构的本质是模式匹配，只要等号左右两边的模式相同，左边的变量就会被赋予对应的值解构ES5实现：1234&apos;use strict&apos;;var obj=&amp;#123; foo: &quot;aaa&quot;, bar: &quot;bbb&quot;&amp;#125;;var bar=obj.foo;var foo=obj.bar;
+脑图结构：http://naotu.baidu.com/file/9e48bcf4bbd766715f3c64d5cc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【ES6】解构">
+<meta property="og:url" content="https://wanghansong.top/2018/【ES6】解构.html">
+<meta property="og:site_name" content="wanghansong's blog">
+<meta property="og:description" content="解构的本质是模式匹配，只要等号左右两边的模式相同，左边的变量就会被赋予对应的值解构ES5实现：1234&apos;use strict&apos;;var obj=&amp;#123; foo: &quot;aaa&quot;, bar: &quot;bbb&quot;&amp;#125;;var bar=obj.foo;var foo=obj.bar;
+脑图结构：http://naotu.baidu.com/file/9e48bcf4bbd766715f3c64d5cc">
+<meta property="og:updated_time" content="2020-07-25T05:06:38.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【ES6】解构">
+<meta name="twitter:description" content="解构的本质是模式匹配，只要等号左右两边的模式相同，左边的变量就会被赋予对应的值解构ES5实现：1234&apos;use strict&apos;;var obj=&amp;#123; foo: &quot;aaa&quot;, bar: &quot;bbb&quot;&amp;#125;;var bar=obj.foo;var foo=obj.bar;
+脑图结构：http://naotu.baidu.com/file/9e48bcf4bbd766715f3c64d5cc">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 【ES6】解构 | wanghansong's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2a557223974248bf97d5421e8932cbcc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wanghansong's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">前端，后端，SDN，openflow</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于本人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            所有文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-album">
+          <a href="/album" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/wanghansong" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【ES6】解构
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-05-11T16:40:15+08:00" content="2018-05-11">
+              2018-05-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/【ES6】解构.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/【ES6】解构.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>解构的本质是模式匹配，只要等号左右两边的模式相同，左边的变量就会被赋予对应的值<br>解构ES5实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">'use strict'</span>;</div><div class="line"><span class="keyword">var</span> obj=&#123; <span class="attr">foo</span>: <span class="string">"aaa"</span>, <span class="attr">bar</span>: <span class="string">"bbb"</span>&#125;;</div><div class="line"><span class="keyword">var</span> bar=obj.foo;</div><div class="line"><span class="keyword">var</span> foo=obj.bar;</div></pre></td></tr></table></figure></p>
+<p><a href="http://naotu.baidu.com/file/9e48bcf4bbd766715f3c64d5cc790174?token=313fa87a66f621d0" target="_blank" rel="external">脑图结构</a>：<a href="http://naotu.baidu.com/file/9e48bcf4bbd766715f3c64d5cc790174?token=313fa87a66f621d0" target="_blank" rel="external">http://naotu.baidu.com/file/9e48bcf4bbd766715f3c64d5cc790174?token=313fa87a66f621d0</a></p>
+<p>[TOC]</p>
+<a id="more"></a>
+<h2 id="解构"><a href="#解构" class="headerlink" title="解构"></a>解构</h2><ul>
+<li><code>模式：变量</code>其中<code>模式</code>是原来对象中存在的属性名，变量是要赋值的新变量名，如果模式和新的变量名一样有则省略变量名</li>
+<li>限定范围：只要某种数据结构具有 Iterator 接口，都可以采用数组形式的解构赋值，</li>
+<li>解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象。由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错。<h3 id="1、数组解构"><a href="#1、数组解构" class="headerlink" title="1、数组解构"></a>1、数组解构</h3>可以用数组下标作为模式    [a, b, c] = [1, 2, 3] ;  let {0:first2,[arr.length-1]:last}=arr;</li>
+</ul>
+<h3 id="2、对象解构"><a href="#2、对象解构" class="headerlink" title="2、对象解构"></a>2、对象解构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let &#123; foo, bar &#125; = &#123; foo: &quot;aaa&quot;, bar: &quot;bbb&quot; &#125;;</div></pre></td></tr></table></figure>
+<p>如果要另起变量名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let &#123; foo: baz &#125; = &#123; foo: &apos;aaa&apos;, bar: &apos;bbb&apos; &#125;;</div></pre></td></tr></table></figure></p>
+<p>将解构的值放入数组：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">let obj = &#123;&#125;;</div><div class="line">let arr = [];</div><div class="line"></div><div class="line">(&#123; foo: obj.prop, bar: arr[0] &#125; = &#123; foo: 123, bar: true &#125;);</div></pre></td></tr></table></figure></p>
+<h3 id="3、字符串解构"><a href="#3、字符串解构" class="headerlink" title="3、字符串解构"></a>3、字符串解构</h3><p>字符串被转换成一个类似数组的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">const [a,b,c,d,e]=&quot;hello&quot;</div><div class="line">//a是h，b是e，c是l，d是l，e是o</div></pre></td></tr></table></figure></p>
+<h3 id="4、函数参数解构"><a href="#4、函数参数解构" class="headerlink" title="4、函数参数解构"></a>4、函数参数解构</h3><h4 id="1-参数是数组时"><a href="#1-参数是数组时" class="headerlink" title="(1)参数是数组时"></a>(1)参数是数组时</h4><p>在传入参数的那一刻，数组参数就被解构成变量x和y。对于函数内部的代码来说，它们能感受到的参数就是x和y<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function add([x, y])&#123;</div><div class="line">  return x + y;</div><div class="line">&#125;</div><div class="line">add([1, 2]); // 3</div></pre></td></tr></table></figure></p>
+<h4 id="2-参数是对象时"><a href="#2-参数是对象时" class="headerlink" title="(2)参数是对象时"></a>(2)参数是对象时</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function move(&#123;x = 0, y = 0&#125; = &#123;&#125;) &#123;</div><div class="line">  return [x, y];</div><div class="line">&#125;</div><div class="line">move(&#123;x: 3, y: 8&#125;); // [3, 8]</div><div class="line">move(&#123;x: 3&#125;); // [3, 0]</div><div class="line">move(&#123;&#125;); // [0, 0]</div><div class="line">move(); // [0, 0]</div></pre></td></tr></table></figure>
+<h3 id="5、数值和Boolen的解构"><a href="#5、数值和Boolen的解构" class="headerlink" title="5、数值和Boolen的解构"></a>5、数值和Boolen的解构</h3><p>解构时如果等号右边时数值和对象，则会先转换成对象</p>
+<hr>
+<h2 id="解构默认值"><a href="#解构默认值" class="headerlink" title="解构默认值"></a>解构默认值</h2><p>默认值在被解构的对象的值是undefined时才生效<br>如果一个成员不严格等于undefined，默认值是不会生效的，比如被解构对象的值是null，则默认值是不会生效的</p>
+<h3 id="数组解构默认值"><a href="#数组解构默认值" class="headerlink" title="数组解构默认值"></a>数组解构默认值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">let [foo = true] = [];</div><div class="line">foo // true</div><div class="line">let [x, y = &apos;b&apos;] = [&apos;a&apos;]; // x=&apos;a&apos;, y=&apos;b&apos;</div><div class="line">let [x, y = &apos;b&apos;] = [&apos;a&apos;, undefined]; // x=&apos;a&apos;, y=&apos;b&apos;</div></pre></td></tr></table></figure>
+<h3 id="对象解构默认值"><a href="#对象解构默认值" class="headerlink" title="对象解构默认值"></a>对象解构默认值</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var &#123;x, y = 5&#125; = &#123;x: 1&#125;;</div><div class="line">x // 1</div><div class="line">y // 5</div></pre></td></tr></table></figure>
+<h3 id="函数解构默认值"><a href="#函数解构默认值" class="headerlink" title="函数解构默认值"></a>函数解构默认值</h3><p>(1)给解构每个变量赋默认值<br>一个个参数独立生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function move(&#123;x = 0, y = 0&#125; = &#123;&#125;) &#123;</div><div class="line">  return [x, y];</div><div class="line">&#125;</div><div class="line">move(&#123;x: 3, y: 8&#125;); // [3, 8]</div><div class="line">move(&#123;x: 3&#125;); // [3, 0]</div><div class="line">move(&#123;&#125;); // [0, 0]</div><div class="line">move(); // [0, 0]</div></pre></td></tr></table></figure></p>
+<p>(2)给参数整体赋默认值<br>在整个参数对象没有赋值的时候才生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function move(&#123;x, y&#125; = &#123; x: 0, y: 0 &#125;) &#123;</div><div class="line">  return [x, y];</div><div class="line">&#125;</div><div class="line"></div><div class="line">move(&#123;x: 3, y: 8&#125;); // [3, 8]</div><div class="line">move(&#123;x: 3&#125;); // [3, undefined]</div><div class="line">move(&#123;&#125;); // [undefined, undefined]</div><div class="line">move(); // [0, 0] //生效</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="剩余项"><a href="#剩余项" class="headerlink" title="剩余项"></a>剩余项</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let colors = [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;];</div><div class="line">let [firstC, ...restC] = colors;//restC是数组[&quot;green&quot;, &quot;blue&quot;]</div></pre></td></tr></table></figure>
+<p>使用剩余项进行克隆：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">let colors = [&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;];</div><div class="line">let [...restC] = colors;</div><div class="line">console.log(restC);//[&quot;red&quot;, &quot;green&quot;,&quot;blue&quot;]</div></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="普通解构与嵌套解构"><a href="#普通解构与嵌套解构" class="headerlink" title="普通解构与嵌套解构"></a>普通解构与嵌套解构</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 普通解构*/</span></div><div class="line"><span class="keyword">let</span> &#123;name,age&#125;=obj;</div><div class="line"><span class="built_in">console</span>.log(name+age); </div><div class="line"></div><div class="line"><span class="comment">/* 嵌套解构*/</span></div><div class="line"><span class="keyword">let</span> &#123;name,sex,<span class="attr">skill</span>:&#123;eat,frontend&#125;&#125;=obj;<span class="comment">//这里的skill是模式</span></div><div class="line"><span class="built_in">console</span>.log(name+<span class="string">' '</span>+eat+<span class="string">' '</span>+frontend)</div><div class="line"><span class="keyword">let</span> &#123;<span class="attr">skill</span>:skills&#125;=obj;</div><div class="line"><span class="built_in">console</span>.log(skills)</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="圆括号问题"><a href="#圆括号问题" class="headerlink" title="圆括号问题"></a>圆括号问题</h2><h3 id="只有一种情况可以使用圆括号"><a href="#只有一种情况可以使用圆括号" class="headerlink" title="只有一种情况可以使用圆括号"></a>只有一种情况可以使用圆括号</h3><p>可以使用圆括号的情况只有一种：赋值语句的非模式部分，可以使用圆括号。</p>
+<blockquote>
+<p>要点：</p>
+<ul>
+<li>也就是说新变量是已经声明过了的</li>
+<li>非模式部分<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[(b)] = [3]; // 正确</div><div class="line">(&#123; p: (d) &#125; = &#123;&#125;); // 正确</div><div class="line">[(parseInt.prop)] = [3]; // 正确</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h3 id="绝对不能使用圆括号情况"><a href="#绝对不能使用圆括号情况" class="headerlink" title="绝对不能使用圆括号情况"></a>绝对不能使用圆括号情况</h3><p>1、变量声明语句中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let [(b)]=[1,2,3];//报错</div></pre></td></tr></table></figure></p>
+<p>2、函数参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">function f([z,(x)]) &#123; return x; &#125;//报错</div></pre></td></tr></table></figure></p>
+<p>3、赋值语句的模式<br>赋值语句的模式不能被包裹在圆括号中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[(&#123; p: a &#125;), &#123; x: c &#125;] = [&#123;&#125;, &#123;&#125;];//p和x被包裹在圆括号中，报错</div></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h2><p>1、交换变量的值<br>2、从函数返回多个值（感觉这个有点牵强，这不就是解构的基本用法吗，和函数没有啥重要关系吧）<br>3、函数参数的定义：可以方便地将一组参数和变量名对应起来<br>4、提取JSON数据：就是对象解构<br>5、指定函数参数默认值<br>6、遍历Map结构：配合变量的解构赋值，获取键名和键值就非常方便<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">const map = new Map();</div><div class="line">map.set(&apos;first&apos;, &apos;hello&apos;);</div><div class="line">map.set(&apos;second&apos;, &apos;world&apos;);</div><div class="line">for (let [key, value] of map) &#123;</div><div class="line">  console.log(key + &quot; is &quot; + value);</div><div class="line">&#125;</div><div class="line">// 获取键名</div><div class="line">for (let [key] of map) &#123;</div><div class="line">  // ...</div><div class="line">&#125;</div><div class="line">// 获取键值</div><div class="line">for (let [,value] of map) &#123;</div><div class="line">  // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>7、指定输入模块的具体方法：加载模块时，往往需要指定输入哪些方法。解构赋值使得输入语句非常清晰<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const &#123; SourceMapConsumer, SourceNode &#125; = require(&quot;source-map&quot;);</div></pre></td></tr></table></figure></p>
+<hr>
+<p>【持续更新中…】<br>注：大部分摘自阮一峰ES6入门，对此作高度总结分类，便于记忆</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ES6/" rel="tag">#ES6</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/【ES6】let、const.html" rel="next" title="【ES6】let、const">
+                <i class="fa fa-chevron-left"></i> 【ES6】let、const
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/【ES6】字符串的扩展.html" rel="prev" title="【ES6】字符串的扩展">
+                【ES6】字符串的扩展 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjExNC8xMjY0OQ=="></div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="王寒松" />
+          <p class="site-author-name" itemprop="name">王寒松</p>
+          <p class="site-description motion-element" itemprop="description">前端小白，JS,PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=614158750&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanghansong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情连接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wanghansong.top" title="暂无" target="_blank">暂无</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解构"><span class="nav-number">1.</span> <span class="nav-text">解构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、数组解构"><span class="nav-number">1.1.</span> <span class="nav-text">1、数组解构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、对象解构"><span class="nav-number">1.2.</span> <span class="nav-text">2、对象解构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、字符串解构"><span class="nav-number">1.3.</span> <span class="nav-text">3、字符串解构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、函数参数解构"><span class="nav-number">1.4.</span> <span class="nav-text">4、函数参数解构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-参数是数组时"><span class="nav-number">1.4.1.</span> <span class="nav-text">(1)参数是数组时</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-参数是对象时"><span class="nav-number">1.4.2.</span> <span class="nav-text">(2)参数是对象时</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、数值和Boolen的解构"><span class="nav-number">1.5.</span> <span class="nav-text">5、数值和Boolen的解构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解构默认值"><span class="nav-number">2.</span> <span class="nav-text">解构默认值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组解构默认值"><span class="nav-number">2.1.</span> <span class="nav-text">数组解构默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象解构默认值"><span class="nav-number">2.2.</span> <span class="nav-text">对象解构默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数解构默认值"><span class="nav-number">2.3.</span> <span class="nav-text">函数解构默认值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剩余项"><span class="nav-number">2.4.</span> <span class="nav-text">剩余项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通解构与嵌套解构"><span class="nav-number">2.5.</span> <span class="nav-text">普通解构与嵌套解构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#圆括号问题"><span class="nav-number">3.</span> <span class="nav-text">圆括号问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#只有一种情况可以使用圆括号"><span class="nav-number">3.1.</span> <span class="nav-text">只有一种情况可以使用圆括号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绝对不能使用圆括号情况"><span class="nav-number">3.2.</span> <span class="nav-text">绝对不能使用圆括号情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用途"><span class="nav-number">4.</span> <span class="nav-text">用途</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王寒松</span>&nbsp; | &nbsp; &nbsp;
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="http://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user">本站访客数</i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  
+</body>
+</html>

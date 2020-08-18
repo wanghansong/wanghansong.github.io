@@ -1,0 +1,948 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="baidu-site-verification" content="jjKrmjBQYL" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.gmirror.org/css?family=Georgia:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="bootstrap," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Outline
+
+[TOC]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="html5和bootstrap">
+<meta property="og:url" content="https://wanghansong.top/2017/html5和bootstrap.html">
+<meta property="og:site_name" content="wanghansong's blog">
+<meta property="og:description" content="Outline
+
+[TOC]">
+<meta property="og:image" content="https://unsplash.it/600/300?image=16">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/%E6%8D%95%E8%8E%B74.PNG">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/%E6%8D%95%E8%8E%B73.PNG">
+<meta property="og:updated_time" content="2020-07-25T05:06:38.146Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="html5和bootstrap">
+<meta name="twitter:description" content="Outline
+
+[TOC]">
+<meta name="twitter:image" content="https://unsplash.it/600/300?image=16">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> html5和bootstrap | wanghansong's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2a557223974248bf97d5421e8932cbcc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wanghansong's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">前端，后端，SDN，openflow</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于本人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            所有文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-album">
+          <a href="/album" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/wanghansong" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                html5和bootstrap
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-16T10:59:36+08:00" content="2017-01-16">
+              2017-01-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/UI框架/" itemprop="url" rel="index">
+                    <span itemprop="name">UI框架</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/html5和bootstrap.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/html5和bootstrap.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>Outline</em></p>
+<hr>
+<p><img src="https://unsplash.it/600/300?image=16"><br>[TOC]</p>
+<a id="more"></a>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1.前言"></a>1.前言</h2><ul>
+<li>bootstrap中外文档：<a href="http://v3.bootcss.com/css/" target="_blank" rel="external">http://v3.bootcss.com/css/</a></li>
+<li>bootstrap2.3.2：<a href="http://getbootstrap.com/2.3.2/" target="_blank" rel="external">http://getbootstrap.com/2.3.2/</a></li>
+<li>bootstrap的twitter：<a href="http://getbootstrap.com/" target="_blank" rel="external">http://getbootstrap.com/</a></li>
+<li><a href="http://www.runoob.com/" target="_blank" rel="external">http://www.runoob.com/</a></li>
+</ul>
+<hr>
+<h2 id="2-bootstrap代码获取"><a href="#2-bootstrap代码获取" class="headerlink" title="2.bootstrap代码获取"></a>2.bootstrap代码获取</h2><h3 id="2-1-CDN形式："><a href="#2-1-CDN形式：" class="headerlink" title="2.1 CDN形式："></a>2.1 CDN形式：</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 新 Bootstrap 核心 CSS 文件 --&gt;</div><div class="line">&lt;link href=<span class="string">"http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css"</span> rel=<span class="string">"stylesheet"</span>&gt;</div><div class="line"></div><div class="line">&lt;!-- 可选的Bootstrap主题文件（一般不使用） --&gt;</div><div class="line">&lt;script src=<span class="string">"http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap-theme.min.css"</span>&gt;&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;!-- jQuery文件。务必在bootstrap<span class="selector-class">.min</span><span class="selector-class">.js</span> 之前引入 --&gt;</div><div class="line">&lt;script src=<span class="string">"http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"</span>&gt;&lt;/script&gt;</div><div class="line"></div><div class="line">&lt;!-- 最新的 Bootstrap 核心 JavaScript 文件 --&gt;</div><div class="line">&lt;script src=<span class="string">"http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"</span>&gt;&lt;/script&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>此外，你还可以使用以下的 CDN 服务：<ul>
+<li>国内推荐使用 : <a href="https://www.staticfile.org/" target="_blank" rel="external">https://www.staticfile.org/</a></li>
+<li>国际推荐使用：<a href="https://cdnjs.com/" target="_blank" rel="external">https://cdnjs.com/</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-到官网下载源码"><a href="#2-2-到官网下载源码" class="headerlink" title="2.2 到官网下载源码"></a>2.2 到官网下载源码</h3><p>到<a href="http://getbootstrap.com/" target="_blank" rel="external">bootstrap的git官网</a>进入<a href="http://getbootstrap.com/customize/" target="_blank" rel="external">customize</a>进行定制，把需要的功能勾选，然后下载。</p>
+<hr>
+<h2 id="3-兼容性"><a href="#3-兼容性" class="headerlink" title="3 兼容性"></a>3 兼容性</h2><ol>
+<li>为了确保适当的绘制和触屏缩放，需要在 <code>&lt;head&gt;</code> 之中添加 viewport 元数据标签。</li>
+</ol>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=<span class="string">"viewport"</span> <span class="attribute">content</span>=<span class="string">"width=device-width, initial-scale=1"</span>&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>在移动设备浏览器上，通过为视口（viewport）设置 meta 属性为 user-scalable=no 可以禁用其缩放（zooming）功能。这样禁用缩放功能后，用户只能滚动屏幕，就能让你的网站看上去更像原生应用的感觉。</li>
+</ol>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=<span class="string">"viewport"</span> <span class="attribute">content</span>=<span class="string">"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"</span>&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li><p>Normalize.css<br>为了增强跨浏览器表现的一致性，我们使用了 <a href="http://necolas.github.io/normalize.css/" target="_blank" rel="external">Normalize.css</a>，这是由 Nicolas Gallagher 和 Jonathan Neal 维护的一个CSS 重置样式库。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">How to use normalize<span class="selector-class">.css</span></div><div class="line">First, install or download normalize<span class="selector-class">.css</span> from GitHub. There are then <span class="number">2</span> main ways to make use of it.</div><div class="line"></div><div class="line">Approach <span class="number">1</span>: use normalize<span class="selector-class">.css</span> as <span class="selector-tag">a</span> starting point <span class="keyword">for</span> your own project’s base CSS, customising the values to match the design’s requirements.</div><div class="line"></div><div class="line">Approach <span class="number">2</span>: include normalize<span class="selector-class">.css</span> untouched and build upon it, overriding the defaults later <span class="keyword">in</span> your CSS <span class="keyword">if</span> necessary.</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<h2 id="4-布局容器"><a href="#4-布局容器" class="headerlink" title="4 布局容器"></a>4 布局容器</h2><p>Bootstrap 需要为页面内容和栅格系统包裹一个 .container 容器。我们提供了两个作此用处的类。注意，由于 padding 等属性的原因，这两种 容器类不能互相嵌套。</p>
+<h3 id="4-1-栅格系统"><a href="#4-1-栅格系统" class="headerlink" title="4.1 栅格系统"></a>4.1 <a href="http://v3.bootcss.com/css/#grid" target="_blank" rel="external">栅格系统</a></h3><p>Bootstrap 提供了一套响应式、移动设备优先的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多12列。</p>
+<ul>
+<li>“行（row）”必须包含在 .container （固定宽度）或 .container-fluid （100% 宽度）中，以便为其赋予合适的排列（aligment）和内补（padding）</li>
+<li><code>&lt;div class=&quot;col-md-4&quot;&gt;.col-md-4&lt;/div&gt;</code>表示占4列<br>*</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>超小屏幕 手机 (&lt;768px)</th>
+<th>小屏幕 平板 (≥768px)</th>
+<th>中等屏幕 桌面显示器 (≥992px)</th>
+<th>大屏幕 大桌面显示器 (≥1200px)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>类前缀</td>
+<td>.col-xs-</td>
+<td>.col-sm-</td>
+<td>.col-md-</td>
+<td>.col-lg-</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="selector-tag">div</span> class=<span class="string">"col-md-8"</span>&gt;.col-md-<span class="number">8</span>&lt;/div&gt;</div><div class="line">&lt;<span class="selector-tag">div</span> class=<span class="string">"col-xs-12 col-md-8"</span>&gt;<span class="selector-class">.col-xs-12</span> .col-md-<span class="number">8</span>&lt;/div&gt;</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="5-常用的JS模块"><a href="#5-常用的JS模块" class="headerlink" title="5 常用的JS模块"></a>5 常用的JS模块</h2><h3 id="5-1-tooltip工具提示"><a href="#5-1-tooltip工具提示" class="headerlink" title="5.1 tooltip工具提示"></a>5.1 <a href="http://getbootstrap.com/javascript/#tooltips" target="_blank" rel="external">tooltip工具提示</a></h3><p><img src="http://7xwzko.com1.z0.glb.clouddn.com/%E6%8D%95%E8%8E%B74.PNG" alt="enter description here"></p>
+<h3 id="5-2-popover弹出框"><a href="#5-2-popover弹出框" class="headerlink" title="5.2 popover弹出框"></a>5.2 <a href="http://getbootstrap.com/javascript/#popovers" target="_blank" rel="external">popover弹出框</a></h3><p><img src="http://7xwzko.com1.z0.glb.clouddn.com/%E6%8D%95%E8%8E%B73.PNG" alt="enter description here"></p>
+<p>【未完待续】</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/bootstrap/" rel="tag">#bootstrap</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/github个人博客改域名.html" rel="next" title="github个人博客改域名">
+                <i class="fa fa-chevron-left"></i> github个人博客改域名
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/前端库.html" rel="prev" title="前端库">
+                前端库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjExNC8xMjY0OQ=="></div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="王寒松" />
+          <p class="site-author-name" itemprop="name">王寒松</p>
+          <p class="site-description motion-element" itemprop="description">前端小白，JS,PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=614158750&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanghansong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情连接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wanghansong.top" title="暂无" target="_blank">暂无</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前言"><span class="nav-number">1.</span> <span class="nav-text">1.前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-bootstrap代码获取"><span class="nav-number">2.</span> <span class="nav-text">2.bootstrap代码获取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-CDN形式："><span class="nav-number">2.1.</span> <span class="nav-text">2.1 CDN形式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-到官网下载源码"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 到官网下载源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-兼容性"><span class="nav-number">3.</span> <span class="nav-text">3 兼容性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-布局容器"><span class="nav-number">4.</span> <span class="nav-text">4 布局容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-栅格系统"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 栅格系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-常用的JS模块"><span class="nav-number">5.</span> <span class="nav-text">5 常用的JS模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-tooltip工具提示"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 tooltip工具提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-popover弹出框"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 popover弹出框</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王寒松</span>&nbsp; | &nbsp; &nbsp;
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="http://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user">本站访客数</i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  
+</body>
+</html>

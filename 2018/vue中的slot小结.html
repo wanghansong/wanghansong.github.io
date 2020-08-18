@@ -1,0 +1,960 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="baidu-site-verification" content="jjKrmjBQYL" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.gmirror.org/css?family=Georgia:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="vue-slot," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="[TOC]
+要点：
+
+内容是由父组件决定的
+父组件中的内容将替代子组件中&amp;lt;slot&amp;gt;标签及它的内容
+子组件slot定义处可以规定显示顺序等
+
+作用域插槽
+
+显示样式父组件决定，内容可以由子组件插槽中绑定
+子组件中通过v-bind绑定属性将子组件的内容传递过来，在父组件中通过slot-scope接受子组件的内容">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue中的slot小结">
+<meta property="og:url" content="https://wanghansong.top/2018/vue中的slot小结.html">
+<meta property="og:site_name" content="wanghansong's blog">
+<meta property="og:description" content="[TOC]
+要点：
+
+内容是由父组件决定的
+父组件中的内容将替代子组件中&amp;lt;slot&amp;gt;标签及它的内容
+子组件slot定义处可以规定显示顺序等
+
+作用域插槽
+
+显示样式父组件决定，内容可以由子组件插槽中绑定
+子组件中通过v-bind绑定属性将子组件的内容传递过来，在父组件中通过slot-scope接受子组件的内容">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/slot-scope.png">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/slot-scope2.png">
+<meta property="og:updated_time" content="2020-07-25T05:06:38.149Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue中的slot小结">
+<meta name="twitter:description" content="[TOC]
+要点：
+
+内容是由父组件决定的
+父组件中的内容将替代子组件中&amp;lt;slot&amp;gt;标签及它的内容
+子组件slot定义处可以规定显示顺序等
+
+作用域插槽
+
+显示样式父组件决定，内容可以由子组件插槽中绑定
+子组件中通过v-bind绑定属性将子组件的内容传递过来，在父组件中通过slot-scope接受子组件的内容">
+<meta name="twitter:image" content="http://7xwzko.com1.z0.glb.clouddn.com/slot-scope.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> vue中的slot小结 | wanghansong's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2a557223974248bf97d5421e8932cbcc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wanghansong's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">前端，后端，SDN，openflow</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于本人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            所有文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-album">
+          <a href="/album" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/wanghansong" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                vue中的slot小结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-07-06T11:50:51+08:00" content="2018-07-06">
+              2018-07-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/vue中的slot小结.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/vue中的slot小结.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<p>要点：</p>
+<ul>
+<li>内容是由父组件决定的</li>
+<li>父组件中的内容将替代子组件中<code>&lt;slot&gt;</code>标签及它的内容</li>
+<li>子组件slot定义处可以规定显示顺序等</li>
+</ul>
+<p>作用域插槽</p>
+<ul>
+<li>显示样式父组件决定，内容可以由子组件插槽中绑定</li>
+<li>子组件中通过v-bind绑定属性将子组件的内容传递过来，在父组件中通过slot-scope接受子组件的内容</li>
+</ul>
+<a id="more"></a>
+<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>vue中关于插槽的文档说明很短，语言又写的很凝练，再加上其和methods，data，computed等常用选项在使用频率、使用先后上的差别，这就有可能造成初次接触插槽的开发者容易产生“算了吧，回头再学，反正已经可以写基础组件了”的想法，于是就关闭了vue的说明文档。</p>
+<p>实际上，插槽的概念很简单，下面通过分三部分来讲。这三部分也是按照vue说明文档的顺序来写的。</p>
+<p>进入这三部分之前，先让还没接触过插槽的同学对什么是插槽有一个简单的概念：<strong>插槽，也就是slot，是组件的一块HTML模板，这块模板显示不显示、以及怎样显示由父组件来决定。</strong> 实际上，一个slot最核心的两个问题在这里就点出来了，是<strong>显示不显示</strong>和<strong>怎样显示</strong>。</p>
+<p>由于插槽是一块模板，所以，对于任何一个组件，从模板种类的角度来分，其实都可以分为<strong>非插槽模板</strong>和<strong>插槽模板</strong>两大类。 非插槽模板指的是<strong>html模板</strong>，比如‘div、span、ul、table’这些，非插槽模板的显示与隐藏以及怎样显示由组件自身控制；插槽模板是slot，它是一个空壳子，因为它的显示与隐藏以及最后用什么样的html模板显示由父组件控制。<strong>但是插槽显示的位置却由子组件自身决定，slot写在组件template的什么位置，父组件传过来的模板将来就显示在什么位置</strong>。</p>
+<hr>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>父组件模版的内容是在父组件作用域内编译，子组件模版内容是在子组件作用域内编译，也就是说父子组件模版内的变量是对应各自的变量。</p>
+<hr>
+<h2 id="单个插槽-默认插槽-匿名插槽"><a href="#单个插槽-默认插槽-匿名插槽" class="headerlink" title="单个插槽 | 默认插槽 | 匿名插槽"></a>单个插槽 | 默认插槽 | 匿名插槽</h2><p>首先是单个插槽，<strong>单个插槽</strong>是vue的官方叫法，但是其实也可以叫它默认插槽，或者与具名插槽相对，我们可以叫它匿名插槽。因为它不用设置name属性。</p>
+<p>单个插槽可以放置在组件的任意位置，但是就像它的名字一样，一个组件中只能有一个该类插槽。相对应的，具名插槽就可以有很多个，只要名字（name属性）不同就可以了。</p>
+<p>下面通过一个例子来展示。</p>
+<p>父组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">    &lt;div class=&quot;father&quot;&gt;</div><div class="line">        &lt;h3&gt;这里是父组件&lt;/h3&gt;</div><div class="line">        &lt;child&gt;</div><div class="line">            &lt;div class=&quot;tmpl&quot;&gt;</div><div class="line">              &lt;span&gt;菜单1&lt;/span&gt;</div><div class="line">              &lt;span&gt;菜单2&lt;/span&gt;</div><div class="line">              &lt;span&gt;菜单3&lt;/span&gt;</div><div class="line">              &lt;span&gt;菜单4&lt;/span&gt;</div><div class="line">              &lt;span&gt;菜单5&lt;/span&gt;</div><div class="line">              &lt;span&gt;菜单6&lt;/span&gt;</div><div class="line">            &lt;/div&gt;</div><div class="line">        &lt;/child&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<p>子组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">    &lt;div class=&quot;child&quot;&gt;</div><div class="line">        &lt;h3&gt;这里是子组件&lt;/h3&gt;</div><div class="line">        &lt;slot&gt;&lt;/slot&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<p>在这个例子里，因为父组件在里面写了html模板，那么子组件的<strong>匿名插槽</strong>这块模板就是下面这样。也就是说，子组件的匿名插槽被使用了，是被下面这块模板使用了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;tmpl&quot;&gt;</div><div class="line">  &lt;span&gt;菜单1&lt;/span&gt;</div><div class="line">  &lt;span&gt;菜单2&lt;/span&gt;</div><div class="line">  &lt;span&gt;菜单3&lt;/span&gt;</div><div class="line">  &lt;span&gt;菜单4&lt;/span&gt;</div><div class="line">  &lt;span&gt;菜单5&lt;/span&gt;</div><div class="line">  &lt;span&gt;菜单6&lt;/span&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>如果子组件中没有默认的匿名slot，那么父组件中多余内容片段将会被抛弃。</p>
+<hr>
+<h2 id="具名插槽"><a href="#具名插槽" class="headerlink" title="具名插槽"></a>具名插槽</h2><p>匿名插槽没有name属性，所以是匿名插槽，那么，插槽加了name属性，就变成了具名插槽。具名插槽可以在一个组件中出现N次，出现在不同的位置。下面的例子，就是一个有两个<strong>具名插槽</strong>和<strong>单个插槽</strong>的组件，这三个插槽被父组件用同一套css样式显示了出来，不同的是内容上略有区别。</p>
+<p>父组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;father&quot;&gt;</div><div class="line">    &lt;h3&gt;这里是父组件&lt;/h3&gt;</div><div class="line">    &lt;child&gt;</div><div class="line">      &lt;div class=&quot;tmpl&quot; slot=&quot;up&quot;&gt;</div><div class="line">        &lt;span&gt;菜单1&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单2&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单3&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单4&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单5&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单6&lt;/span&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">      &lt;div class=&quot;tmpl&quot; slot=&quot;down&quot;&gt;</div><div class="line">        &lt;span&gt;菜单-1&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-2&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-3&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-4&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-5&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-6&lt;/span&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">      &lt;div class=&quot;tmpl&quot;&gt;</div><div class="line">        &lt;span&gt;菜单-&gt;1&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-&gt;2&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-&gt;3&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-&gt;4&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-&gt;5&lt;/span&gt;</div><div class="line">        &lt;span&gt;菜单-&gt;6&lt;/span&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    &lt;/child&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<p>子组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;child&quot;&gt;</div><div class="line">    // 具名插槽</div><div class="line">    &lt;slot name=&quot;up&quot;&gt;&lt;/slot&gt;</div><div class="line">    &lt;h3&gt;这里是子组件&lt;/h3&gt;</div><div class="line">    // 具名插槽</div><div class="line">    &lt;slot name=&quot;down&quot;&gt;&lt;/slot&gt;</div><div class="line">    // 匿名插槽</div><div class="line">    &lt;slot&gt;&lt;/slot&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<p>可以看到，父组件通过html模板上的slot属性关联具名插槽。没有slot属性的html模板默认关联匿名插槽。</p>
+<hr>
+<h2 id="作用域插槽-带数据的插槽"><a href="#作用域插槽-带数据的插槽" class="headerlink" title="作用域插槽 | 带数据的插槽"></a>作用域插槽 | 带数据的插槽</h2><p>最后，就是我们的作用域插槽。这个稍微难理解一点。官方叫它作用域插槽，实际上，对比前面两种插槽，我们可以叫它带数据的插槽。什么意思呢，就是前面两种，都是在组件的template里面写</p>
+<p>但是<strong>作用域插槽要求，在slot属性上面绑定数据</strong>。<br>子组件中通过v-bind绑定属性将子组件的内容传递过来，在父组件中通过slot-scope接受子组件的内容<br>也就是你得写成大概下面这个样子。<br>子组件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;child1&quot;&gt;</div><div class="line">          &lt;div class=&quot;child2&quot; v-for=&quot;todo in todos&quot; :key=&quot;todo.id&quot;&gt;</div><div class="line">              &lt;slot :ChildProp=&quot;todo&quot;&gt;</div><div class="line">              &lt;/slot&gt;</div><div class="line">          &lt;/div&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line"> export default &#123;</div><div class="line">    data: function()&#123;</div><div class="line">      return &#123;</div><div class="line">        todos: [</div><div class="line">            &#123; id: 1, name: &apos;wang&apos;&#125;,</div><div class="line">            &#123; id: 2, name: &apos;wang2&apos;&#125;,</div><div class="line">            &#123; id: 3, name: &apos;wang3&apos;&#125;,</div><div class="line">            &#123; id: 4, name: &apos;wang4&apos;&#125;,</div><div class="line">            &#123; id: 5, name: &apos;wang5&apos;&#125;</div><div class="line">        ]</div><div class="line">      &#125;</div><div class="line">    &#125;,</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>父组件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;parent1&quot;&gt;</div><div class="line">      &lt;todo-list&gt;</div><div class="line">        &lt;template slot-scope=&quot;&#123;ChildProp&#125;&quot;&gt;</div><div class="line">          &lt;div class=&quot;parent2&quot;&gt;</div><div class="line">            &lt;span&gt;&#123;&#123;ChildProp.name&#125;&#125;&lt;/span&gt;</div><div class="line">          &lt;/div&gt;</div><div class="line">        &lt;/template&gt;</div><div class="line">      &lt;/todo-list&gt;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">//js中import子组件并命名为TodoList</div></pre></td></tr></table></figure></p>
+<p>父组件接收数据用了解构，因为子组件中用了v-for，数据是从数组中一条一条传过来的，每条数据的结构的样子是<code>{ &quot;ChildProp&quot;: { &quot;id&quot;: 1, &quot;name&quot;: &quot;wang&quot; } }</code><br>显示结果：<br><img src="http://7xwzko.com1.z0.glb.clouddn.com/slot-scope.png" alt=""></p>
+<p><img src="http://7xwzko.com1.z0.glb.clouddn.com/slot-scope2.png" alt=""></p>
+<p>正因为作用域插槽绑定了一套数据，父组件可以拿来用。于是，情况就变成了这样：样式父组件说了算，但内容可以显示子组件插槽绑定的。</p>
+<p>我们再来对比，作用域插槽跟单个插槽和具名插槽的区别，因为单个插槽和具名插槽不绑定数据，所以父组件提供的模板一般要既包括样式又包括内容，上面的例子中，你看到的文字，“菜单1”，“菜单2”都是父组件自己提供的内容；而作用域插槽，父组件只需要提供一套样式（在确实用作用域插槽绑定的数据的前提下）。</p>
+<p>下面是从子组件传一个数组过来的例子：</p>
+<p>子组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;child&quot;&gt;</div><div class="line"></div><div class="line">    &lt;h3&gt;这里是子组件&lt;/h3&gt;</div><div class="line">    // 作用域插槽</div><div class="line">    &lt;slot  :data=&quot;data&quot;&gt;&lt;/slot&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line"> export default &#123;</div><div class="line">    data: function()&#123;</div><div class="line">      return &#123;</div><div class="line">        data: [&apos;zhangsan&apos;,&apos;lisi&apos;,&apos;wanwu&apos;,&apos;zhaoliu&apos;,&apos;tianqi&apos;,&apos;xiaoba&apos;]</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>父组件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;father&quot;&gt;</div><div class="line">    &lt;h3&gt;这里是父组件&lt;/h3&gt;</div><div class="line">    &lt;!--第一次使用：用flex展示数据--&gt;</div><div class="line">    &lt;child&gt;</div><div class="line">      &lt;template slot-scope=&quot;user&quot;&gt;</div><div class="line">        &lt;div&gt;</div><div class="line">          &lt;span v-for=&quot;item in user.data&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/span&gt;</div><div class="line">        &lt;/div&gt;</div><div class="line">      &lt;/template&gt;</div><div class="line"></div><div class="line">    &lt;/child&gt;</div><div class="line"></div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<p>父组件中接收到数据存在user中，user的数据结构是<code>{ &quot;data&quot;: [ &quot;zhangsan&quot;, &quot;lisi&quot;, &quot;wanwu&quot;, &quot;zhaoliu&quot;, &quot;tianqi&quot;, &quot;xiaoba&quot; ] }</code></p>
+<hr>
+<h2 id="访问slot"><a href="#访问slot" class="headerlink" title="访问slot"></a>访问slot</h2><p>vue2种提供了访问slot分发内容的方法$slot<br>子组件中通过<code>this.$slot.AName</code>可以访问某个具名slot，通过<code>this.$slot.default</code>包含了所有没有包含在具名slot中的节点。</p>
+<hr>
+<p>参考：<a href="https://juejin.im/post/5a69ece0f265da3e5a5777ed" target="_blank" rel="external">https://juejin.im/post/5a69ece0f265da3e5a5777ed</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue-slot/" rel="tag">#vue-slot</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/关于电影的奇思异想.html" rel="next" title="关于电影的奇思异想">
+                <i class="fa fa-chevron-left"></i> 关于电影的奇思异想
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/vue router小结.html" rel="prev" title="vue router小结">
+                vue router小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjExNC8xMjY0OQ=="></div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="王寒松" />
+          <p class="site-author-name" itemprop="name">王寒松</p>
+          <p class="site-description motion-element" itemprop="description">前端小白，JS,PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=614158750&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanghansong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情连接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wanghansong.top" title="暂无" target="_blank">暂无</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域"><span class="nav-number">2.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单个插槽-默认插槽-匿名插槽"><span class="nav-number">3.</span> <span class="nav-text">单个插槽 | 默认插槽 | 匿名插槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具名插槽"><span class="nav-number">4.</span> <span class="nav-text">具名插槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域插槽-带数据的插槽"><span class="nav-number">5.</span> <span class="nav-text">作用域插槽 | 带数据的插槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#访问slot"><span class="nav-number">6.</span> <span class="nav-text">访问slot</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王寒松</span>&nbsp; | &nbsp; &nbsp;
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="http://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user">本站访客数</i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  
+</body>
+</html>

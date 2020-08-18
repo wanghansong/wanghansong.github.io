@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>wanghansong&#39;s blog</title>
+  <subtitle>前端，后端，SDN，openflow</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://wanghansong.top/"/>
+  <updated>2020-07-25T05:06:38.151Z</updated>
+  <id>https://wanghansong.top/</id>
+  
+  <author>
+    <name>王寒松</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【vue源码解析】vue源码中一些不为人知的工具函数</title>
+    <link href="https://wanghansong.top/2019/%E3%80%90vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E3%80%91vue%E6%BA%90%E7%A0%81%E4%B8%AD%E4%B8%80%E4%BA%9B%E4%B8%8D%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0.html"/>
+    <id>https://wanghansong.top/2019/【vue源码解析】vue源码中一些不为人知的工具函数.html</id>
+    <published>2019-09-26T08:10:41.000Z</published>
+    <updated>2020-07-25T05:06:38.151Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>记录和解读vue源码中一些常用的工具函数，在平常工作中或许可以用到这些巧妙的方法</p>
+<a id="more"></a>
+<h3 id="isDef-判断变量是否已定义"><a href="#isDef-判断变量是否已定义" class="headerlink" title="isDef 判断变量是否已定义"></a><code>isDef</code> 判断变量是否已定义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">export function isDef (v: any): boolean %checks &#123;</div><div class="line">  return v !== undefined &amp;&amp; v !== null</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="isPrimitive-判断变量是否是基本类型"><a href="#isPrimitive-判断变量是否是基本类型" class="headerlink" title="isPrimitive 判断变量是否是基本类型"></a><code>isPrimitive</code> 判断变量是否是基本类型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Check if value is primitive.</div><div class="line"> */</div><div class="line">export function isPrimitive (value: any): boolean %checks &#123;</div><div class="line">  return (</div><div class="line">    typeof value === &apos;string&apos; ||</div><div class="line">    typeof value === &apos;number&apos; ||</div><div class="line">    // $flow-disable-line</div><div class="line">    typeof value === &apos;symbol&apos; ||</div><div class="line">    typeof value === &apos;boolean&apos;</div><div class="line">  )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="isPromise-判断是否是priomise"><a href="#isPromise-判断是否是priomise" class="headerlink" title="isPromise 判断是否是priomise"></a><code>isPromise</code> 判断是否是priomise</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">export function isPromise (val: any): boolean &#123;</div><div class="line">  return (</div><div class="line">    isDef(val) &amp;&amp;</div><div class="line">    typeof val.then === &apos;function&apos; &amp;&amp;</div><div class="line">    typeof val.catch === &apos;function&apos;</div><div class="line">  )</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="isObject"><a href="#isObject" class="headerlink" title="isObject"></a><code>isObject</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Quick object check - this is primarily used to tell</div><div class="line"> * Objects from primitive values when we know the value</div><div class="line"> * is a JSON-compliant type.</div><div class="line"> */</div><div class="line">export function isObject (obj: mixed): boolean %checks &#123;</div><div class="line">  return obj !== null &amp;&amp; typeof obj === &apos;object&apos;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="hasOwn-判断对象自身是否有某个属性"><a href="#hasOwn-判断对象自身是否有某个属性" class="headerlink" title="hasOwn 判断对象自身是否有某个属性"></a><code>hasOwn</code> 判断对象自身是否有某个属性</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Check whether an object has the property.</div><div class="line"> */</div><div class="line">const hasOwnProperty = Object.prototype.hasOwnProperty</div><div class="line">export function hasOwn (obj: Object | Array&lt;*&gt;, key: string): boolean &#123;</div><div class="line">  return hasOwnProperty.call(obj, key)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="cached"><a href="#cached" class="headerlink" title="cached ?"></a><code>cached</code> ?</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Create a cached version of a pure function.</div><div class="line"> */</div><div class="line">export function cached&lt;F: Function&gt; (fn: F): F &#123;</div><div class="line">  const cache = Object.create(null)</div><div class="line">  return (function cachedFn (str: string) &#123;</div><div class="line">    const hit = cache[str]</div><div class="line">    return hit || (cache[str] = fn(str))</div><div class="line">  &#125;: any)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="camelize-横线风格转驼峰风格"><a href="#camelize-横线风格转驼峰风格" class="headerlink" title="camelize 横线风格转驼峰风格"></a><code>camelize</code> 横线风格转驼峰风格</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Camelize a hyphen-delimited string.</div><div class="line"> * 把test-case形式转成testCase驼峰形式</div><div class="line"> */</div><div class="line">const camelizeRE = /-(\w)/g</div><div class="line">export const camelize = cached((str: string): string =&gt; &#123;</div><div class="line">  return str.replace(camelizeRE, (_, c) =&gt; c ? c.toUpperCase() : &apos;&apos;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;记录和解读vue源码中一些常用的工具函数，在平常工作中或许可以用到这些巧妙的方法&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue源码解析系列" scheme="https://wanghansong.top/categories/vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97/"/>
+    
+    
+      <category term="vue工具函数" scheme="https://wanghansong.top/tags/vue%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【vue源码解析】createElement</title>
+    <link href="https://wanghansong.top/2019/%E3%80%90vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E3%80%91createElement.html"/>
+    <id>https://wanghansong.top/2019/【vue源码解析】createElement.html</id>
+    <published>2019-09-01T02:10:41.000Z</published>
+    <updated>2020-07-25T05:06:38.151Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>vue render 函数 跟 template 一样都是创建 html 模板的。render 函数即渲染函数，它是个函数，它的参数也是个函数（即 createElement），下面我们重点来说 createElement 。</p>
+<a id="more"></a>
+<h2 id="表层：createElement用法"><a href="#表层：createElement用法" class="headerlink" title="表层：createElement用法"></a>表层：createElement用法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement</span>) </span>&#123; <span class="comment">// 有时候createElement用h作为别名</span></div><div class="line">   <span class="keyword">return</span> createElement(</div><div class="line">     <span class="string">'h'</span> + <span class="keyword">this</span>.level,   <span class="comment">// 标签名称</span></div><div class="line">     <span class="keyword">this</span>.$slots.default <span class="comment">// 子节点数组</span></div><div class="line">   )</div><div class="line"> &#125;,</div></pre></td></tr></table></figure>
+<h3 id="createElement参数"><a href="#createElement参数" class="headerlink" title="createElement参数"></a>createElement参数</h3><p>接下来你需要熟悉的是如何在 createElement 函数中使用模板中的那些功能。这里是 createElement 接受的参数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// @returns &#123;VNode&#125;</span></div><div class="line">createElement(</div><div class="line">  <span class="comment">/**</span></div><div class="line">  	第一个参数：</div><div class="line">  	类型：&#123;String | Object | Function&#125;</div><div class="line">    说明：【必填项】一个 HTML 标签名、组件选项对象，或者resolve 了上述任何一种的一个async函数。</div><div class="line">  **/</div><div class="line">  <span class="string">'div'</span>,</div><div class="line">-------------------------------</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">  	第二个参数：</div><div class="line">  	类型：&#123;Object&#125;</div><div class="line">  	说明：【可选】模板中的数据</div><div class="line">  **/</div><div class="line">  &#123;</div><div class="line">  	<span class="comment">// 要创建标签的class，与 `v-bind:class` 的 API 相同，接受一个字符串、对象或字符串和对象组成的数组</span></div><div class="line">    <span class="string">'class'</span>: &#123;</div><div class="line">        <span class="attr">foo</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">bar</span>: <span class="literal">false</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 标签的内联样式，与 `v-bind:style` 的 API 相同，接受一个字符串、对象，或对象组成的数组</span></div><div class="line">      style: &#123;</div><div class="line">        <span class="attr">color</span>: <span class="string">'red'</span>,</div><div class="line">        <span class="attr">fontSize</span>: <span class="string">'14px'</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// HTML的attrs</span></div><div class="line">      attrs: &#123;</div><div class="line">        <span class="attr">id</span>: <span class="string">'foo'</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 组件的prop</span></div><div class="line">      props: &#123;</div><div class="line">        <span class="attr">myProp</span>: <span class="string">'bar'</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// DOM 属性</span></div><div class="line">      domProps: &#123;</div><div class="line">        <span class="attr">innerHTML</span>: <span class="string">'baz'</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 组件上的事件监听，不再支持如 `v-on:keyup.enter` 这样的修饰器，需要在处理函数中手动检查 keyCode</span></div><div class="line">      on: &#123;</div><div class="line">        <span class="attr">click</span>: <span class="keyword">this</span>.clickHandler</div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 仅用于组件，用于监听原生事件，而不是组件内部使用`vm.$emit` 触发的事件</span></div><div class="line">      nativeOn: &#123;</div><div class="line">        <span class="attr">click</span>: <span class="keyword">this</span>.nativeClickHandler</div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 自定义指令，vue directives可以参考https://www.jianshu.com/p/6a4811eb0efe</span></div><div class="line">      directives: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">name</span>: <span class="string">'my-custom-directive'</span>,</div><div class="line">          <span class="attr">value</span>: <span class="string">'2'</span>,</div><div class="line">          <span class="attr">expression</span>: <span class="string">'1 + 1'</span>,</div><div class="line">          <span class="attr">arg</span>: <span class="string">'foo'</span>,</div><div class="line">          <span class="attr">modifiers</span>: &#123;</div><div class="line">            <span class="attr">bar</span>: <span class="literal">true</span></div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      </div><div class="line">      <span class="comment">// 作用域插槽的格式为 &#123; name: props =&gt; VNode | Array&lt;VNode&gt; &#125; 相当于组件上使用slot-scoped</span></div><div class="line">      scopedSlots: &#123;</div><div class="line">        <span class="attr">default</span>: <span class="function"><span class="params">props</span> =&gt;</span> createElement(<span class="string">'span'</span>, props.text)</div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">       <span class="comment">// 如果创建的组件是个slot，需为插槽指定名称，相当于组件上 slot="name-of-slot"</span></div><div class="line">      slot: <span class="string">'name-of-slot'</span>,</div><div class="line">        </div><div class="line">      <span class="comment">// </span></div><div class="line">      key: <span class="string">'myKey'</span>,</div><div class="line">      <span class="attr">ref</span>: <span class="string">'myRef'</span>,</div><div class="line">      <span class="comment">// 如果你在渲染函数中给多个元素都应用了相同的 ref 名，那么 `$refs.myRef` 会变成一个数组。</span></div><div class="line">      refInFor: <span class="literal">true</span></div><div class="line">  &#125;,</div><div class="line">-------------------------------</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">  	第三个参数：</div><div class="line">  	类型：&#123;String | Array&#125;</div><div class="line">  	说明：【可选】子级虚拟节点 (VNodes)，由 `createElement()` 构建而成，也可以使用字符串来生成“文本虚拟节点”。</div><div class="line">  **/</div><div class="line">  [</div><div class="line">    <span class="string">'先写一些文字'</span>,</div><div class="line">    createElement(<span class="string">'h1'</span>, <span class="string">'一则头条'</span>),</div><div class="line">    createElement(MyComponent, &#123;</div><div class="line">      <span class="attr">props</span>: &#123;</div><div class="line">        <span class="attr">someProp</span>: <span class="string">'foobar'</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  ]</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<ul>
+<li>第一个参数：【必填】{String | Object | Function}  要渲染的标签名称</li>
+<li>第二个参数：【可选】{Object} 模板中的数据</li>
+<li>第三个参数：【可选】子级虚拟节点 (VNodes)，由 <code>createElement()</code> 构建而成，也可以使用字符串来生成“文本虚拟节点”</li>
+</ul>
+<hr>
+<h2 id="createElement源码解析"><a href="#createElement源码解析" class="headerlink" title="createElement源码解析"></a>createElement源码解析</h2><ul>
+<li><p>首先对<code>createElement</code>函数对参数做一层处理，对参数个数不一致情况做处理，然后调用<code>_createElement</code>函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 返回vnode或者vnode组件的数组数据</div><div class="line"> */</div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createElement</span> (<span class="params"></span></span></div><div class="line">  context: Component, <span class="regexp">//</span> 上下文this</div><div class="line">  tag: any, <span class="regexp">//</span> 标签</div><div class="line">  data: any, <span class="regexp">//</span> vnode数据</div><div class="line">  children: any, <span class="regexp">//</span> 子节点</div><div class="line">  normalizationType: any,</div><div class="line">  alwaysNormalize: boolean</div><div class="line">): <span class="title">VNode</span> | <span class="title">Array</span>&lt;<span class="title">VNode</span>&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(data) || isPrimitive(data)) &#123; <span class="comment">// 当vnode数据是数组或者基本类型的时候,对参数个数不一致的处理</span></div><div class="line">    normalizationType = children</div><div class="line">    children = data</div><div class="line">    data = <span class="literal">undefined</span></div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (isTrue(alwaysNormalize)) &#123;</div><div class="line">    normalizationType = ALWAYS_NORMALIZE</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> _createElement(context, tag, data, children, normalizationType) <span class="comment">// 真实调用</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>_createElement</code>函数：</p>
+<ul>
+<li>中先对节点data做判断，如果data是响应式的则报警告并生成一个vnode的注释节点</li>
+<li>对children做规范化处理:分children是个二维数组和children多层数组嵌套两种情况，将他们拍平成一个一维数组</li>
+<li>创建vnode节点：html标签、组件…</li>
+</ul>
+</li>
+</ul>
+<p>_createElement函数全部<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">_createElement</span> (<span class="params"></span></span></div><div class="line">  context: Component,</div><div class="line">  tag?: string | Class&lt;Component&gt; | Function | Object, <span class="regexp">//</span> html标签</div><div class="line">  data?: VNodeData, <span class="regexp">//</span> vnode数据</div><div class="line">  children?: any, <span class="regexp">//</span> 子节点</div><div class="line">  normalizationType?: number <span class="regexp">//</span> 子节点规范类型 <span class="number">1</span> <span class="number">2</span></div><div class="line">): <span class="title">VNode</span> | <span class="title">Array</span>&lt;<span class="title">VNode</span>&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (isDef(data) &amp;&amp; isDef((data: any).__ob__)) &#123; <span class="comment">// 如果data是响应式的报警告</span></div><div class="line">    process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; warn(</div><div class="line">      <span class="string">`Avoid using observed data object as vnode data: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(data)&#125;</span>\n`</span> +</div><div class="line">      <span class="string">'Always create fresh vnode data objects in each render!'</span>,</div><div class="line">      context</div><div class="line">    )</div><div class="line">    <span class="keyword">return</span> createEmptyVNode() <span class="comment">// 生成一个注释节点</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// object syntax in v-bind</span></div><div class="line">  <span class="keyword">if</span> (isDef(data) &amp;&amp; isDef(data.is)) &#123;</div><div class="line">    tag = data.is <span class="comment">// component is</span></div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (!tag) &#123; <span class="comment">// tag</span></div><div class="line">    <span class="comment">// in case of component :is set to falsy value</span></div><div class="line">    <span class="keyword">return</span> createEmptyVNode()</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// warn against non-primitive key</span></div><div class="line">  <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp;</div><div class="line">    isDef(data) &amp;&amp; isDef(data.key) &amp;&amp; !isPrimitive(data.key)</div><div class="line">  ) &#123;</div><div class="line">    <span class="keyword">if</span> (!__WEEX__ || !(<span class="string">'@binding'</span> <span class="keyword">in</span> data.key)) &#123;</div><div class="line">      warn(</div><div class="line">        <span class="string">'Avoid using non-primitive value as key, '</span> +</div><div class="line">        <span class="string">'use string/number value instead.'</span>,</div><div class="line">        context</div><div class="line">      )</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// support single function children as default scoped slot</span></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(children) &amp;&amp;</div><div class="line">    <span class="keyword">typeof</span> children[<span class="number">0</span>] === <span class="string">'function'</span></div><div class="line">  ) &#123;</div><div class="line">    data = data || &#123;&#125;</div><div class="line">    data.scopedSlots = &#123; <span class="attr">default</span>: children[<span class="number">0</span>] &#125;</div><div class="line">    children.length = <span class="number">0</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 对children做规范化</span></div><div class="line">  <span class="keyword">if</span> (normalizationType === ALWAYS_NORMALIZE) &#123; <span class="comment">// children下有多层嵌套，循环调用拍平成一个一维数组</span></div><div class="line">    children = normalizeChildren(children)</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (normalizationType === SIMPLE_NORMALIZE) &#123; <span class="comment">// 如果children下只有一层数组，将二维数组拍平成一个一维数组</span></div><div class="line">    children = simpleNormalizeChildren(children)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 创建vnode</span></div><div class="line">  <span class="keyword">let</span> vnode, ns</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> tag === <span class="string">'string'</span>) &#123;</div><div class="line">    <span class="keyword">let</span> Ctor</div><div class="line">    ns = (context.$vnode &amp;&amp; context.$vnode.ns) || config.getTagNamespace(tag)</div><div class="line">    <span class="keyword">if</span> (config.isReservedTag(tag)) &#123; <span class="comment">// 是否是html原生的一些保留标签</span></div><div class="line">      <span class="comment">// platform built-in elements</span></div><div class="line">      <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; isDef(data) &amp;&amp; isDef(data.nativeOn)) &#123;</div><div class="line">        warn(</div><div class="line">          <span class="string">`The .native modifier for v-on is only valid on components but it was used on &lt;<span class="subst">$&#123;tag&#125;</span>&gt;.`</span>,</div><div class="line">          context</div><div class="line">        )</div><div class="line">      &#125;</div><div class="line">      vnode = <span class="keyword">new</span> VNode(</div><div class="line">        config.parsePlatformTagName(tag), data, children,</div><div class="line">        <span class="literal">undefined</span>, <span class="literal">undefined</span>, context</div><div class="line">      )</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((!data || !data.pre) &amp;&amp; isDef(Ctor = resolveAsset(context.$options, <span class="string">'components'</span>, tag))) &#123;</div><div class="line">      <span class="comment">// component</span></div><div class="line">      vnode = createComponent(Ctor, data, context, children, tag)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="comment">// unknown or unlisted namespaced elements</span></div><div class="line">      <span class="comment">// check at runtime because it may get assigned a namespace when its</span></div><div class="line">      <span class="comment">// parent normalizes children</span></div><div class="line">      vnode = <span class="keyword">new</span> VNode(</div><div class="line">        tag, data, children,</div><div class="line">        <span class="literal">undefined</span>, <span class="literal">undefined</span>, context</div><div class="line">      )</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// direct component options / constructor</span></div><div class="line">    vnode = createComponent(tag, data, context, children)</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(vnode)) &#123;</div><div class="line">    <span class="keyword">return</span> vnode</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isDef(vnode)) &#123;</div><div class="line">    <span class="keyword">if</span> (isDef(ns)) applyNS(vnode, ns)</div><div class="line">    <span class="keyword">if</span> (isDef(data)) registerDeepBindings(data)</div><div class="line">    <span class="keyword">return</span> vnode</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">return</span> createEmptyVNode()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>children规范化：</p>
+<ul>
+<li><p>simpleNormalizeChildren：场景是render函数是编译生成的，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">simpleNormalizeChildren</span> (<span class="params">children: any</span>) </span>&#123;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; children.length; i++) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(children[i])) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.concat.apply([], children)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> children</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>normalizeChildren：场景是render 函数是用户手写的，当 children 只有一个节点的时候，Vue 从接口层面允许用户把 children 写成基础类型用来创建单个简单的文本节点，这种情况下回调用 createTextVNode 创建一个文本节点的 VNode；另一个场景就是当编译 slot、 v-for 的时候回产生嵌套数组的情况，回调用 normalizeArrayChildren 方法。<br>normalizeArrayChildren 接收 2 个参数，children 表示要规范的子节点，nestedIndex 表示嵌套的索引，因为单个 child 可能是一个数组类型。normalizeArrayCHildren 主要的逻辑就是遍历 children，获得单个节点 c，然后对 c 的类型判断:<br>  如果是一个数组类型，则递归调用 normalizeArrayChildren；<br>  如果是基础类型，则通过 createTextVNode 方法转换成 VNode 类型；否则就已经是 VNode 类型了;<br>  如果 children 是一个列表并且列表还存在嵌套的情况，则根据 nestedIndex 去更新它的 key。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 场景是render 函数是用户手写的， 当 children 只有一个节点的时候， Vue 从接口层面允许用户把 children 写成基础类型用来创建单个简单的文本节点，</div><div class="line"> *  这种情况下回调用 createTextVNode 创建一个文本节点的 VNode； 另一个场景就是当编译 slot、 v-for 的时候回产生嵌套数组的情况，</div><div class="line"> * 回调用 normalizeArrayChildren 方法。</div><div class="line"> * @param &#123;*&#125; children 要规范的子节点</div><div class="line"> * @param &#123;string&#125; [nestedIndex] 嵌套的索引</div><div class="line"> * @returns &#123;Array&lt;VNode&gt;&#125; 返回拍平的一维数组</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">normalizeArrayChildren</span> (<span class="params">children: any, nestedIndex?: string</span>): <span class="title">Array</span>&lt;<span class="title">VNode</span>&gt; </span>&#123;</div><div class="line">  <span class="keyword">const</span> res = []</div><div class="line">  <span class="keyword">let</span> i, c, lastIndex, last</div><div class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; children.length; i++) &#123;</div><div class="line">    c = children[i] <span class="comment">// c是单个节点</span></div><div class="line">    <span class="keyword">if</span> (isUndef(c) || <span class="keyword">typeof</span> c === <span class="string">'boolean'</span>) <span class="keyword">continue</span></div><div class="line">    lastIndex = res.length - <span class="number">1</span></div><div class="line">    last = res[lastIndex]</div><div class="line">    <span class="comment">//  nested</span></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(c)) &#123; <span class="comment">// 如果是一个数组类型，则递归调用 normalizeArrayChildren</span></div><div class="line">      <span class="keyword">if</span> (c.length &gt; <span class="number">0</span>) &#123;</div><div class="line">        c = normalizeArrayChildren(c, <span class="string">`<span class="subst">$&#123;nestedIndex || <span class="string">''</span>&#125;</span>_<span class="subst">$&#123;i&#125;</span>`</span>)</div><div class="line">        <span class="comment">// merge adjacent text nodes</span></div><div class="line">        <span class="keyword">if</span> (isTextNode(c[<span class="number">0</span>]) &amp;&amp; isTextNode(last)) &#123;</div><div class="line">          res[lastIndex] = createTextVNode(last.text + (c[<span class="number">0</span>]: any).text)</div><div class="line">          c.shift()</div><div class="line">        &#125;</div><div class="line">        res.push.apply(res, c)</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isPrimitive(c)) &#123; <span class="comment">// 如果是基础类型，则通过 createTextVNode 方法转换成 VNode 类型；否则就已经是 VNode 类型了</span></div><div class="line">      <span class="keyword">if</span> (isTextNode(last)) &#123;</div><div class="line">        <span class="comment">// merge adjacent text nodes</span></div><div class="line">        <span class="comment">// this is necessary for SSR hydration because text nodes are</span></div><div class="line">        <span class="comment">// essentially merged when rendered to HTML strings</span></div><div class="line">        res[lastIndex] = createTextVNode(last.text + c)</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (c !== <span class="string">''</span>) &#123;</div><div class="line">        <span class="comment">// convert primitive to vnode</span></div><div class="line">        res.push(createTextVNode(c))</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// 其他类型</span></div><div class="line">      <span class="keyword">if</span> (isTextNode(c) &amp;&amp; isTextNode(last)) &#123; <span class="comment">// 如果当前节点是文本节点，那就和上一个文本节点合并（优化）</span></div><div class="line">        <span class="comment">// merge adjacent text nodes</span></div><div class="line">        res[lastIndex] = createTextVNode(last.text + c.text)</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">/** 当前节点c是一个嵌套数组（比如v-for产生的） 比如：</span></div><div class="line">            render: function (createElement) &#123;</div><div class="line">              if (this.items.length) &#123;</div><div class="line">                return createElement('ul', this.items.map(function (item) &#123;</div><div class="line">                  return createElement('li', item.name)</div><div class="line">                &#125;))</div><div class="line">              &#125; else &#123;</div><div class="line">                return createElement('p', 'No items found.')</div><div class="line">              &#125;</div><div class="line">            &#125;</div><div class="line">            根据 nestedIndex 去更新它的 key</div><div class="line">        */</div><div class="line">        <span class="comment">// default key for nested array children (likely generated by v-for)</span></div><div class="line">        <span class="keyword">if</span> (isTrue(children._isVList) &amp;&amp;</div><div class="line">          isDef(c.tag) &amp;&amp;</div><div class="line">          isUndef(c.key) &amp;&amp;</div><div class="line">          isDef(nestedIndex)) &#123;</div><div class="line">          c.key = <span class="string">`__vlist<span class="subst">$&#123;nestedIndex&#125;</span>_<span class="subst">$&#123;i&#125;</span>__`</span></div><div class="line">        &#125;</div><div class="line">        res.push(c)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> res</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面也大致了解了 createElement 创建 VNode 的过程。每个 VNode 有 children，children 每个元素也是一个 VNode，这样就形成了一个 VNode Tree，它很好的描述了 DOM Tree。下一个步骤就是要把这个 VNode 渲染成一个真实的 DOM 并且渲染出来，这个过程是通过 vm._update 完成的。</p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://blog.csdn.net/sansan_7957/article/details/83014838" target="_blank" rel="external">https://blog.csdn.net/sansan_7957/article/details/83014838</a><br><a href="https://cn.vuejs.org/v2/guide/render-function.html" target="_blank" rel="external">https://cn.vuejs.org/v2/guide/render-function.html</a><br><a href="https://www.jianshu.com/p/709fc34e27b9" target="_blank" rel="external">https://www.jianshu.com/p/709fc34e27b9</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;vue render 函数 跟 template 一样都是创建 html 模板的。render 函数即渲染函数，它是个函数，它的参数也是个函数（即 createElement），下面我们重点来说 createElement 。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue源码解析系列" scheme="https://wanghansong.top/categories/vue%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E7%B3%BB%E5%88%97/"/>
+    
+    
+      <category term="vue数据驱动" scheme="https://wanghansong.top/tags/vue%E6%95%B0%E6%8D%AE%E9%A9%B1%E5%8A%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue中css的scoped和deep解析</title>
+    <link href="https://wanghansong.top/2019/vue%E4%B8%ADscoped%E5%92%8Cdeep%E8%A7%A3%E6%9E%90.html"/>
+    <id>https://wanghansong.top/2019/vue中scoped和deep解析.html</id>
+    <published>2019-04-26T09:17:16.000Z</published>
+    <updated>2020-07-25T05:06:38.148Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<a id="more"></a>
+<p><a href="https://vue-loader.vuejs.org/zh/guide/scoped-css.html#%E6%B7%B1%E5%BA%A6%E4%BD%9C%E7%94%A8%E9%80%89%E6%8B%A9%E5%99%A8" target="_blank" rel="external">vue loader官网</a></p>
+<h4 id="scoped的作用"><a href="#scoped的作用" class="headerlink" title="scoped的作用"></a>scoped的作用</h4><ul>
+<li>官方解释：当 <code>&lt;style&gt;</code> 标签有 <code>scoped</code> 属性时，它的 CSS 只作用于当前组件中的元素，即它不影响外面，外面的也不影响里面，不过外面的样式可以通过继承影响里面的样式。</li>
+</ul>
+<ul>
+<li>深度解析：scoped的作用是编译后给当前组件每个dom加一个独有的hash值 (data-v-xxxx)，假定为data-v-father，并且它的子组件的根元素也会加上这个hash值data-v-father，如果子组件style也是用来scoped则子组件每个dom元素也都有一个自己的hash值假定为data-v-child，所以子组件的根元素是有两个hash值的data-v-father和data-v-child.</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// 父组件</div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">width</span>=<span class="string">"25%"</span> <span class="attr">src</span>=<span class="string">"./assets/logo.png"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">HelloWorld</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">scoped</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">------------------------------------------------------------------------</div><div class="line">// 子组件</div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child-wrap"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span>sdfjhasfhjasdfj<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>4234<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">scoped</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>编译后：(父组件hash是data-v-7ba5bd90，子组件hash是data-v-763db97b)</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">data-v-7ba5bd90</span> <span class="attr">id</span>=<span class="string">"app"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">img</span> <span class="attr">data-v-7ba5bd90</span> <span class="attr">width</span>=<span class="string">"25%"</span> <span class="attr">src</span>=<span class="string">""</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">data-v-763db97b</span> <span class="attr">data-v-7ba5bd90</span> <span class="attr">class</span>=<span class="string">"child-wrap"</span>&gt;</span></div><div class="line">    	<span class="tag">&lt;<span class="name">div</span> <span class="attr">data-v-763db97b</span> <span class="attr">class</span>=<span class="string">"child"</span>&gt;</span>sdfjhasfhjasdfj<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    	<span class="tag">&lt;<span class="name">span</span> <span class="attr">data-v-763db97b</span>&gt;</span>4234<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>scoped的效果会使得编译后的style中每个类名后面都会加上当前组件的hash值，如：<code>.classA[data-v-father]</code>，注意中间没有空格</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;style lang="less" scoped&gt;</div><div class="line">#app &#123;</div><div class="line">  .child2 &#123;</div><div class="line">    color: blue;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.child-wrap &#123;</div><div class="line">  height: 300px;</div><div class="line">&#125;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+<p>编译后(当前组件hash值为data-v-7ba5bd90)：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;style&gt;</div><div class="line">#app .child2[data-v-7ba5bd90] &#123;</div><div class="line">  color: blue;</div><div class="line">&#125;</div><div class="line">.child-wrap[data-v-7ba5bd90] &#123;</div><div class="line">  height: 300px;</div><div class="line">&#125;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+<h4 id="deep的作用"><a href="#deep的作用" class="headerlink" title="deep的作用"></a>deep的作用</h4><ul>
+<li><p>官方解释：如果你希望 <code>scoped</code> 样式中的一个选择器能够作用得“更深”，例如影响子组件，你可以使用 <code>&gt;&gt;&gt;</code> 操作符，有些像 Sass 之类的预处理器无法正确解析 <code>&gt;&gt;&gt;</code>。这种情况下你可以使用 <code>/deep/</code> 或 <code>::v-deep</code> 操作符取而代之——两者都是 <code>&gt;&gt;&gt;</code> 的别名，同样可以正常工作</p>
+</li>
+<li><p>深度解析：上面讲了scoped的作用是使的每个组件内的class编译后都会在后面加上一个hash值，这样在父组件里即使写了子组件某个class，它编译后跟子组件的class也是不一样的。因此，如果需要在父组件里覆盖子组件的样式，除了使用全局class，还可以用deep</p>
+<p>deep的作用是在当前class前加上一个当前组件的hash值，并且去掉了scoped在后面加hash值的效果，如<code>[data-v-father] .classA</code>，注意中间是有空格的，由于子组件的根元素上是打了父组件hash值的，所以<code>[data-v-father] .classA</code>是可以定位到子组件上<code>.classA</code>元素的。</p>
+</li>
+<li><p>注意：deep保险的使用方法是前面要加上上层选择器的，如<code>.wrap /deep/ .classA{}</code>，如果deep前面不加上层选择器</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/deep/ .classA &#123;&#125;</div></pre></td></tr></table></figure>
+<p>不同的loader版本会编译成不同的情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">有的deep是生效的，编译结果是</div><div class="line">[data-v-7ba5bd90] .classA&#123;&#125; // 中间有空格</div><div class="line"></div><div class="line">有的编译出来中间空格没了，deep的效果就不生效</div><div class="line">[data-v-7ba5bd90].classA&#123;&#125; // 中间没有空格</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;style scoped&gt;</div><div class="line">#app &#123;</div><div class="line">  /deep/ .child &#123;</div><div class="line">    height: 200px;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+<p>将会编译成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;style&gt;</div><div class="line">#app[data-v-7ba5bd90] .child &#123;</div><div class="line">  height: 200px;</div><div class="line">&#125;</div><div class="line">&lt;/style&gt;</div></pre></td></tr></table></figure>
+<p>#### </p>
+<p>演示代码详见：<a href="https://codesandbox.io/s/mo184r48q9" target="_blank" rel="external">https://codesandbox.io/s/mo184r48q9</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="vue css loader" scheme="https://wanghansong.top/tags/vue-css-loader/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>git删除commit历史记录</title>
+    <link href="https://wanghansong.top/2019/git%E5%88%A0%E9%99%A4commit%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95.html"/>
+    <id>https://wanghansong.top/2019/git删除commit历史记录.html</id>
+    <published>2019-04-22T10:17:16.000Z</published>
+    <updated>2020-07-25T05:06:38.146Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>有时候你不小心将一些私人信息或者公司相关信息不小心上传到git上，虽然你重新提交，但是历史版本还是可以在git上看到，这时候就需要删除git上commit历史记录</p>
+<a id="more"></a>
+<h4 id="方法一："><a href="#方法一：" class="headerlink" title="方法一："></a>方法一：</h4><p>亲测</p>
+<ul>
+<li>思路是新建一个分支，把原来master分支上的东西拷过来，接着删除master分支，然后重命名成master，提交</li>
+<li>这个方法比较狠，master上所有的历史提交都会没了</li>
+</ul>
+<p>如何删除这些历史记录，形成一个全新的仓库，并且保持代码不变呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">1.Checkout</div><div class="line">   git checkout --orphan latest_branch</div><div class="line"></div><div class="line"></div><div class="line">2. Add all the files</div><div class="line">   git add -A</div><div class="line"></div><div class="line"></div><div class="line">3. Commit the changes</div><div class="line">   git commit -am &quot;commit message&quot;</div><div class="line"></div><div class="line"></div><div class="line">4. Delete the branch</div><div class="line">   git branch -D master</div><div class="line"></div><div class="line"></div><div class="line">5.Rename the current branch to master</div><div class="line">   git branch -m master</div><div class="line"></div><div class="line"></div><div class="line">6.Finally, force update your repository</div><div class="line">   git push -f origin master</div></pre></td></tr></table></figure>
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>使用 <a href="https://rtyley.github.io/bfg-repo-cleaner/" target="_blank" rel="external">BFG Repo-Cleaner</a> 这个工具，几分钟内就删除干净了，.git 目录大小由原来的 2.9G 左右缩减到 70M，删除过去提交的所有 tar.gz,zip,jar,war 等，只留下源码，总算能 push 到 github 了。</p>
+<p>具体执行流程为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">bfg --delete-files *.tar.gz # 后面的文件名匹配可换成自己要删除的文件名</div><div class="line">git reflog expire --expire=now --all</div><div class="line">git gc --prune=now --aggressive</div><div class="line">git push --all --force</div><div class="line">git push --all --tags --force</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;有时候你不小心将一些私人信息或者公司相关信息不小心上传到git上，虽然你重新提交，但是历史版本还是可以在git上看到，这时候就需要删除git上commit历史记录&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="git" scheme="https://wanghansong.top/categories/git/"/>
+    
+    
+      <category term="git删除历史记录" scheme="https://wanghansong.top/tags/git%E5%88%A0%E9%99%A4%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>开发模式：页面与接口解耦</title>
+    <link href="https://wanghansong.top/2019/%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F%EF%BC%9A%E9%A1%B5%E9%9D%A2%E4%B8%8E%E6%8E%A5%E5%8F%A3%E8%A7%A3%E8%80%A6.html"/>
+    <id>https://wanghansong.top/2019/开发模式：页面与接口解耦.html</id>
+    <published>2019-04-22T09:17:16.000Z</published>
+    <updated>2020-07-25T05:06:38.153Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<a id="more"></a>
+<p>很多时候接口字段格式和页面所维护的字段格式并不是一样的，有些字段并不能直接绑定到element的组件上，或者element的组件返回的值需要经过处理才能得到接口需要的</p>
+<p>下面讲下怎么设计model可扩展性更好</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">接口字段：apiDataModel</div><div class="line">页面维护的字段：localDataModel</div><div class="line">各个组件内部维护的字段：componentLocalDataModel</div><div class="line">url中存储的字段：urlParamDataModel</div></pre></td></tr></table></figure>
+<h5 id="现在要实现的功能是："><a href="#现在要实现的功能是：" class="headerlink" title="现在要实现的功能是："></a>现在要实现的功能是：</h5><p>正常流程：页面localDataModel改变了 –&gt; url需要记录请求参数，实现url分享功能 –&gt; 发起接口请求</p>
+<p>从分享url进入页面：从url读取请求参数 –&gt; 初始化localDataModel –&gt; 走正常流程</p>
+<h5 id="不推荐的组织模式"><a href="#不推荐的组织模式" class="headerlink" title="不推荐的组织模式"></a>不推荐的组织模式</h5><p>我以前习惯页面维护的localDataModel和接口的字段格式保持一致，这样在接口结构比较简单或者接口字段设计的比较好不需要做另外计算的时候是很快捷的一种方式，然而，一旦接口的参数格式和页面合不起来，这样的一种模式就会变得很臃肿，特别是后期有改动的时候就跟打补丁似的，东补一下西补一下，耦合性非常大，对接口的依赖性很严重，如果接口参数有变动可能逻辑调整很大。</p>
+<p>如果apiDataModel并不能直接跟页面合起来（就是字段不能直接绑定到组件的v-model，比如组件v-model要求的是个对象但接口要求的是个数组），这种情况下localModel用apiDataModel的格式，就需要在各个组件内部再维护各自跟页面相合的componentLocalModel，localModel需要初始化componentLocalDataModel，且componentLocalDataModel变化了需要传出来改变localDataModel，这样很容易成死循环。</p>
+<h5 id="推荐的组织模式"><a href="#推荐的组织模式" class="headerlink" title="推荐的组织模式"></a>推荐的组织模式</h5><ul>
+<li><p>在model.js中维护一个apiDataModel，apiDataModel字段格式与接口要求的格式一致。</p>
+</li>
+<li><p>然后在vue文件中维护一个localDataModel，localDataModel字段格式最好是可以直接绑定页面组件的v-model，这样组件变化了不用进行中间转换。</p>
+</li>
+<li>在用户点击了提交操作的时候，先将localDataModel的值push进URL，即赋值给urlParamDataModel，然后再在model.js中将localDataModel转换成apiDataModel，最后发请求。</li>
+<li>在页面初始化的时候，从url中获取参数，即用urlParamDataModel去初始化localDataModel。</li>
+<li>如果系统要先用接口获取来的数据初始化页面而不需要从url中读取数据，那么先从接口拉取数据存到apiModel，然后在model.js中将apiModel转换成localDataModel的格式返给localDataModel。</li>
+</ul>
+<p>总而言之，和接口相关的东西都放在model.js中处理，与页面渲染相关的放在vue文件里，model.js中作为中间层负责接口和渲染层的转换，这样当接口后期有变动的时候只需要改model.js中的东西，vue文件就不需要什么改动。vue文件放跟接口耦合性不大的东西。</p>
+<p>当然，localDataModel和apiDataModel之间是越接近越好，比如localDataModel设计成需要从好几个地方获取数据才能拼合成接口数据apiDataModel，这样工作量反而增大了，而且数据之间的同步也是个问题。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="开发模式" scheme="https://wanghansong.top/categories/%E5%BC%80%E5%8F%91%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="接口与页面解耦" scheme="https://wanghansong.top/tags/%E6%8E%A5%E5%8F%A3%E4%B8%8E%E9%A1%B5%E9%9D%A2%E8%A7%A3%E8%80%A6/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>element的switch样式不生效问题</title>
+    <link href="https://wanghansong.top/2019/element%E7%9A%84switch%E6%A0%B7%E5%BC%8F%E4%B8%8D%E7%94%9F%E6%95%88%E9%97%AE%E9%A2%98.html"/>
+    <id>https://wanghansong.top/2019/element的switch样式不生效问题.html</id>
+    <published>2019-04-04T03:11:48.000Z</published>
+    <updated>2020-07-25T05:06:38.145Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<p>在使用element的时候checkbox的样式没有滑块问题</p>
+<p>原因：</p>
+<p>element-ui 版本和 element-ui 的 theme 对不上</p>
+<p>解决：</p>
+<p>theme所依赖的element版本应该大于等于ui的版本</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;在使用element的时候checkbox的样式没有滑块问题&lt;/p&gt;
+&lt;p&gt;原因：&lt;/p&gt;
+&lt;p&gt;element-ui 版本和 element-ui 的 theme 对不上&lt;/p&gt;
+&lt;p&gt;解决：&lt;/p&gt;
+&lt;p&gt;theme所依赖的eleme
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="element" scheme="https://wanghansong.top/tags/element/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue监听不到数组更新</title>
+    <link href="https://wanghansong.top/2019/vue%E7%9B%91%E5%90%AC%E4%B8%8D%E5%88%B0%E6%95%B0%E7%BB%84%E6%9B%B4%E6%96%B0.html"/>
+    <id>https://wanghansong.top/2019/vue监听不到数组更新.html</id>
+    <published>2019-04-04T03:11:48.000Z</published>
+    <updated>2020-07-25T05:06:38.149Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">toogleArrowHandler(index) &#123;</div><div class="line">	this.isArrowOpen[index] = !this.isArrowOpen[index];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>在vue中像上面一样直接改变数组的值不是响应式的，vue监听不到数组的变化</p>
+<h6 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h6><p>vue中数组直接给单个挂载的时候不存在的某项赋值是监听不到的，需要整体给数组赋值或者数据挂载的时候就存在该项才是响应式的（对象也是同样的道理）</p>
+<h6 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h6><ul>
+<li>需要整体给数组赋值</li>
+<li>数据挂载的时候就存在该项</li>
+<li>使用splice(旧元素index，1，新元素)，先删后加，vue会监听splice</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;toogleArrowHandler(index) &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;	this.isArrowOpen[index] = !this.isArrowOpen[index];&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="vue响应式" scheme="https://wanghansong.top/tags/vue%E5%93%8D%E5%BA%94%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用loader统一改element主题色</title>
+    <link href="https://wanghansong.top/2019/%E4%BD%BF%E7%94%A8loader%E7%BB%9F%E4%B8%80%E6%94%B9element%E4%B8%BB%E9%A2%98%E8%89%B2.html"/>
+    <id>https://wanghansong.top/2019/使用loader统一改element主题色.html</id>
+    <published>2019-04-04T03:11:48.000Z</published>
+    <updated>2020-07-25T05:06:38.151Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<ul>
+<li>babelrc中将<em>libraryName的ui组件和</em>styleLibraryName中的theme主题关联起来：使用的是<a href="https://github.com/ElementUI/babel-plugin-component" target="_blank" rel="external">babel-plugin-component</a>插件，该插件是在你每次使用组件的时候会require组件文件和对应的样式文件（默认是css，可以通过ext改变引用的文件后缀），改element主题色的时候我们引用scss文件</li>
+<li>然后scss文件在webpack编译的时候指定走styleLoaders，然后在styleLoaders里指定给scss文件使用(sass-resources-loader)[<a href="https://www.npmjs.com/package/sass-resources-loader]插件处理，sass-resources-loader作用是给每个required的scss文件头部加上你指定的文件的内容，这样可以给每个required的scss文件添加一个变量，替换element原有的主题变量" target="_blank" rel="external">https://www.npmjs.com/package/sass-resources-loader]插件处理，sass-resources-loader作用是给每个required的scss文件头部加上你指定的文件的内容，这样可以给每个required的scss文件添加一个变量，替换element原有的主题变量</a></li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;babelrc中将&lt;em&gt;libraryName的ui组件和&lt;/em&gt;styleLibraryName中的theme主题关联起来：使用的是&lt;a href=&quot;https://github.com/ElementUI/babel-
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="webpack" scheme="https://wanghansong.top/tags/webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>生成umd的时候element的主题报错</title>
+    <link href="https://wanghansong.top/2019/%E7%94%9F%E6%88%90umd%E7%9A%84%E6%97%B6%E5%80%99element%E7%9A%84%E4%B8%BB%E9%A2%98%E6%8A%A5%E9%94%99.html"/>
+    <id>https://wanghansong.top/2019/生成umd的时候element的主题报错.html</id>
+    <published>2019-03-04T03:11:48.000Z</published>
+    <updated>2020-07-25T05:06:38.154Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<h5 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h5><p>项目需要用rollup打包生成umd文件，在开发的时候按需引用了element的message组件（没有手动引用theme），在打包的时候报错：</p>
+<a id="more"></a>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[!] <span class="built_in">Error</span>: Unexpected token</div><div class="line">node_modules/element-theme/lib/message.css (<span class="number">1</span>:<span class="number">0</span>)</div></pre></td></tr></table></figure>
+<h5 id="问题原因："><a href="#问题原因：" class="headerlink" title="问题原因："></a>问题原因：</h5><p>不支持import css</p>
+<p>解决：装个插件 “rollup-plugin-postcss”</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;h5 id=&quot;使用场景&quot;&gt;&lt;a href=&quot;#使用场景&quot; class=&quot;headerlink&quot; title=&quot;使用场景&quot;&gt;&lt;/a&gt;使用场景&lt;/h5&gt;&lt;p&gt;项目需要用rollup打包生成umd文件，在开发的时候按需引用了element的message组件（没有手动引用theme），在打包的时候报错：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="umd" scheme="https://wanghansong.top/tags/umd/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue子组件中data的数据从props中获取并不会动态更新问题</title>
+    <link href="https://wanghansong.top/2018/vue%E5%AD%90%E7%BB%84%E4%BB%B6%E4%B8%ADdata%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BB%8Eprops%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%B9%B6%E4%B8%8D%E4%BC%9A%E5%8A%A8%E6%80%81%E6%9B%B4%E6%96%B0%E9%97%AE%E9%A2%98.html"/>
+    <id>https://wanghansong.top/2018/vue子组件中data的数据从props中获取并不会动态更新问题.html</id>
+    <published>2018-12-04T03:11:48.000Z</published>
+    <updated>2020-07-25T05:06:38.149Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>父组件中的数据变化了是会动态更新到子组件的props上的，但是如果你在子组件的data中又定义了个变量引用了props中的值，这个子组件中的data变量是不会跟着props动态更新的。</p>
+<p>解决办法就是子组件中使用watch跟踪下props中的变量。</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 父组件</div><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;hello&quot;&gt;</div><div class="line">    &lt;chart :info=&apos;info&apos;/&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">// 子组件</div><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;hello&quot;&gt;</div><div class="line">    &lt;ul&gt;</div><div class="line">      &lt;!-- 此处 list 来自 data --&gt;</div><div class="line">      &lt;li v-for=&quot;i in list&quot; :key=&apos;i&apos;&gt;&#123;&#123;i&#125;&#125;&lt;/li&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line">export default &#123;</div><div class="line">  props:[&apos;info&apos;],</div><div class="line">  data () &#123;</div><div class="line">    return &#123;</div><div class="line">      list:[],</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  mounted()&#123;</div><div class="line">    this.list = this.info.map(i =&gt; &apos;0_&apos;+i)</div><div class="line">  &#125;,</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>解决办法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">// 子组件</div><div class="line">&lt;template&gt;</div><div class="line">  &lt;div class=&quot;hello&quot;&gt;</div><div class="line">    &lt;ul&gt;</div><div class="line">      &lt;!-- 此处list 来自 data --&gt;</div><div class="line">      &lt;li v-for=&quot;i in list&quot; :key=&apos;i&apos;&gt;&#123;&#123;i&#125;&#125;&lt;/li&gt;</div><div class="line">    &lt;/ul&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">&lt;/template&gt;</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line">export default &#123;</div><div class="line">  props:[&apos;info&apos;],</div><div class="line">  data () &#123;</div><div class="line">    return &#123;</div><div class="line">      list:[],</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  mounted()&#123;</div><div class="line">    this.list = this.info.map(i =&gt; &apos;0_&apos;+i)</div><div class="line">  &#125;,</div><div class="line">  watch: &#123;</div><div class="line">    info() &#123;</div><div class="line">      this.list = this.info</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;父组件中的数据变化了是会动态更新到子组件的props上的，但是如果你在子组件的data中又定义了个变量引用了props中的值，这个子组件中的data变量是不会跟着props动态更新的。&lt;/p&gt;
+&lt;p&gt;解决办法就是子组件中使用watch跟踪下props中的变量。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="vue响应式" scheme="https://wanghansong.top/tags/vue%E5%93%8D%E5%BA%94%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS-webpack打包后-webkit-box-orient:vertical;消失了</title>
+    <link href="https://wanghansong.top/2018/CSS-webpack%E6%89%93%E5%8C%85%E5%90%8E-webkit-box-orient-vertical;%E6%B6%88%E5%A4%B1%E4%BA%86.html"/>
+    <id>https://wanghansong.top/2018/CSS-webpack打包后-webkit-box-orient-vertical;消失了.html</id>
+    <published>2018-11-23T10:09:31.000Z</published>
+    <updated>2020-07-25T05:06:38.139Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>多行超出添加省略号的css代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">display: -webkit-box;</div><div class="line">-webkit-box-orient: vertical; </div><div class="line">-webkit-line-clamp: 3; </div><div class="line">overflow: hidden;</div></pre></td></tr></table></figure></p>
+<p>vue项目中经过webpack打包后，发现样式没有生效，在浏览器调试模式下，发现-webkit-box-orient: vertical;该属性消失了。</p>
+<a id="more"></a>
+<p>参考segmentfault上的一个问答（原文），原来是webpack打包的问题，详情见该issues（<a href="https://github.com/postcss/autoprefixer/issues/776）。" target="_blank" rel="external">https://github.com/postcss/autoprefixer/issues/776）。</a></p>
+<p>在sass样式代码中，添加一个webpack注释，关掉某行的自动添加css前缀。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">display: -webkit-box;</div><div class="line">        /*! autoprefixer: off */</div><div class="line">        -webkit-box-orient: vertical;</div><div class="line">        -webkit-line-clamp: 3;</div><div class="line">        overflow: hidden;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;多行超出添加省略号的css代码：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;display: -webkit-box;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;-webkit-box-orient: vertical; &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;-webkit-line-clamp: 3; &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;overflow: hidden;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;vue项目中经过webpack打包后，发现样式没有生效，在浏览器调试模式下，发现-webkit-box-orient: vertical;该属性消失了。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="HTML/CSS" scheme="https://wanghansong.top/categories/HTML-CSS/"/>
+    
+    
+      <category term="CSS webpack" scheme="https://wanghansong.top/tags/CSS-webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>模块化编程:CommonJS、AMD、ES6模块化</title>
+    <link href="https://wanghansong.top/2018/%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B-CommonJS%E3%80%81AMD%E3%80%81ES6%E6%A8%A1%E5%9D%97%E5%8C%96.html"/>
+    <id>https://wanghansong.top/2018/模块化编程-CommonJS、AMD、ES6模块化.html</id>
+    <published>2018-10-23T10:32:29.000Z</published>
+    <updated>2020-07-25T05:06:38.154Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>历史上，JavaScript 一直没有模块（module）体系，无法将一个大程序拆分成互相依赖的小文件，再用简单的方法拼装起来。其他语言都有这项功能，比如 Ruby 的require、Python 的import，甚至就连 CSS 都有@import，但是 JavaScript 任何这方面的支持都没有，这对开发大型的、复杂的项目形成了巨大障碍。</p>
+<p>下面比较现有的三种模块化编程方案：</p>
+<ul>
+<li>CommonJS</li>
+<li>AMD</li>
+<li>ES6</li>
+</ul>
+<a id="more"></a>
+<p>比较：</p>
+<ul>
+<li>CommonJS大多数用于服务器端开发，运行时加载</li>
+<li>AMD大多数用于浏览器客户端开发，运行时加载</li>
+<li>ES6：编译时加载，尽量实现静态化<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h2></li>
+<li>一般用于服务器端</li>
+<li>NodeJS是CommonJS规范的实现<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var math = require(&apos;math&apos;);</div><div class="line">math.add(2,3); // 5</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>require是同步的</p>
+<hr>
+<h2 id="AMD（异步模块定义）"><a href="#AMD（异步模块定义）" class="headerlink" title="AMD（异步模块定义）"></a>AMD（异步模块定义）</h2><ul>
+<li>一般用于浏览器客户端</li>
+<li>包含：RequireJs<br>require是同步的对服务器端不是一个问题，因为所有的模块都存放在本地硬盘，可以同步加载完成，等待时间就是硬盘的读取时间。但是，对于浏览器，这却是一个大问题，因为模块都放在服务器端，等待时间取决于网速的快慢，可能要等很长时间，浏览器处于”假死”状态。<br>因此，浏览器端的模块，不能采用”同步加载”（synchronous），只能采用”异步加载”（asynchronous）。这就是AMD规范诞生的背景。<br>AMD也适用require，但是使用回调函数执行后面动作<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">require([&apos;math&apos;], function (math) &#123;</div><div class="line"></div><div class="line">　　　　math.add(2, 3);</div><div class="line"></div><div class="line">　　&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><p>ES6 模块的设计思想是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西。比如，CommonJS 模块就是对象，输入时必须查找对象属性</p>
+<ul>
+<li>ES6可以通过模块接口取到模块内部实时的值，这一点与 CommonJS 规范完全不同，CommonJS 模块输出的是值的缓存，不存在动态更新</li>
+<li>ES6的模块化是在编译时加载的，有作用域提升的效果</li>
+<li>ES6中import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构</li>
+</ul>
+<hr>
+<p>【潦草记录】</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;历史上，JavaScript 一直没有模块（module）体系，无法将一个大程序拆分成互相依赖的小文件，再用简单的方法拼装起来。其他语言都有这项功能，比如 Ruby 的require、Python 的import，甚至就连 CSS 都有@import，但是 JavaScript 任何这方面的支持都没有，这对开发大型的、复杂的项目形成了巨大障碍。&lt;/p&gt;
+&lt;p&gt;下面比较现有的三种模块化编程方案：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CommonJS&lt;/li&gt;
+&lt;li&gt;AMD&lt;/li&gt;
+&lt;li&gt;ES6&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="JS" scheme="https://wanghansong.top/categories/JS/"/>
+    
+    
+      <category term="模块化编程" scheme="https://wanghansong.top/tags/%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>axios小结</title>
+    <link href="https://wanghansong.top/2018/axios%E5%B0%8F%E7%BB%93.html"/>
+    <id>https://wanghansong.top/2018/axios小结.html</id>
+    <published>2018-10-16T10:22:41.000Z</published>
+    <updated>2020-07-25T05:06:38.145Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<a id="more"></a>
+<h2 id="请求格式"><a href="#请求格式" class="headerlink" title="请求格式"></a>请求格式</h2><h3 id="GET请求"><a href="#GET请求" class="headerlink" title="GET请求"></a>GET请求</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">// 为给定 ID 的 user 创建请求</div><div class="line">axios.get(&apos;/user?ID=12345&apos;)</div><div class="line">  .then(function (response) &#123;</div><div class="line">    console.log(response);</div><div class="line">  &#125;)</div><div class="line">  .catch(function (error) &#123;</div><div class="line">    console.log(error);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">// 可选地，上面的请求可以这样做</div><div class="line">axios.get(&apos;/user&apos;, &#123;</div><div class="line">    params: &#123;</div><div class="line">      ID: 12345</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">  .then(function (response) &#123;</div><div class="line">    console.log(response);</div><div class="line">  &#125;)</div><div class="line">  .catch(function (error) &#123;</div><div class="line">    console.log(error);</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<h3 id="POST请求"><a href="#POST请求" class="headerlink" title="POST请求"></a>POST请求</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">axios.post(&apos;/user&apos;, &#123;</div><div class="line">    firstName: &apos;Fred&apos;,</div><div class="line">    lastName: &apos;Flintstone&apos;</div><div class="line">  &#125;)</div><div class="line">  .then(function (response) &#123;</div><div class="line">    console.log(response);</div><div class="line">  &#125;)</div><div class="line">  .catch(function (error) &#123;</div><div class="line">    console.log(error);</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<hr>
+<h2 id="配置选项"><a href="#配置选项" class="headerlink" title="配置选项"></a>配置选项</h2><p>这些是创建请求时可以用的配置选项。只有 url 是必需的。如果没有指定 method，请求将默认使用 get 方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  // `url` 是用于请求的服务器 URL</div><div class="line">  url: &apos;/user&apos;,</div><div class="line"></div><div class="line">  // `method` 是创建请求时使用的方法</div><div class="line">  method: &apos;get&apos;, // 默认是 get</div><div class="line"></div><div class="line">  // `baseURL` 将自动加在 `url` 前面，除非 `url` 是一个绝对 URL。</div><div class="line">  // 它可以通过设置一个 `baseURL` 便于为 axios 实例的方法传递相对 URL</div><div class="line">  baseURL: &apos;https://some-domain.com/api/&apos;,</div><div class="line"></div><div class="line">  // `transformRequest` 允许在向服务器发送前，修改请求数据</div><div class="line">  // 只能用在 &apos;PUT&apos;, &apos;POST&apos; 和 &apos;PATCH&apos; 这几个请求方法</div><div class="line">  // 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream</div><div class="line">  transformRequest: [function (data) &#123;</div><div class="line">    // 对 data 进行任意转换处理</div><div class="line"></div><div class="line">    return data;</div><div class="line">  &#125;],</div><div class="line"></div><div class="line">  // `transformResponse` 在传递给 then/catch 前，允许修改响应数据</div><div class="line">  transformResponse: [function (data) &#123;</div><div class="line">    // 对 data 进行任意转换处理</div><div class="line"></div><div class="line">    return data;</div><div class="line">  &#125;],</div><div class="line"></div><div class="line">  // `headers` 是即将被发送的自定义请求头</div><div class="line">  headers: &#123;&apos;X-Requested-With&apos;: &apos;XMLHttpRequest&apos;&#125;,</div><div class="line"></div><div class="line">  // `params` 是即将与请求一起发送的 URL 参数</div><div class="line">  // 必须是一个无格式对象(plain object)或 URLSearchParams 对象</div><div class="line">  params: &#123;</div><div class="line">    ID: 12345</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `paramsSerializer` 是一个负责 `params` 序列化的函数</div><div class="line">  // (e.g. https://www.npmjs.com/package/qs, http://api.jquery.com/jquery.param/)</div><div class="line">  paramsSerializer: function(params) &#123;</div><div class="line">    return Qs.stringify(params, &#123;arrayFormat: &apos;brackets&apos;&#125;)</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `data` 是作为请求主体被发送的数据</div><div class="line">  // 只适用于这些请求方法 &apos;PUT&apos;, &apos;POST&apos;, 和 &apos;PATCH&apos;</div><div class="line">  // 在没有设置 `transformRequest` 时，必须是以下类型之一：</div><div class="line">  // - string, plain object, ArrayBuffer, ArrayBufferView, URLSearchParams</div><div class="line">  // - 浏览器专属：FormData, File, Blob</div><div class="line">  // - Node 专属： Stream</div><div class="line">  data: &#123;</div><div class="line">    firstName: &apos;Fred&apos;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)</div><div class="line">  // 如果请求话费了超过 `timeout` 的时间，请求将被中断</div><div class="line">  timeout: 1000,</div><div class="line"></div><div class="line">  // `withCredentials` 表示跨域请求时是否需要使用凭证</div><div class="line">  withCredentials: false, // 默认的</div><div class="line"></div><div class="line">  // `adapter` 允许自定义处理请求，以使测试更轻松</div><div class="line">  // 返回一个 promise 并应用一个有效的响应 (查阅 [response docs](#response-api)).</div><div class="line">  adapter: function (config) &#123;</div><div class="line">    /* ... */</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `auth` 表示应该使用 HTTP 基础验证，并提供凭据</div><div class="line">  // 这将设置一个 `Authorization` 头，覆写掉现有的任意使用 `headers` 设置的自定义 `Authorization`头</div><div class="line">  auth: &#123;</div><div class="line">    username: &apos;janedoe&apos;,</div><div class="line">    password: &apos;s00pers3cret&apos;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `responseType` 表示服务器响应的数据类型，可以是 &apos;arraybuffer&apos;, &apos;blob&apos;, &apos;document&apos;, &apos;json&apos;, &apos;text&apos;, &apos;stream&apos;</div><div class="line">  responseType: &apos;json&apos;, // 默认的</div><div class="line"></div><div class="line">  // `xsrfCookieName` 是用作 xsrf token 的值的cookie的名称</div><div class="line">  xsrfCookieName: &apos;XSRF-TOKEN&apos;, // default</div><div class="line"></div><div class="line">  // `xsrfHeaderName` 是承载 xsrf token 的值的 HTTP 头的名称</div><div class="line">  xsrfHeaderName: &apos;X-XSRF-TOKEN&apos;, // 默认的</div><div class="line"></div><div class="line">  // `onUploadProgress` 允许为上传处理进度事件</div><div class="line">  onUploadProgress: function (progressEvent) &#123;</div><div class="line">    // 对原生进度事件的处理</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `onDownloadProgress` 允许为下载处理进度事件</div><div class="line">  onDownloadProgress: function (progressEvent) &#123;</div><div class="line">    // 对原生进度事件的处理</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `maxContentLength` 定义允许的响应内容的最大尺寸</div><div class="line">  maxContentLength: 2000,</div><div class="line"></div><div class="line">  // `validateStatus` 定义对于给定的HTTP 响应状态码是 resolve 或 reject  promise 。如果 `validateStatus` 返回 `true` (或者设置为 `null` 或 `undefined`)，promise 将被 resolve; 否则，promise 将被 rejecte</div><div class="line">  validateStatus: function (status) &#123;</div><div class="line">    return status &gt;= 200 &amp;&amp; status &lt; 300; // 默认的</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `maxRedirects` 定义在 node.js 中 follow 的最大重定向数目</div><div class="line">  // 如果设置为0，将不会 follow 任何重定向</div><div class="line">  maxRedirects: 5, // 默认的</div><div class="line"></div><div class="line">  // `httpAgent` 和 `httpsAgent` 分别在 node.js 中用于定义在执行 http 和 https 时使用的自定义代理。允许像这样配置选项：</div><div class="line">  // `keepAlive` 默认没有启用</div><div class="line">  httpAgent: new http.Agent(&#123; keepAlive: true &#125;),</div><div class="line">  httpsAgent: new https.Agent(&#123; keepAlive: true &#125;),</div><div class="line"></div><div class="line">  // &apos;proxy&apos; 定义代理服务器的主机名称和端口</div><div class="line">  // `auth` 表示 HTTP 基础验证应当用于连接代理，并提供凭据</div><div class="line">  // 这将会设置一个 `Proxy-Authorization` 头，覆写掉已有的通过使用 `header` 设置的自定义 `Proxy-Authorization` 头。</div><div class="line">  proxy: &#123;</div><div class="line">    host: &apos;127.0.0.1&apos;,</div><div class="line">    port: 9000,</div><div class="line">    auth: : &#123;</div><div class="line">      username: &apos;mikeymike&apos;,</div><div class="line">      password: &apos;rapunz3l&apos;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  // `cancelToken` 指定用于取消请求的 cancel token</div><div class="line">  // （查看后面的 Cancellation 这节了解更多）</div><div class="line">  cancelToken: new CancelToken(function (cancel) &#123;</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>可以通过向 axios 传递相关配置来创建请求<br>axios(config)</p>
+<h3 id="请求方法别名"><a href="#请求方法别名" class="headerlink" title="请求方法别名"></a>请求方法别名</h3><p>为方便起见，为所有支持的请求方法提供了别名</p>
+<p>axios.request(config)<br>axios.get(url[, config])<br>axios.delete(url[, config])<br>axios.head(url[, config])<br>axios.post(url[, data[, config]])<br>axios.put(url[, data[, config]])<br>axios.patch(url[, data[, config]])</p>
+<h3 id="并发请求"><a href="#并发请求" class="headerlink" title="并发请求"></a>并发请求</h3><p>axios.all(iterable)<br>axios.spread(callback)<br>axios.all()的目的是批量发送请求，等所有请求都有返回时，再执行统一的回调，并不是把所有的请求合并成同一个请求发送<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">fn1()&#123;</div><div class="line">    return axios.get(&apos;/fn1&apos;)    </div><div class="line">&#125;</div><div class="line"></div><div class="line">fn2() &#123;</div><div class="line">    return axios.get(&apos;/fn2&apos;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">axios.all([</div><div class="line">    fn1();</div><div class="line">    fn2();</div><div class="line">]).then(axios.spread((res1, res2) =&gt; &#123;</div><div class="line">// axios.all里的请求都完成后，才执行这个回调方法</div><div class="line">    console.log(res1);</div><div class="line">    console.log(res2);</div><div class="line">&#125;));</div></pre></td></tr></table></figure></p>
+<h3 id="创建实例"><a href="#创建实例" class="headerlink" title="创建实例"></a>创建实例</h3><p>可以使用自定义配置新建一个 axios 实例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">axios.create([config])</div><div class="line">var instance = axios.create(&#123;</div><div class="line">  baseURL: &apos;https://some-domain.com/api/&apos;,</div><div class="line">  timeout: 1000,</div><div class="line">  headers: &#123;&apos;X-Custom-Header&apos;: &apos;foobar&apos;&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="前端工具使用" scheme="https://wanghansong.top/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/"/>
+    
+    
+      <category term="axios" scheme="https://wanghansong.top/tags/axios/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue中的key解析</title>
+    <link href="https://wanghansong.top/2018/vue%E4%B8%AD%E7%9A%84key%E8%A7%A3%E6%9E%90.html"/>
+    <id>https://wanghansong.top/2018/vue中的key解析.html</id>
+    <published>2018-10-16T08:46:26.000Z</published>
+    <updated>2020-07-25T05:06:38.148Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>vue中的key是DOM更新时识别是否复用的标志，如果key一样则认为该DOM可以复用。如果key加在组件上是可以使得该组件的每个副本都有自己的生命周期，如在组件上有v-for：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;componentA v-for=&quot;item in items&quot; :key=&quot;item.id&quot;&gt;&lt;/componentA&gt;</div></pre></td></tr></table></figure></p>
+<p>如果不加上key的话那这些循环出来的组是共用一个生命周期的，可能会产生干扰。</p>
+<a id="more"></a>
+<p>key 的特殊属性主要用在 Vue 的虚拟 DOM 算法，在新旧 nodes 对比时辨识 VNodes。如果不使用 key，Vue 会使用一种最大限度减少动态元素并且尽可能的尝试修复/再利用相同类型元素的算法。使用 key，它会基于 key 的变化重新排列元素顺序，并且会移除 key 不存在的元素。</p>
+<p>有相同父元素的子元素必须有独特的 key。重复的 key 会造成渲染错误。</p>
+<p>最常见的用例是结合 v-for：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;ul&gt;</div><div class="line">  &lt;li v-for=&quot;item in items&quot; :key=&quot;item.id&quot;&gt;...&lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure></p>
+<p>它也可以用于强制替换元素/组件而不是重复使用它。当你遇到如下场景时它可能会很有用：</p>
+<p>完整地触发组件的生命周期钩子<br>触发过渡<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;transition&gt;</div><div class="line">  &lt;span :key=&quot;text&quot;&gt;&#123;&#123; text &#125;&#125;&lt;/span&gt;</div><div class="line">&lt;/transition&gt;</div></pre></td></tr></table></figure></p>
+<p>当 text 发生改变时，<span> 会随时被更新，因此会触发过渡。</span></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;vue中的key是DOM更新时识别是否复用的标志，如果key一样则认为该DOM可以复用。如果key加在组件上是可以使得该组件的每个副本都有自己的生命周期，如在组件上有v-for：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&amp;lt;componentA v-for=&amp;quot;item in items&amp;quot; :key=&amp;quot;item.id&amp;quot;&amp;gt;&amp;lt;/componentA&amp;gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;如果不加上key的话那这些循环出来的组是共用一个生命周期的，可能会产生干扰。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="vue" scheme="https://wanghansong.top/tags/vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue中v-for与key</title>
+    <link href="https://wanghansong.top/2018/vue%E4%B8%ADv-for%E4%B8%8Ekey.html"/>
+    <id>https://wanghansong.top/2018/vue中v-for与key.html</id>
+    <published>2018-10-15T12:16:15.000Z</published>
+    <updated>2020-07-25T05:06:38.148Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>vue官方说：</p>
+<blockquote>
+<p>当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用“就地复用”策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序， 而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。</p>
+</blockquote>
+<a id="more"></a>
+<p>今天碰到个问题，在使用tab切换时，表格的列项顺序并不是定义的顺序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;tabs&quot;&gt;</div><div class="line">	&lt;el-radio-group</div><div class="line">		v-model=&quot;tabs&quot;</div><div class="line">		size=&quot;small&quot;</div><div class="line">		&gt;</div><div class="line">		&lt;el-radio-button</div><div class="line">		&gt;列表1&lt;/ks-el-radio-button&gt;</div><div class="line">		&lt;el-radio-button</div><div class="line">		&gt;列表2&lt;/ks-el-radio-button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;section&gt;</div><div class="line">	&lt;table&gt;</div><div class="line">		&lt;template v-for=&quot;item in arr&quot;&gt;</div><div class="line">			&lt;col :key=&quot;item+&apos;1&apos;&quot;&gt;a&lt;/col&gt;</div><div class="line">			&lt;col :key=&quot;item+&apos;2&apos;&quot;&gt;b&lt;/col&gt;</div><div class="line">		&lt;/template&gt;</div><div class="line">	&lt;/table&gt;</div><div class="line">&lt;/section&gt;</div></pre></td></tr></table></figure></p>
+<p>当在切换tab的时候，想a列和b列的顺序是调换的，然而由于tab切换时两列的key没有变，先对比新旧dom的key变化，如果新的dom中key值没有变化（不管顺序），那么，尽管新dom的数据项顺序变了，Vue 将不会移动 DOM 元素来匹配数据项的顺序，而是使用旧dom的顺序。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;vue官方说：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用“就地复用”策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序， 而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="vue" scheme="https://wanghansong.top/tags/vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue遇到的问题总结</title>
+    <link href="https://wanghansong.top/2018/vue%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93.html"/>
+    <id>https://wanghansong.top/2018/vue遇到的问题总结.html</id>
+    <published>2018-09-27T08:00:46.000Z</published>
+    <updated>2020-07-25T05:06:38.149Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<a id="more"></a>
+<h2 id="nextTick"><a href="#nextTick" class="headerlink" title="$nextTick"></a><code>$nextTick</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">watch: &#123;</div><div class="line">	a() &#123;</div><div class="line">		更新数据</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">method:&#123;</div><div class="line">	submit()&#123;</div><div class="line">		this.a = xxx;</div><div class="line">		this.$emit(&apos;close&apos;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>有时候会碰到element的dialog在关闭的时候在watch中的东西来不及执行的情况，这是因为在关闭dialog之前来不及执行更新数据部分。<br>现在的需求是需要在数据更新之后才关闭窗口，<br>可以用nextTick是在DOM更新的时候触发的，数据更新了会引起最外层虚拟DOM更新，最终会引发dialog的DOM更新，所以上面可以写成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">watch: &#123;</div><div class="line">	a() &#123;</div><div class="line">		更新数据</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">method:&#123;</div><div class="line">	submit()&#123;</div><div class="line">		this.a = xxx;</div><div class="line">		this.$nextTick(function () &#123;</div><div class="line">             // 等到watch数据、DOM更新完才关闭窗口</div><div class="line">			this.$emit(&apos;close&apos;);</div><div class="line">		&#125;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<p>【持续更新中…】</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="vue" scheme="https://wanghansong.top/tags/vue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>element中table表头不换行</title>
+    <link href="https://wanghansong.top/2018/element%E4%B8%ADtable%E8%A1%A8%E5%A4%B4%E4%B8%8D%E6%8D%A2%E8%A1%8C.html"/>
+    <id>https://wanghansong.top/2018/element中table表头不换行.html</id>
+    <published>2018-09-19T04:14:39.000Z</published>
+    <updated>2020-07-25T05:06:38.145Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>使用el-table做一个表格，当表头内容过长时会换行，在不设置的宽度的时候每一列的宽度是等比例分配的，虽然element-ui中提供了width和min-width这个属性可以自由设置。</p>
+<p>但是因为要做的表格很多，而且要一一计算比例然后再赋值给width也是一件很繁琐的事。</p>
+<a id="more"></a>
+<p>element中每个column都有一个属性render-header，它是渲染这一列的列标题区域所用的函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;el-table border :data=&quot;tableData&quot; v-loading=&quot;loading&quot; </div><div class="line">      :row-class-name=&quot;tableRowClassName&quot;&gt;</div><div class="line">      &lt;el-table-column v-for=&quot;(item,index) in tableColumn&quot; :label=&quot;item.name&quot;</div><div class="line">                :prop=&quot;item.prop&quot; v-if=&quot;item.show&quot; :key=&quot;index&quot; align=&quot;center&quot; :render-header=&quot;tableHead&quot;&gt;&lt;/el-table-column&gt;</div><div class="line">&lt;/el-table&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">methods: &#123;</div><div class="line">	tableHead(h, &#123;column&#125;) &#123;</div><div class="line">		let wordsLength = column.label.length;</div><div class="line">		let fontSize = 14; // 每个字大小，其实是每个字的比例值，大概会比字体大小差不多大一点，</div><div class="line">		column.minWidth = fontSize * wordsLength + 50; // 字大小乘个数即长度 ,注意不要加px像素，这里minWidth只是一个比例值，不是真正的长度</div><div class="line">		// 然后将列标题放在一个span中，注意块的宽度一定要100%，否则表格显示不完全</div><div class="line">		return h(&apos;span&apos;, &#123;class: &apos;table-head&apos;, style: &#123;width: &apos;100%&apos;&#125;&#125;, [column.label]);</div><div class="line">			&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">.table-head&#123;</div><div class="line">        font-size:14px !important;//设置固定的字体大小</div><div class="line">    &#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;使用el-table做一个表格，当表头内容过长时会换行，在不设置的宽度的时候每一列的宽度是等比例分配的，虽然element-ui中提供了width和min-width这个属性可以自由设置。&lt;/p&gt;
+&lt;p&gt;但是因为要做的表格很多，而且要一一计算比例然后再赋值给width也是一件很繁琐的事。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="element" scheme="https://wanghansong.top/tags/element/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>关于echarts数据更新后，图没有更新的问题</title>
+    <link href="https://wanghansong.top/2018/%E5%85%B3%E4%BA%8Eecharts%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0%E5%90%8E%EF%BC%8C%E5%9B%BE%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0%E7%9A%84%E9%97%AE%E9%A2%98.html"/>
+    <id>https://wanghansong.top/2018/关于echarts数据更新后，图没有更新的问题.html</id>
+    <published>2018-09-11T11:00:59.000Z</published>
+    <updated>2020-07-25T05:06:38.152Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>在用echarts折线图的时候，一开始往echarts的series中输入的是6条数据，然后动态更新数据后，往echarts的series中输入的是3条数据，重新setOption后发现图表上还是6条数据。</p>
+<p>接着开始console.log，发现确实只有3条数据的值，说明值已变更但是图表没有更新</p>
+<a id="more"></a>
+<p>后来百度后发现解决办法：</p>
+<p>原来set的时候是：<br>this.charts.setOption(lineOption);</p>
+<p>正确的应该是：</p>
+<p>this.charts.setOptionlineOption,true);</p>
+<p>再次刷新，问题解决。</p>
+<p>查看官方文档后发现setOption有4个属性<br>setOption(option, notMerge, lazyUpdate, silent):</p>
+<ul>
+<li>option:图表的配置项和数据，具体见配置项手册。</li>
+<li>notMerge:可选，是否不跟之前设置的option进行合并，默认为false，false表示合并数据,置为true之后则不合并数据了，就可以实现刷新数据的效果了。</li>
+<li>lazyUpdate:可选，在设置完option后是否不立即更新图表，默认为false，即立即更新。</li>
+<li>silent:可选，阻止调用 setOption 时抛出事件，默认为false，即抛出事件。</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;在用echarts折线图的时候，一开始往echarts的series中输入的是6条数据，然后动态更新数据后，往echarts的series中输入的是3条数据，重新setOption后发现图表上还是6条数据。&lt;/p&gt;
+&lt;p&gt;接着开始console.log，发现确实只有3条数据的值，说明值已变更但是图表没有更新&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="JS" scheme="https://wanghansong.top/categories/JS/"/>
+    
+    
+      <category term="echarts" scheme="https://wanghansong.top/tags/echarts/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vue数据响应式注意点</title>
+    <link href="https://wanghansong.top/2018/vue%E6%95%B0%E6%8D%AE%E5%93%8D%E5%BA%94%E5%BC%8F%E6%B3%A8%E6%84%8F%E7%82%B9.html"/>
+    <id>https://wanghansong.top/2018/vue数据响应式注意点.html</id>
+    <published>2018-09-10T07:44:15.000Z</published>
+    <updated>2020-07-25T05:06:38.149Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<p>今天在使用某个对象obj的数据控制table的列动态显示的时候，无论obj怎么变化，表格都不会动态更新。找大佬查了半天，发现是数据响应式的问题，在vue官方文档中还特别提过这个坑，还是要多看看文档的。<br><a href="https://cn.vuejs.org/v2/guide/reactivity.html" target="_blank" rel="external">https://cn.vuejs.org/v2/guide/reactivity.html</a></p>
+<a id="more"></a>
+<p>obj在data中初始化的时候是个空对象，在更新obj的时候直接用的是添加属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">data: &#123;</div><div class="line">	obj: &#123;&#125;</div><div class="line">&#125;</div><div class="line">watch: &#123;</div><div class="line">	test() &#123;</div><div class="line">		obj[key1] = val1;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样无法检测到obj变化。<br>在vue文档中说过：</p>
+<blockquote>
+<p>受现代 JavaScript 的限制 (以及废弃 Object.observe)，Vue 不能检测到对象属性的添加或删除。由于 Vue会在初始化实例时对属性执行 getter/setter 转化过程，所以属性必须在 data 对象上存在才能让 Vue转换它，这样才能让它是响应的</p>
+</blockquote>
+<p>解决这个问题有两种方法：<br>1.在data里实现就生命好属性key1<br>2.利用中间遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">data: &#123;</div><div class="line">	obj: &#123;&#125;</div><div class="line">&#125;</div><div class="line">watch: &#123;</div><div class="line">	test() &#123;</div><div class="line">		const temp=&#123;&#125;;</div><div class="line">		temp[kee1] = val1;</div><div class="line">		obj = temp;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样也是能检测到obj变化的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;p&gt;今天在使用某个对象obj的数据控制table的列动态显示的时候，无论obj怎么变化，表格都不会动态更新。找大佬查了半天，发现是数据响应式的问题，在vue官方文档中还特别提过这个坑，还是要多看看文档的。&lt;br&gt;&lt;a href=&quot;https://cn.vuejs.org/v2/guide/reactivity.html&quot;&gt;https://cn.vuejs.org/v2/guide/reactivity.html&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="vue" scheme="https://wanghansong.top/categories/vue/"/>
+    
+    
+      <category term="vue响应式" scheme="https://wanghansong.top/tags/vue%E5%93%8D%E5%BA%94%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>利用after伪元素实现hr效果</title>
+    <link href="https://wanghansong.top/2018/%E5%88%A9%E7%94%A8after%E4%BC%AA%E5%85%83%E7%B4%A0%E5%AE%9E%E7%8E%B0%60-hr-%60%E6%95%88%E6%9E%9C.html"/>
+    <id>https://wanghansong.top/2018/利用after伪元素实现`-hr-`效果.html</id>
+    <published>2018-09-04T02:45:37.000Z</published>
+    <updated>2020-07-25T05:06:38.152Z</updated>
+    
+    <content type="html"><![CDATA[<p>[TOC]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;item&quot;&gt;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">.item&#123;</div><div class="line"> position: relative;</div><div class="line"> &amp;:after &#123;</div><div class="line"> 	     display: block;</div><div class="line">         position: absolute;</div><div class="line">         width: 100%;</div><div class="line">         left: 0;</div><div class="line">         bottom: 0;</div><div class="line">         border-bottom: 1px rgba(7, 17 , 27, 0.1) solid;</div><div class="line">         content: ' ';</div><div class="line"> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;[TOC]&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&amp;lt;div class=&amp;quot;item&amp;quot;&amp;gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="HTML/CSS" scheme="https://wanghansong.top/categories/HTML-CSS/"/>
+    
+    
+      <category term="CSS" scheme="https://wanghansong.top/tags/CSS/"/>
+    
+  </entry>
+  
+</feed>

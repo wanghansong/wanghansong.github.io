@@ -1,0 +1,910 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="baidu-site-verification" content="jjKrmjBQYL" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.gmirror.org/css?family=Georgia:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="vue数据驱动," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="[TOC]
+vue render 函数 跟 template 一样都是创建 html 模板的。render 函数即渲染函数，它是个函数，它的参数也是个函数（即 createElement），下面我们重点来说 createElement 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【vue源码解析】createElement">
+<meta property="og:url" content="https://wanghansong.top/2019/【vue源码解析】createElement.html">
+<meta property="og:site_name" content="wanghansong's blog">
+<meta property="og:description" content="[TOC]
+vue render 函数 跟 template 一样都是创建 html 模板的。render 函数即渲染函数，它是个函数，它的参数也是个函数（即 createElement），下面我们重点来说 createElement 。">
+<meta property="og:updated_time" content="2020-07-25T05:06:38.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【vue源码解析】createElement">
+<meta name="twitter:description" content="[TOC]
+vue render 函数 跟 template 一样都是创建 html 模板的。render 函数即渲染函数，它是个函数，它的参数也是个函数（即 createElement），下面我们重点来说 createElement 。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 【vue源码解析】createElement | wanghansong's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2a557223974248bf97d5421e8932cbcc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wanghansong's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">前端，后端，SDN，openflow</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于本人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            所有文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-album">
+          <a href="/album" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/wanghansong" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【vue源码解析】createElement
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2019-09-01T10:10:41+08:00" content="2019-09-01">
+              2019-09-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/vue源码解析系列/" itemprop="url" rel="index">
+                    <span itemprop="name">vue源码解析系列</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2019/【vue源码解析】createElement.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/【vue源码解析】createElement.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<p>vue render 函数 跟 template 一样都是创建 html 模板的。render 函数即渲染函数，它是个函数，它的参数也是个函数（即 createElement），下面我们重点来说 createElement 。</p>
+<a id="more"></a>
+<h2 id="表层：createElement用法"><a href="#表层：createElement用法" class="headerlink" title="表层：createElement用法"></a>表层：createElement用法</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">render: <span class="function"><span class="keyword">function</span> (<span class="params">createElement</span>) </span>&#123; <span class="comment">// 有时候createElement用h作为别名</span></div><div class="line">   <span class="keyword">return</span> createElement(</div><div class="line">     <span class="string">'h'</span> + <span class="keyword">this</span>.level,   <span class="comment">// 标签名称</span></div><div class="line">     <span class="keyword">this</span>.$slots.default <span class="comment">// 子节点数组</span></div><div class="line">   )</div><div class="line"> &#125;,</div></pre></td></tr></table></figure>
+<h3 id="createElement参数"><a href="#createElement参数" class="headerlink" title="createElement参数"></a>createElement参数</h3><p>接下来你需要熟悉的是如何在 createElement 函数中使用模板中的那些功能。这里是 createElement 接受的参数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// @returns &#123;VNode&#125;</span></div><div class="line">createElement(</div><div class="line">  <span class="comment">/**</span></div><div class="line">  	第一个参数：</div><div class="line">  	类型：&#123;String | Object | Function&#125;</div><div class="line">    说明：【必填项】一个 HTML 标签名、组件选项对象，或者resolve 了上述任何一种的一个async函数。</div><div class="line">  **/</div><div class="line">  <span class="string">'div'</span>,</div><div class="line">-------------------------------</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">  	第二个参数：</div><div class="line">  	类型：&#123;Object&#125;</div><div class="line">  	说明：【可选】模板中的数据</div><div class="line">  **/</div><div class="line">  &#123;</div><div class="line">  	<span class="comment">// 要创建标签的class，与 `v-bind:class` 的 API 相同，接受一个字符串、对象或字符串和对象组成的数组</span></div><div class="line">    <span class="string">'class'</span>: &#123;</div><div class="line">        <span class="attr">foo</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">bar</span>: <span class="literal">false</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 标签的内联样式，与 `v-bind:style` 的 API 相同，接受一个字符串、对象，或对象组成的数组</span></div><div class="line">      style: &#123;</div><div class="line">        <span class="attr">color</span>: <span class="string">'red'</span>,</div><div class="line">        <span class="attr">fontSize</span>: <span class="string">'14px'</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// HTML的attrs</span></div><div class="line">      attrs: &#123;</div><div class="line">        <span class="attr">id</span>: <span class="string">'foo'</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 组件的prop</span></div><div class="line">      props: &#123;</div><div class="line">        <span class="attr">myProp</span>: <span class="string">'bar'</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// DOM 属性</span></div><div class="line">      domProps: &#123;</div><div class="line">        <span class="attr">innerHTML</span>: <span class="string">'baz'</span></div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 组件上的事件监听，不再支持如 `v-on:keyup.enter` 这样的修饰器，需要在处理函数中手动检查 keyCode</span></div><div class="line">      on: &#123;</div><div class="line">        <span class="attr">click</span>: <span class="keyword">this</span>.clickHandler</div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 仅用于组件，用于监听原生事件，而不是组件内部使用`vm.$emit` 触发的事件</span></div><div class="line">      nativeOn: &#123;</div><div class="line">        <span class="attr">click</span>: <span class="keyword">this</span>.nativeClickHandler</div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">      <span class="comment">// 自定义指令，vue directives可以参考https://www.jianshu.com/p/6a4811eb0efe</span></div><div class="line">      directives: [</div><div class="line">        &#123;</div><div class="line">          <span class="attr">name</span>: <span class="string">'my-custom-directive'</span>,</div><div class="line">          <span class="attr">value</span>: <span class="string">'2'</span>,</div><div class="line">          <span class="attr">expression</span>: <span class="string">'1 + 1'</span>,</div><div class="line">          <span class="attr">arg</span>: <span class="string">'foo'</span>,</div><div class="line">          <span class="attr">modifiers</span>: &#123;</div><div class="line">            <span class="attr">bar</span>: <span class="literal">true</span></div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      ],</div><div class="line">      </div><div class="line">      <span class="comment">// 作用域插槽的格式为 &#123; name: props =&gt; VNode | Array&lt;VNode&gt; &#125; 相当于组件上使用slot-scoped</span></div><div class="line">      scopedSlots: &#123;</div><div class="line">        <span class="attr">default</span>: <span class="function"><span class="params">props</span> =&gt;</span> createElement(<span class="string">'span'</span>, props.text)</div><div class="line">      &#125;,</div><div class="line">      </div><div class="line">       <span class="comment">// 如果创建的组件是个slot，需为插槽指定名称，相当于组件上 slot="name-of-slot"</span></div><div class="line">      slot: <span class="string">'name-of-slot'</span>,</div><div class="line">        </div><div class="line">      <span class="comment">// </span></div><div class="line">      key: <span class="string">'myKey'</span>,</div><div class="line">      <span class="attr">ref</span>: <span class="string">'myRef'</span>,</div><div class="line">      <span class="comment">// 如果你在渲染函数中给多个元素都应用了相同的 ref 名，那么 `$refs.myRef` 会变成一个数组。</span></div><div class="line">      refInFor: <span class="literal">true</span></div><div class="line">  &#125;,</div><div class="line">-------------------------------</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">  	第三个参数：</div><div class="line">  	类型：&#123;String | Array&#125;</div><div class="line">  	说明：【可选】子级虚拟节点 (VNodes)，由 `createElement()` 构建而成，也可以使用字符串来生成“文本虚拟节点”。</div><div class="line">  **/</div><div class="line">  [</div><div class="line">    <span class="string">'先写一些文字'</span>,</div><div class="line">    createElement(<span class="string">'h1'</span>, <span class="string">'一则头条'</span>),</div><div class="line">    createElement(MyComponent, &#123;</div><div class="line">      <span class="attr">props</span>: &#123;</div><div class="line">        <span class="attr">someProp</span>: <span class="string">'foobar'</span></div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  ]</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<ul>
+<li>第一个参数：【必填】{String | Object | Function}  要渲染的标签名称</li>
+<li>第二个参数：【可选】{Object} 模板中的数据</li>
+<li>第三个参数：【可选】子级虚拟节点 (VNodes)，由 <code>createElement()</code> 构建而成，也可以使用字符串来生成“文本虚拟节点”</li>
+</ul>
+<hr>
+<h2 id="createElement源码解析"><a href="#createElement源码解析" class="headerlink" title="createElement源码解析"></a>createElement源码解析</h2><ul>
+<li><p>首先对<code>createElement</code>函数对参数做一层处理，对参数个数不一致情况做处理，然后调用<code>_createElement</code>函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 返回vnode或者vnode组件的数组数据</div><div class="line"> */</div><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">createElement</span> (<span class="params"></span></span></div><div class="line">  context: Component, <span class="regexp">//</span> 上下文this</div><div class="line">  tag: any, <span class="regexp">//</span> 标签</div><div class="line">  data: any, <span class="regexp">//</span> vnode数据</div><div class="line">  children: any, <span class="regexp">//</span> 子节点</div><div class="line">  normalizationType: any,</div><div class="line">  alwaysNormalize: boolean</div><div class="line">): <span class="title">VNode</span> | <span class="title">Array</span>&lt;<span class="title">VNode</span>&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(data) || isPrimitive(data)) &#123; <span class="comment">// 当vnode数据是数组或者基本类型的时候,对参数个数不一致的处理</span></div><div class="line">    normalizationType = children</div><div class="line">    children = data</div><div class="line">    data = <span class="literal">undefined</span></div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (isTrue(alwaysNormalize)) &#123;</div><div class="line">    normalizationType = ALWAYS_NORMALIZE</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> _createElement(context, tag, data, children, normalizationType) <span class="comment">// 真实调用</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>_createElement</code>函数：</p>
+<ul>
+<li>中先对节点data做判断，如果data是响应式的则报警告并生成一个vnode的注释节点</li>
+<li>对children做规范化处理:分children是个二维数组和children多层数组嵌套两种情况，将他们拍平成一个一维数组</li>
+<li>创建vnode节点：html标签、组件…</li>
+</ul>
+</li>
+</ul>
+<p>_createElement函数全部<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">_createElement</span> (<span class="params"></span></span></div><div class="line">  context: Component,</div><div class="line">  tag?: string | Class&lt;Component&gt; | Function | Object, <span class="regexp">//</span> html标签</div><div class="line">  data?: VNodeData, <span class="regexp">//</span> vnode数据</div><div class="line">  children?: any, <span class="regexp">//</span> 子节点</div><div class="line">  normalizationType?: number <span class="regexp">//</span> 子节点规范类型 <span class="number">1</span> <span class="number">2</span></div><div class="line">): <span class="title">VNode</span> | <span class="title">Array</span>&lt;<span class="title">VNode</span>&gt; &#123;</div><div class="line">  <span class="keyword">if</span> (isDef(data) &amp;&amp; isDef((data: any).__ob__)) &#123; <span class="comment">// 如果data是响应式的报警告</span></div><div class="line">    process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; warn(</div><div class="line">      <span class="string">`Avoid using observed data object as vnode data: <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(data)&#125;</span>\n`</span> +</div><div class="line">      <span class="string">'Always create fresh vnode data objects in each render!'</span>,</div><div class="line">      context</div><div class="line">    )</div><div class="line">    <span class="keyword">return</span> createEmptyVNode() <span class="comment">// 生成一个注释节点</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// object syntax in v-bind</span></div><div class="line">  <span class="keyword">if</span> (isDef(data) &amp;&amp; isDef(data.is)) &#123;</div><div class="line">    tag = data.is <span class="comment">// component is</span></div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (!tag) &#123; <span class="comment">// tag</span></div><div class="line">    <span class="comment">// in case of component :is set to falsy value</span></div><div class="line">    <span class="keyword">return</span> createEmptyVNode()</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// warn against non-primitive key</span></div><div class="line">  <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp;</div><div class="line">    isDef(data) &amp;&amp; isDef(data.key) &amp;&amp; !isPrimitive(data.key)</div><div class="line">  ) &#123;</div><div class="line">    <span class="keyword">if</span> (!__WEEX__ || !(<span class="string">'@binding'</span> <span class="keyword">in</span> data.key)) &#123;</div><div class="line">      warn(</div><div class="line">        <span class="string">'Avoid using non-primitive value as key, '</span> +</div><div class="line">        <span class="string">'use string/number value instead.'</span>,</div><div class="line">        context</div><div class="line">      )</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// support single function children as default scoped slot</span></div><div class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(children) &amp;&amp;</div><div class="line">    <span class="keyword">typeof</span> children[<span class="number">0</span>] === <span class="string">'function'</span></div><div class="line">  ) &#123;</div><div class="line">    data = data || &#123;&#125;</div><div class="line">    data.scopedSlots = &#123; <span class="attr">default</span>: children[<span class="number">0</span>] &#125;</div><div class="line">    children.length = <span class="number">0</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 对children做规范化</span></div><div class="line">  <span class="keyword">if</span> (normalizationType === ALWAYS_NORMALIZE) &#123; <span class="comment">// children下有多层嵌套，循环调用拍平成一个一维数组</span></div><div class="line">    children = normalizeChildren(children)</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (normalizationType === SIMPLE_NORMALIZE) &#123; <span class="comment">// 如果children下只有一层数组，将二维数组拍平成一个一维数组</span></div><div class="line">    children = simpleNormalizeChildren(children)</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 创建vnode</span></div><div class="line">  <span class="keyword">let</span> vnode, ns</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> tag === <span class="string">'string'</span>) &#123;</div><div class="line">    <span class="keyword">let</span> Ctor</div><div class="line">    ns = (context.$vnode &amp;&amp; context.$vnode.ns) || config.getTagNamespace(tag)</div><div class="line">    <span class="keyword">if</span> (config.isReservedTag(tag)) &#123; <span class="comment">// 是否是html原生的一些保留标签</span></div><div class="line">      <span class="comment">// platform built-in elements</span></div><div class="line">      <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">'production'</span> &amp;&amp; isDef(data) &amp;&amp; isDef(data.nativeOn)) &#123;</div><div class="line">        warn(</div><div class="line">          <span class="string">`The .native modifier for v-on is only valid on components but it was used on &lt;<span class="subst">$&#123;tag&#125;</span>&gt;.`</span>,</div><div class="line">          context</div><div class="line">        )</div><div class="line">      &#125;</div><div class="line">      vnode = <span class="keyword">new</span> VNode(</div><div class="line">        config.parsePlatformTagName(tag), data, children,</div><div class="line">        <span class="literal">undefined</span>, <span class="literal">undefined</span>, context</div><div class="line">      )</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((!data || !data.pre) &amp;&amp; isDef(Ctor = resolveAsset(context.$options, <span class="string">'components'</span>, tag))) &#123;</div><div class="line">      <span class="comment">// component</span></div><div class="line">      vnode = createComponent(Ctor, data, context, children, tag)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="comment">// unknown or unlisted namespaced elements</span></div><div class="line">      <span class="comment">// check at runtime because it may get assigned a namespace when its</span></div><div class="line">      <span class="comment">// parent normalizes children</span></div><div class="line">      vnode = <span class="keyword">new</span> VNode(</div><div class="line">        tag, data, children,</div><div class="line">        <span class="literal">undefined</span>, <span class="literal">undefined</span>, context</div><div class="line">      )</div><div class="line">    &#125;</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="comment">// direct component options / constructor</span></div><div class="line">    vnode = createComponent(tag, data, context, children)</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(vnode)) &#123;</div><div class="line">    <span class="keyword">return</span> vnode</div><div class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isDef(vnode)) &#123;</div><div class="line">    <span class="keyword">if</span> (isDef(ns)) applyNS(vnode, ns)</div><div class="line">    <span class="keyword">if</span> (isDef(data)) registerDeepBindings(data)</div><div class="line">    <span class="keyword">return</span> vnode</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">return</span> createEmptyVNode()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>children规范化：</p>
+<ul>
+<li><p>simpleNormalizeChildren：场景是render函数是编译生成的，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">simpleNormalizeChildren</span> (<span class="params">children: any</span>) </span>&#123;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; children.length; i++) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(children[i])) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Array</span>.prototype.concat.apply([], children)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> children</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>normalizeChildren：场景是render 函数是用户手写的，当 children 只有一个节点的时候，Vue 从接口层面允许用户把 children 写成基础类型用来创建单个简单的文本节点，这种情况下回调用 createTextVNode 创建一个文本节点的 VNode；另一个场景就是当编译 slot、 v-for 的时候回产生嵌套数组的情况，回调用 normalizeArrayChildren 方法。<br>normalizeArrayChildren 接收 2 个参数，children 表示要规范的子节点，nestedIndex 表示嵌套的索引，因为单个 child 可能是一个数组类型。normalizeArrayCHildren 主要的逻辑就是遍历 children，获得单个节点 c，然后对 c 的类型判断:<br>  如果是一个数组类型，则递归调用 normalizeArrayChildren；<br>  如果是基础类型，则通过 createTextVNode 方法转换成 VNode 类型；否则就已经是 VNode 类型了;<br>  如果 children 是一个列表并且列表还存在嵌套的情况，则根据 nestedIndex 去更新它的 key。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 场景是render 函数是用户手写的， 当 children 只有一个节点的时候， Vue 从接口层面允许用户把 children 写成基础类型用来创建单个简单的文本节点，</div><div class="line"> *  这种情况下回调用 createTextVNode 创建一个文本节点的 VNode； 另一个场景就是当编译 slot、 v-for 的时候回产生嵌套数组的情况，</div><div class="line"> * 回调用 normalizeArrayChildren 方法。</div><div class="line"> * @param &#123;*&#125; children 要规范的子节点</div><div class="line"> * @param &#123;string&#125; [nestedIndex] 嵌套的索引</div><div class="line"> * @returns &#123;Array&lt;VNode&gt;&#125; 返回拍平的一维数组</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">normalizeArrayChildren</span> (<span class="params">children: any, nestedIndex?: string</span>): <span class="title">Array</span>&lt;<span class="title">VNode</span>&gt; </span>&#123;</div><div class="line">  <span class="keyword">const</span> res = []</div><div class="line">  <span class="keyword">let</span> i, c, lastIndex, last</div><div class="line">  <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; children.length; i++) &#123;</div><div class="line">    c = children[i] <span class="comment">// c是单个节点</span></div><div class="line">    <span class="keyword">if</span> (isUndef(c) || <span class="keyword">typeof</span> c === <span class="string">'boolean'</span>) <span class="keyword">continue</span></div><div class="line">    lastIndex = res.length - <span class="number">1</span></div><div class="line">    last = res[lastIndex]</div><div class="line">    <span class="comment">//  nested</span></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(c)) &#123; <span class="comment">// 如果是一个数组类型，则递归调用 normalizeArrayChildren</span></div><div class="line">      <span class="keyword">if</span> (c.length &gt; <span class="number">0</span>) &#123;</div><div class="line">        c = normalizeArrayChildren(c, <span class="string">`<span class="subst">$&#123;nestedIndex || <span class="string">''</span>&#125;</span>_<span class="subst">$&#123;i&#125;</span>`</span>)</div><div class="line">        <span class="comment">// merge adjacent text nodes</span></div><div class="line">        <span class="keyword">if</span> (isTextNode(c[<span class="number">0</span>]) &amp;&amp; isTextNode(last)) &#123;</div><div class="line">          res[lastIndex] = createTextVNode(last.text + (c[<span class="number">0</span>]: any).text)</div><div class="line">          c.shift()</div><div class="line">        &#125;</div><div class="line">        res.push.apply(res, c)</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isPrimitive(c)) &#123; <span class="comment">// 如果是基础类型，则通过 createTextVNode 方法转换成 VNode 类型；否则就已经是 VNode 类型了</span></div><div class="line">      <span class="keyword">if</span> (isTextNode(last)) &#123;</div><div class="line">        <span class="comment">// merge adjacent text nodes</span></div><div class="line">        <span class="comment">// this is necessary for SSR hydration because text nodes are</span></div><div class="line">        <span class="comment">// essentially merged when rendered to HTML strings</span></div><div class="line">        res[lastIndex] = createTextVNode(last.text + c)</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (c !== <span class="string">''</span>) &#123;</div><div class="line">        <span class="comment">// convert primitive to vnode</span></div><div class="line">        res.push(createTextVNode(c))</div><div class="line">      &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123; <span class="comment">// 其他类型</span></div><div class="line">      <span class="keyword">if</span> (isTextNode(c) &amp;&amp; isTextNode(last)) &#123; <span class="comment">// 如果当前节点是文本节点，那就和上一个文本节点合并（优化）</span></div><div class="line">        <span class="comment">// merge adjacent text nodes</span></div><div class="line">        res[lastIndex] = createTextVNode(last.text + c.text)</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">/** 当前节点c是一个嵌套数组（比如v-for产生的） 比如：</span></div><div class="line">            render: function (createElement) &#123;</div><div class="line">              if (this.items.length) &#123;</div><div class="line">                return createElement('ul', this.items.map(function (item) &#123;</div><div class="line">                  return createElement('li', item.name)</div><div class="line">                &#125;))</div><div class="line">              &#125; else &#123;</div><div class="line">                return createElement('p', 'No items found.')</div><div class="line">              &#125;</div><div class="line">            &#125;</div><div class="line">            根据 nestedIndex 去更新它的 key</div><div class="line">        */</div><div class="line">        <span class="comment">// default key for nested array children (likely generated by v-for)</span></div><div class="line">        <span class="keyword">if</span> (isTrue(children._isVList) &amp;&amp;</div><div class="line">          isDef(c.tag) &amp;&amp;</div><div class="line">          isUndef(c.key) &amp;&amp;</div><div class="line">          isDef(nestedIndex)) &#123;</div><div class="line">          c.key = <span class="string">`__vlist<span class="subst">$&#123;nestedIndex&#125;</span>_<span class="subst">$&#123;i&#125;</span>__`</span></div><div class="line">        &#125;</div><div class="line">        res.push(c)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> res</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>上面也大致了解了 createElement 创建 VNode 的过程。每个 VNode 有 children，children 每个元素也是一个 VNode，这样就形成了一个 VNode Tree，它很好的描述了 DOM Tree。下一个步骤就是要把这个 VNode 渲染成一个真实的 DOM 并且渲染出来，这个过程是通过 vm._update 完成的。</p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://blog.csdn.net/sansan_7957/article/details/83014838" target="_blank" rel="external">https://blog.csdn.net/sansan_7957/article/details/83014838</a><br><a href="https://cn.vuejs.org/v2/guide/render-function.html" target="_blank" rel="external">https://cn.vuejs.org/v2/guide/render-function.html</a><br><a href="https://www.jianshu.com/p/709fc34e27b9" target="_blank" rel="external">https://www.jianshu.com/p/709fc34e27b9</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue数据驱动/" rel="tag">#vue数据驱动</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/vue中scoped和deep解析.html" rel="next" title="vue中css的scoped和deep解析">
+                <i class="fa fa-chevron-left"></i> vue中css的scoped和deep解析
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/【vue源码解析】vue源码中一些不为人知的工具函数.html" rel="prev" title="【vue源码解析】vue源码中一些不为人知的工具函数">
+                【vue源码解析】vue源码中一些不为人知的工具函数 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjExNC8xMjY0OQ=="></div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="王寒松" />
+          <p class="site-author-name" itemprop="name">王寒松</p>
+          <p class="site-description motion-element" itemprop="description">前端小白，JS,PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=614158750&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanghansong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情连接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wanghansong.top" title="暂无" target="_blank">暂无</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#表层：createElement用法"><span class="nav-number">1.</span> <span class="nav-text">表层：createElement用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#createElement参数"><span class="nav-number">1.1.</span> <span class="nav-text">createElement参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#createElement源码解析"><span class="nav-number">2.</span> <span class="nav-text">createElement源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">2.0.1.</span> <span class="nav-text">参考：</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王寒松</span>&nbsp; | &nbsp; &nbsp;
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="http://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user">本站访客数</i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  
+</body>
+</html>

@@ -1,0 +1,942 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="baidu-site-verification" content="jjKrmjBQYL" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.gmirror.org/css?family=Georgia:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ES6," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="[TOC]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【ES6】Set和Map数据结构">
+<meta property="og:url" content="https://wanghansong.top/2018/【ES6】Set和Map数据结构.html">
+<meta property="og:site_name" content="wanghansong's blog">
+<meta property="og:description" content="[TOC]">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/set.png">
+<meta property="og:image" content="http://7xwzko.com1.z0.glb.clouddn.com/set-object.png">
+<meta property="og:updated_time" content="2020-07-25T05:06:38.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【ES6】Set和Map数据结构">
+<meta name="twitter:description" content="[TOC]">
+<meta name="twitter:image" content="http://7xwzko.com1.z0.glb.clouddn.com/set.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 【ES6】Set和Map数据结构 | wanghansong's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2a557223974248bf97d5421e8932cbcc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wanghansong's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">前端，后端，SDN，openflow</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于本人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            所有文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-album">
+          <a href="/album" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/wanghansong" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【ES6】Set和Map数据结构
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-07-24T11:37:51+08:00" content="2018-07-24">
+              2018-07-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ES6/" itemprop="url" rel="index">
+                    <span itemprop="name">ES6</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/【ES6】Set和Map数据结构.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/【ES6】Set和Map数据结构.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>[TOC]</p>
+<p><img src="http://7xwzko.com1.z0.glb.clouddn.com/set.png" alt=""></p>
+<a id="more"></a>
+<h2 id="Set集合"><a href="#Set集合" class="headerlink" title="Set集合"></a>Set集合</h2><h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>Set类型的数据类似于数组，它是一种特殊的数据结构，但是它包含的没有重复的值</li>
+<li>在往Set内加入值的时候不会自动发生类型转换，5和’5’是两个不同的值，NaN是等于自身的</li>
+<li>Set结构的键名就是键值</li>
+</ul>
+<h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>1、创建Set数据结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const items1 = new Set();</div><div class="line"></div><div class="line"> const items2 = new Set([1,2,3,4,5]);</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 去除数组的重复成员</div><div class="line">[...new Set(array)]</div></pre></td></tr></table></figure>
+<p>2、在Set数据结构中两个对象总是不想等的，下面这种方式加人的两个对象不是指向同一个<br><img src="http://7xwzko.com1.z0.glb.clouddn.com/set-object.png" alt=""></p>
+<p> 但是，如果是下面这种方法加人对象的话是只能加入一次的，因为obj变量是只想同一个对象<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const b = new Set();</div><div class="line">const obj = &#123;bb: 123&#125;;</div><div class="line">b.add(obj);</div><div class="line">b.add(obj);／／两个只会加人一个</div></pre></td></tr></table></figure></p>
+<h3 id="Set实例属性和方法"><a href="#Set实例属性和方法" class="headerlink" title="Set实例属性和方法"></a>Set实例属性和方法</h3><p> const set = new Set()<br>  1.<code>set.size</code>：定义在Set原型上的属性，<code>Set.prototype.size</code>,返回Set实例成员总数<br>  2.<code>set.add(value)</code>：添加某个值( 可以是对象)到Set实例中，返回Set结构本身<br>  3.<code>set.delete(value)</code>：删除Set实例中的某个值( 可以是对象)，返回一个布尔值，表示删除是否成功<br>  4.<code>set.has(value)</code>：查询Set实例中是否有value成员( 可以是对象)，返回一个布尔值表示是否有<br>  5.<code>set.clear()</code> ：清除set所有成员，没有返回值</p>
+<h3 id="Set的遍历"><a href="#Set的遍历" class="headerlink" title="Set的遍历"></a>Set的遍历</h3><p>1.<code>set.keys()</code>、<code>set.values()</code>、<code>set.entries()</code>：Set 结构没有键名，只有键值（或者说键名和键值是同一个值），所以keys方法和values方法的行为完全一致。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">let set = new Set([&apos;red&apos;, &apos;green&apos;, &apos;blue&apos;]);</div><div class="line">for (let item of set.keys()) &#123;</div><div class="line">  console.log(item);</div><div class="line">&#125;</div><div class="line">// red</div><div class="line">// green</div><div class="line">// blue</div><div class="line"></div><div class="line">for (let item of set.values()) &#123;</div><div class="line">  console.log(item);</div><div class="line">&#125;</div><div class="line">// red</div><div class="line">// green</div><div class="line">// blue</div><div class="line"></div><div class="line">for (let item of set.entries()) &#123;</div><div class="line">  console.log(item);</div><div class="line">&#125;</div><div class="line">// [&quot;red&quot;, &quot;red&quot;]</div><div class="line">// [&quot;green&quot;, &quot;green&quot;]</div><div class="line">// [&quot;blue&quot;, &quot;blue&quot;]</div></pre></td></tr></table></figure></p>
+<p>注：Set结构的实例是默认可遍历的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">let set = new Set([&apos;red&apos;, &apos;green&apos;, &apos;blue&apos;]);</div><div class="line">for (let x of set) &#123;</div><div class="line">  console.log(x);</div><div class="line">&#125;</div><div class="line">// red</div><div class="line">// green</div><div class="line">// blue</div></pre></td></tr></table></figure></p>
+<p>2.<code>set.forEach()</code>：Set 结构的实例与数组一样，也拥有forEach方法，用于对每个成员执行某种操作，没有返回值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">set = new Set([1, 4, 9]);</div><div class="line">set.forEach((value, key) =&gt; console.log(key + &apos; : &apos; + value))</div><div class="line">// 1 : 1</div><div class="line">// 4 : 4</div><div class="line">// 9 : 9</div></pre></td></tr></table></figure></p>
+<p>3.扩展运算符<code>...</code>可以展开Set数据结构，其内部也是使用for…of循环,需要用<code>[]</code>包裹着</p>
+<h3 id="其他相关方法"><a href="#其他相关方法" class="headerlink" title="其他相关方法"></a>其他相关方法</h3><p> 1.<code>Array.from()</code>可以将Set结构转为数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">const items = new Set([1, 2, 3, 4, 5]);</div><div class="line">const array = Array.from(items);</div></pre></td></tr></table></figure></p>
+<p>数组去重：Array.from(new Set(arr))</p>
+<hr>
+<h2 id="WeakSet集合"><a href="#WeakSet集合" class="headerlink" title="WeakSet集合"></a>WeakSet集合</h2><p>WeakSet集合于Set集合类似，也是不重复的值，它们之间的区别是：</p>
+<ul>
+<li>WeakSet的成员只能是对象，不能是其他类型的值</li>
+<li>WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于 WeakSet 之中。</li>
+</ul>
+<h3 id="创建WeakSet"><a href="#创建WeakSet" class="headerlink" title="创建WeakSet"></a>创建WeakSet</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">const ws = new WeakSet();</div><div class="line">ws.add(&#123;a:1&#125;);</div></pre></td></tr></table></figure>
+<h3 id="实例方法"><a href="#实例方法" class="headerlink" title="实例方法"></a>实例方法</h3><p>WeakSet 结构有以下三个方法。</p>
+<ul>
+<li>WeakSet.prototype.add(value)：向 WeakSet 实例添加一个新成员。</li>
+<li>WeakSet.prototype.delete(value)：清除 WeakSet 实例的指定成员。</li>
+<li><p>WeakSet.prototype.has(value)：返回一个布尔值，表示某个值是否在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">const ws = new WeakSet();</div><div class="line">const obj = &#123;&#125;;</div><div class="line">const foo = &#123;&#125;;</div><div class="line"></div><div class="line">ws.add(window);</div><div class="line">ws.add(obj);</div><div class="line"></div><div class="line">ws.has(window); // true</div><div class="line">ws.has(foo);    // false</div><div class="line"></div><div class="line">ws.delete(window);</div><div class="line">ws.has(window);    // false</div></pre></td></tr></table></figure>
+</li>
+<li><p>WeakSet 没有size属性，没有办法遍历它的成员。WeakSet 不能遍历，是因为成员都是弱引用，随时可能消失，遍历机制无法保证成员的存在，很可能刚刚遍历结束，成员就取不到了。</p>
+</li>
+</ul>
+<hr>
+<h2 id="Map集合"><a href="#Map集合" class="headerlink" title="Map集合"></a>Map集合</h2><p>Map数据结构类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键。也就是说，Object 结构提供了“字符串—值”的对应，Map 结构提供了“值—值”的对应，是一种更完善的 Hash 结构实现.</p>
+<ul>
+<li>只有对同一个对象的引用，Map 结构才将其视为同一个键</li>
+<li>如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等,才认为是同一个键。另外，undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键</li>
+</ul>
+<h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><p>往Map数据结构里添加元素<br>1.<code>xx.set(键，值)</code><br>2.构造函数<br>Map 也可以接受一个数组作为参数。该数组的成员是一个个表示键值对的数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const map = new Map([</div><div class="line">  [&apos;name&apos;, &apos;张三&apos;],</div><div class="line">  [&apos;title&apos;, &apos;Author&apos;]</div><div class="line">]);</div><div class="line">map.get(&apos;name&apos;) // &quot;张三&quot;</div></pre></td></tr></table></figure></p>
+<h3 id="实例属性和方法"><a href="#实例属性和方法" class="headerlink" title="实例属性和方法"></a>实例属性和方法</h3><p>1.<code>size</code>属性<br>2.<code>map.set(key, val)</code><br>3.<code>map.get(key, val)</code>：读取key对应的键值，如果找不到就返回undefined<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">const m = new Map();</div><div class="line">const hello = function() &#123;console.log(&apos;hello&apos;);&#125;;</div><div class="line">m.set(hello, &apos;Hello ES6!&apos;) // 键是函数</div><div class="line">m.get(hello)  // Hello ES6!</div></pre></td></tr></table></figure></p>
+<p>4.<code>map.has(key)</code>：返回一个布尔值，表示某个键是否在当前Map对象之中<br>5.<code>map.delete(key)</code>：删除某个键，返回true，失败则返回false<br>6.<code>map.clear()</code>：清除所有成员</p>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>keys()：返回键名的遍历器。<br>values()：返回键值的遍历器。<br>entries()：返回所有成员的遍历器。<br>forEach()：遍历 Map 的所有成员。</p>
+<p>需要特别注意的是，Map 的遍历顺序就是插入顺序。</p>
+<h3 id="Map与其他数据结构的互相转换"><a href="#Map与其他数据结构的互相转换" class="headerlink" title="Map与其他数据结构的互相转换"></a>Map与其他数据结构的互相转换</h3><p>1.Map =&gt; 数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let arr = [...map]</div></pre></td></tr></table></figure></p>
+<p>2.数组 =&gt; Map<br>将数组传入 Map 构造函数，就可以转为 Map。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">new Map([</div><div class="line">  [true, 7],</div><div class="line">  [&#123;foo: 3&#125;, [&apos;abc&apos;]]</div><div class="line">])</div><div class="line">// Map &#123;</div><div class="line">//   true =&gt; 7,</div><div class="line">//   Object &#123;foo: 3&#125; =&gt; [&apos;abc&apos;]</div><div class="line">// &#125;</div></pre></td></tr></table></figure></p>
+<p>3.Map =&gt; 对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">  let obj = Object.create(null);</div><div class="line">  for (let [k,v] of map) &#123;</div><div class="line">    obj[k] = v;</div><div class="line">  &#125;</div><div class="line">  return obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果有非字符串的键名，那么这个键名会被转成字符串，再作为对象的键名。</p>
+<p>4.对象 =&gt; Map<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">let map = new Map();</div><div class="line">  for (let k of Object.keys(obj)) &#123;</div><div class="line">    map.set(k, obj[k]);</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>5.Map =&gt; JSON<br>一种情况是，Map 的键名都是字符串，这时可以选择转为对象 JSON。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function strMapToJson(strMap) &#123;</div><div class="line">  return JSON.stringify(strMapToObj(strMap));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>另一种情况是，Map 的键名有非字符串，这时可以选择转为数组 JSON。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">return JSON.stringify([...map]);</div></pre></td></tr></table></figure></p>
+<p>6.JSON =&gt; Map<br>所有键名都是字符串<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function jsonToStrMap(jsonStr) &#123;</div><div class="line">  return objToStrMap(JSON.parse(jsonStr));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h2><p>WeakMap与Map的结构类似，也是用于生成键值对的集合。WeakMap的设计目的在于，有时我们想在某个对象上面存放一些数据<br>WeakMap与Map区别：</p>
+<ul>
+<li>WeakMap只接受对象作为键名（null除外），不接受其他类型的值作为键名。</li>
+<li>WeakMap的键名所引用的对象都是弱引用，即垃圾回收机制不将该引用考虑在内。因此，只要所引用的对象的其他引用都被清除，垃圾回收机制就会释放该对象所占用的内存。也就是说，一旦不再需要，WeakMap 里面的键名对象和所对应的键值对会自动消失，不用手动删除引用。</li>
+</ul>
+<p>WeakMap作用：</p>
+<ul>
+<li>DOM 节点作为键名，存储DOM节点的一些信息</li>
+<li>部署私有属性，当实例消失全局生命的WeakMap变量就消失，不会造成内存泄漏<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">const _counter = new WeakMap();</div><div class="line">const _action = new WeakMap();</div><div class="line">class Countdown &#123;</div><div class="line">  constructor(counter, action) &#123;</div><div class="line">    _counter.set(this, counter);</div><div class="line">    _action.set(this, action);</div><div class="line">  &#125;</div><div class="line">  dec() &#123;</div><div class="line">    let counter = _counter.get(this);</div><div class="line">    if (counter &lt; 1) return;</div><div class="line">    counter--;</div><div class="line">    _counter.set(this, counter);</div><div class="line">    if (counter === 0) &#123;</div><div class="line">      _action.get(this)();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">const c = new Countdown(2, () =&gt; console.log(&apos;DONE&apos;));</div><div class="line">c.dec()</div><div class="line">c.dec()</div><div class="line">// DONE</div></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ES6/" rel="tag">#ES6</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/多人合作git分支提交.html" rel="next" title="git合作开发简单流程">
+                <i class="fa fa-chevron-left"></i> git合作开发简单流程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/【设计模式】发布-订阅模式.html" rel="prev" title="【设计模式】发布-订阅模式">
+                【设计模式】发布-订阅模式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjExNC8xMjY0OQ=="></div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="王寒松" />
+          <p class="site-author-name" itemprop="name">王寒松</p>
+          <p class="site-description motion-element" itemprop="description">前端小白，JS,PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=614158750&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanghansong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情连接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wanghansong.top" title="暂无" target="_blank">暂无</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Set集合"><span class="nav-number">1.</span> <span class="nav-text">Set集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#特性"><span class="nav-number">1.1.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本用法"><span class="nav-number">1.2.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set实例属性和方法"><span class="nav-number">1.3.</span> <span class="nav-text">Set实例属性和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set的遍历"><span class="nav-number">1.4.</span> <span class="nav-text">Set的遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他相关方法"><span class="nav-number">1.5.</span> <span class="nav-text">其他相关方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WeakSet集合"><span class="nav-number">2.</span> <span class="nav-text">WeakSet集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建WeakSet"><span class="nav-number">2.1.</span> <span class="nav-text">创建WeakSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例方法"><span class="nav-number">2.2.</span> <span class="nav-text">实例方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map集合"><span class="nav-number">3.</span> <span class="nav-text">Map集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加"><span class="nav-number">3.1.</span> <span class="nav-text">添加</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例属性和方法"><span class="nav-number">3.2.</span> <span class="nav-text">实例属性和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历"><span class="nav-number">3.3.</span> <span class="nav-text">遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map与其他数据结构的互相转换"><span class="nav-number">3.4.</span> <span class="nav-text">Map与其他数据结构的互相转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WeakMap"><span class="nav-number">4.</span> <span class="nav-text">WeakMap</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王寒松</span>&nbsp; | &nbsp; &nbsp;
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="http://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user">本站访客数</i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  
+</body>
+</html>

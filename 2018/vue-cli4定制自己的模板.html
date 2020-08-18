@@ -1,0 +1,951 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="baidu-site-verification" content="jjKrmjBQYL" />
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.gmirror.org/css?family=Georgia:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JS设计模式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="通过vue-cli插件方式定制自己的模板，cli插件包括以下功能：1.修改webpack配置2.与用户进行交互，用户选择所需的一些功能模块3.扩展package.json4.创建、修改生成的项目文件5.添加新的 vue-cli-service 命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-cli4定制自己的模板">
+<meta property="og:url" content="https://wanghansong.top/2018/vue-cli4定制自己的模板.html">
+<meta property="og:site_name" content="wanghansong's blog">
+<meta property="og:description" content="通过vue-cli插件方式定制自己的模板，cli插件包括以下功能：1.修改webpack配置2.与用户进行交互，用户选择所需的一些功能模块3.扩展package.json4.创建、修改生成的项目文件5.添加新的 vue-cli-service 命令">
+<meta property="og:updated_time" content="2020-08-18T15:43:23.088Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue-cli4定制自己的模板">
+<meta name="twitter:description" content="通过vue-cli插件方式定制自己的模板，cli插件包括以下功能：1.修改webpack配置2.与用户进行交互，用户选择所需的一些功能模块3.扩展package.json4.创建、修改生成的项目文件5.添加新的 vue-cli-service 命令">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: undefined,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> vue-cli4定制自己的模板 | wanghansong's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?2a557223974248bf97d5421e8932cbcc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wanghansong's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">前端，后端，SDN，openflow</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于本人
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            所有文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-album">
+          <a href="/album" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br />
+            
+            相册
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-github">
+          <a href="https://github.com/wanghansong" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-github"></i> <br />
+            
+            github
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                vue-cli4定制自己的模板
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-08-17T17:04:58+08:00" content="2018-08-17">
+              2018-08-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/JS设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">JS设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2018/vue-cli4定制自己的模板.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/vue-cli4定制自己的模板.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+              &nbsp; | &nbsp;
+              <span class="page-pv"><i class="fa fa-file-o"></i>
+              <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+              </span>
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>通过vue-cli插件方式定制自己的模板，cli插件包括以下功能：<br>1.修改webpack配置<br>2.与用户进行交互，用户选择所需的一些功能模块<br>3.扩展package.json<br>4.创建、修改生成的项目文件<br>5.添加新的 vue-cli-service 命令</p>
+<a id="more"></a>
+<h2 id="插件文件结构"><a href="#插件文件结构" class="headerlink" title="插件文件结构"></a>插件文件结构</h2><p>通常的 CLI 插件目录结构看起来像下面这样：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── README.md</div><div class="line">├── generator.js 或者generator文件夹  # 修改或者生成项目文件（可选）</div><div class="line">├── index.js      # service 插件</div><div class="line">├── package.json</div><div class="line">├── prompts.js    # 交互文件（可选）</div><div class="line">└── ui.js         # Vue UI 集成（可选）</div></pre></td></tr></table></figure>
+<h2 id="插件命名规范"><a href="#插件命名规范" class="headerlink" title="插件命名规范"></a>插件命名规范</h2><p>为了让一个 CLI 插件在 Vue CLI 项目中被正常使用，它必须遵循 <code>vue-cli-plugin-&lt;name&gt;</code> 或者 <code>@scope/vue-cli-plugin-&lt;name&gt;</code> 这样的命名惯例。例如：<code>vue-cli-plugin-template-preset</code>，这样你的插件才能够：</p>
+<ul>
+<li>被 <code>@vue/cli-service</code> 发现；</li>
+<li>被其他开发者通过搜索发现；</li>
+<li>通过 <code>vue add &lt;name&gt;</code> 或者 <code>vue invoke &lt;name&gt;</code> 安装</li>
+</ul>
+<h2 id="插件安装"><a href="#插件安装" class="headerlink" title="插件安装"></a>插件安装</h2><ol>
+<li><p>本地安装</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 1.如果没有项目就创建个新的</div><div class="line">vue create my-app</div><div class="line"></div><div class="line">// 2.安装本地插件</div><div class="line">npm install --save-dev file:/full/path/to/your/plugin</div><div class="line">vue invoke vue-cli-plugin-template-preset</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用preset自动在线安装插件</p>
+ <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vue create --preset vue-cli-plugin-template-preset my-app</div></pre></td></tr></table></figure>
+</li>
+<li><p>手动在线安装</p>
+ <figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">vue create my-app</div><div class="line">cd my-app</div><div class="line">vue add vue-cli-plugin-template-preset</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="Generator修改文件"><a href="#Generator修改文件" class="headerlink" title="Generator修改文件"></a>Generator修改文件</h2><blockquote>
+<p>在 CLI 插件内部，generator 应该放在 <code>generator.js</code> 或者 <code>generator/index.js</code> 文件中。它将在以下两个场景被调用：</p>
+</blockquote>
+<ul>
+<li>项目初始创建期间，CLI 插件被作为项目创建 preset 的一部分被安装时。</li>
+<li><p>当插件在项目创建完成和通过 <code>vue add</code> 或者 <code>vue invoke</code> 单独调用被安装时。</p>
+</li>
+<li><p>一个 generator 应该export一个接收三个参数的函数</p>
+  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">* generator/index.js</div><div class="line">* api: https://cli.vuejs.org/dev-guide/generator-api.html</div><div class="line">* options: prompt用户交互结果或者 `~/.vuerc`中的option值</div><div class="line">* rootOptions: `~/.vuerc`中的该preset整个值，相当于下面例子的 foo 对象值</div><div class="line">*/</div><div class="line"><span class="built_in">module</span>.exports = <span class="function">(<span class="params">api, options, rootOptions</span>) =&gt;</span> &#123;</div><div class="line">	<span class="comment">// 使用提供的api或者option进行一些定制</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  // ~/.vuerc文件格式<br>  {</p>
+<pre><code>&quot;presets&quot; : {
+  &quot;foo&quot;: {
+    &quot;plugins&quot;: {
+      &quot;@vue/cli-plugin-foo&quot;: { &quot;option&quot;: &quot;bar&quot; } // generator拿到的option值
+    }
+  }
+}
+</code></pre><p>  }</p>
+</li>
+</ul>
+<h3 id="一些常用的generator-api"><a href="#一些常用的generator-api" class="headerlink" title="一些常用的generator api"></a>一些常用的generator api</h3><ol>
+<li><code>api.render(&#39;./template&#39;)</code> 渲染<a href="https://ejs.bootcss.com/#docs" target="_blank" rel="external">EJS</a>模板</li>
+<li><code>api.extendPackage</code></li>
+<li><code>api.entryFile</code></li>
+<li><code>api.afterInvoke</code></li>
+<li><code>api.chainWebpack</code></li>
+<li><code>api.registerCommand</code></li>
+</ol>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// generator.js</span></div><div class="line"><span class="built_in">module</span>.exports.hooks = <span class="function">(<span class="params">api</span>) =&gt;</span> &#123;</div><div class="line">  api.afterInvoke(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">const</span> &#123; EOL &#125; = <span class="built_in">require</span>(<span class="string">'os'</span>)</div><div class="line">    <span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line">    <span class="keyword">const</span> contentMain = fs.readFileSync(api.resolve(api.entryFile), &#123; <span class="attr">encoding</span>: <span class="string">'utf-8'</span> &#125;)</div><div class="line">    <span class="keyword">const</span> lines = contentMain.split(<span class="regexp">/\r?\n/g</span>)</div><div class="line"></div><div class="line">    <span class="keyword">const</span> renderIndex = lines.findIndex(<span class="function"><span class="params">line</span> =&gt;</span> line.match(<span class="regexp">/render/</span>))</div><div class="line">    lines[renderIndex] += <span class="string">`<span class="subst">$&#123;EOL&#125;</span>  router,`</span></div><div class="line"></div><div class="line">    fs.writeFileSync(api.entryFile, lines.join(EOL), &#123; <span class="attr">encoding</span>: <span class="string">'utf-8'</span> &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="模板文件生成"><a href="#模板文件生成" class="headerlink" title="模板文件生成"></a>模板文件生成</h3><ol>
+<li><p>新文件：</p>
+ <figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 放到template文件夹下，然后用api.render解析</span></div><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">api</span> =&gt;</span> &#123;</div><div class="line">  api.render(<span class="string">'./template'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>编辑已存在的文件</p>
+<ul>
+<li><p>方式一：</p>
+  <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">extend: '@vue/cli-service/generator/template/src/App.vue' // 目标文件</div><div class="line">replace: !!js/regexp /&lt;script&gt;[^]*?&lt;\/script&gt;/  // 正则匹配内容</div><div class="line">---</div><div class="line"></div><div class="line">&lt;script&gt;</div><div class="line">export default &#123;</div><div class="line">  // Replace default script</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>方式二：多处替换</p>
+  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">extend: <span class="string">'@vue/cli-service/generator/template/src/App.vue'</span></div><div class="line">replace:</div><div class="line">  - !!js/regexp /Welcome to Your Vue\.js App/</div><div class="line">  - !!js/regexp /&lt;script&gt;[^]*?&lt;\/script&gt;</div><div class="line">---</div><div class="line"></div><div class="line">&lt;%# REPLACE %&gt;</div><div class="line">替换欢迎信息</div><div class="line">&lt;%# END_REPLACE %&gt;</div><div class="line"></div><div class="line">&lt;%# REPLACE %&gt;</div><div class="line">&lt;script&gt;</div><div class="line">export default &#123;</div><div class="line">  // 替换默认脚本</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;%# END_REPLACE %&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<p>3.扩展package.json</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="params">api</span> =&gt;</span> &#123;</div><div class="line">  api.extendPackage(&#123;</div><div class="line">    <span class="attr">dependencies</span>: &#123;</div><div class="line">      <span class="string">'vue-router-layout'</span>: <span class="string">'^0.1.2'</span></div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>4.主文件注入</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">module</span>.exports.hooks = <span class="function">(<span class="params">api</span>) =&gt;</span> &#123;</div><div class="line">  api.afterInvoke(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">const</span> &#123; EOL &#125; = <span class="built_in">require</span>(<span class="string">'os'</span>)</div><div class="line">    <span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</div><div class="line">		<span class="comment">// 读取文件</span></div><div class="line">    <span class="keyword">const</span> contentMain = fs.readFileSync(api.resolve(api.entryFile), &#123; <span class="attr">encoding</span>: <span class="string">'utf-8'</span> &#125;)</div><div class="line">    <span class="comment">// 文件内容分行</span></div><div class="line">		<span class="keyword">const</span> lines = contentMain.split(<span class="regexp">/\r?\n/g</span>)</div><div class="line">		</div><div class="line">		<span class="comment">// 查找到render那一行</span></div><div class="line">    <span class="keyword">const</span> renderIndex = lines.findIndex(<span class="function"><span class="params">line</span> =&gt;</span> line.match(<span class="regexp">/render/</span>))</div><div class="line">    lines[renderIndex] += <span class="string">`<span class="subst">$&#123;EOL&#125;</span>  router,`</span></div><div class="line">		</div><div class="line">		<span class="comment">// 写入</span></div><div class="line">    fs.writeFileSync(api.entryFile, lines.join(EOL), &#123; <span class="attr">encoding</span>: <span class="string">'utf-8'</span> &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>5.修改webpack配置</p>
+<h2 id="对话"><a href="#对话" class="headerlink" title="对话"></a>对话</h2><p>所有的对话逻辑都存储在 prompts.js 文件中，用于用户选择所需的插件。所有对话的答案都会传给generator的<code>option</code></p>
+<p>和 <code>rootOptions</code> </p>
+<ul>
+<li><p>对话的配置项（<a href="https://github.com/SBoudrias/Inquirer.js" target="_blank" rel="external">所有配置项</a>）</p>
+  <figure class="highlight jsx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// prompts.js</span></div><div class="line"></div><div class="line"><span class="built_in">module</span>.exports = [</div><div class="line">  &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">`addExampleRoutes`</span>, <span class="comment">// option的key</span></div><div class="line">    type: <span class="string">'confirm'</span>, <span class="comment">// 选项类型：checkbox、confirm</span></div><div class="line">    message: <span class="string">'Add example routes?'</span>, <span class="comment">// 对话显示的提示信息</span></div><div class="line">    <span class="keyword">default</span>: <span class="literal">false</span>, <span class="comment">// 默认值</span></div><div class="line">		validate: <span class="function"><span class="params">input</span> =&gt;</span> !!input, <span class="comment">// 校验用户的答案，true则通过，否则返回错误提示字符串</span></div><div class="line">  &#125;</div><div class="line">]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>参考<strong>:</strong></p>
+<p>1.<a href="https://cli.vuejs.org/zh/dev-guide/plugin-dev.html#%E5%BC%80%E5%A7%8B" target="_blank" rel="external">插件开发指南 | Vue CLI</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JS设计模式/" rel="tag">#JS设计模式</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/【设计模式】发布-订阅模式.html" rel="next" title="【设计模式】发布-订阅模式">
+                <i class="fa fa-chevron-left"></i> 【设计模式】发布-订阅模式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/Element中使用dialog实现下一步出现闪屏现象解决方法.html" rel="prev" title="Element中使用dialog实现下一步出现闪屏现象解决方法">
+                Element中使用dialog实现下一步出现闪屏现象解决方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNjExNC8xMjY0OQ=="></div>
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="王寒松" />
+          <p class="site-author-name" itemprop="name">王寒松</p>
+          <p class="site-description motion-element" itemprop="description">前端小白，JS,PHP</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">112</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">57</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=614158750&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wanghansong" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情连接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="wanghansong.top" title="暂无" target="_blank">暂无</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#插件文件结构"><span class="nav-number">1.</span> <span class="nav-text">插件文件结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件命名规范"><span class="nav-number">2.</span> <span class="nav-text">插件命名规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件安装"><span class="nav-number">3.</span> <span class="nav-text">插件安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Generator修改文件"><span class="nav-number">4.</span> <span class="nav-text">Generator修改文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一些常用的generator-api"><span class="nav-number">4.1.</span> <span class="nav-text">一些常用的generator api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板文件生成"><span class="nav-number">4.2.</span> <span class="nav-text">模板文件生成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对话"><span class="nav-number">5.</span> <span class="nav-text">对话</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王寒松</span>&nbsp; | &nbsp; &nbsp;
+  <span>Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a></span>
+</div>
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="http://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user">本站访客数</i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+    <script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+  </script>
+  <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+  
+</body>
+</html>
